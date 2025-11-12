@@ -24,6 +24,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
+      - name: Create config.js from secrets
+        run: |
+          if [ -z "${{ secrets.CONTENTFUL_SPACE_ID }}" ] || [ -z "${{ secrets.CONTENTFUL_ACCESS_TOKEN }}" ]; then
+            echo "Error: CONTENTFUL_SPACE_ID or CONTENTFUL_ACCESS_TOKEN secrets are not set"
+            exit 1
+          fi
+          cat > config.js << EOF
+          // Contentful Configuration
+          // Generated automatically from GitHub Secrets during deployment
+          window.CONTENTFUL_CONFIG = {
+            spaceId: '${{ secrets.CONTENTFUL_SPACE_ID }}',
+            accessToken: '${{ secrets.CONTENTFUL_ACCESS_TOKEN }}',
+            environment: '${{ vars.CONTENTFUL_ENVIRONMENT || 'master' }}'
+          };
+          EOF
+      
       - name: Setup Pages
         uses: actions/configure-pages@v4
         with:
