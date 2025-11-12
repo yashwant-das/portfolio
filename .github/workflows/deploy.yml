@@ -31,6 +31,12 @@ jobs:
           
           SPACE_ID="${{ secrets.CONTENTFUL_SPACE_ID }}"
           ACCESS_TOKEN="${{ secrets.CONTENTFUL_ACCESS_TOKEN }}"
+          ENVIRONMENT="${{ vars.CONTENTFUL_ENVIRONMENT }}"
+          
+          # Use 'master' as default if environment variable is not set
+          if [ -z "$ENVIRONMENT" ]; then
+            ENVIRONMENT="master"
+          fi
           
           if [ -z "$SPACE_ID" ] || [ -z "$ACCESS_TOKEN" ]; then
             echo "⚠️ Warning: CONTENTFUL_SPACE_ID or CONTENTFUL_ACCESS_TOKEN secrets are not set"
@@ -61,7 +67,7 @@ jobs:
           window.CONTENTFUL_CONFIG = {
             spaceId: '$SPACE_ID',
             accessToken: '$ACCESS_TOKEN',
-            environment: '${{ vars.CONTENTFUL_ENVIRONMENT || 'master' }}'
+            environment: '$ENVIRONMENT'
           };
           EOF
             echo "✅ config.js created successfully"
