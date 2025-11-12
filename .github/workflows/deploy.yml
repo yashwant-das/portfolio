@@ -85,6 +85,20 @@ jobs:
         with:
           enablement: true
       
+      - name: Verify files before upload
+        run: |
+          echo "=== Verifying files to be deployed ==="
+          echo "Checking for essential files..."
+          ls -la | grep -E "(index.html|script.js|styles.css|config.js|fallback-data.json)" || true
+          echo ""
+          echo "Checking config.js content (first 3 lines, secrets hidden):"
+          if [ -f config.js ]; then
+            head -3 config.js | sed 's/accessToken:.*/accessToken: [HIDDEN]/' | sed 's/spaceId:.*/spaceId: [HIDDEN]/'
+          else
+            echo "❌ ERROR: config.js not found!"
+            exit 1
+          fi
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

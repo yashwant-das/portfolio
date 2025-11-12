@@ -69,6 +69,14 @@
   const CONTENTFUL_ACCESS_TOKEN = contentfulConfig.accessToken;
   const CONTENTFUL_ENVIRONMENT = contentfulConfig.environment || CONTENTFUL_CONFIG.DEFAULT_ENVIRONMENT;
   const CONTENTFUL_API_BASE = `${CONTENTFUL_CONFIG.API_BASE_URL}/spaces/${CONTENTFUL_SPACE_ID}/environments/${CONTENTFUL_ENVIRONMENT}`;
+  
+  // Debug: Log Contentful configuration status
+  debugLog('Contentful Config Check:', {
+    hasConfig: !!window.CONTENTFUL_CONFIG,
+    spaceId: CONTENTFUL_SPACE_ID ? `${CONTENTFUL_SPACE_ID.substring(0, 8)}...` : 'missing',
+    hasAccessToken: !!CONTENTFUL_ACCESS_TOKEN,
+    environment: CONTENTFUL_ENVIRONMENT
+  });
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const SOCIAL_ICON_PATHS = {
     github: '<path d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.292 3.438 9.787 8.205 11.387.6.113.82-.26.82-.577 0-.285-.01-1.04-.016-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.082-.729.082-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.762-1.605-2.665-.304-5.466-1.332-5.466-5.93 0-1.31.468-2.382 1.235-3.221-.124-.303-.536-1.523.117-3.176 0 0 1.008-.323 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.553 3.297-1.23 3.297-1.23.655 1.653.243 2.873.12 3.176.77.839 1.233 1.911 1.233 3.221 0 4.61-2.804 5.624-5.476 5.921.43.371.823 1.104.823 2.226 0 1.606-.014 2.898-.014 3.293 0 .32.216.694.825.576C20.565 22.08 24 17.584 24 12.297 24 5.67 18.627.297 12 .297Z"/>',
@@ -271,6 +279,11 @@
     } else {
       if (!isContentfulConfigured) {
         console.warn('[WARN] Contentful not configured. Loading fallback JSON file.');
+        console.warn('[WARN] Config check:', {
+          spaceId: CONTENTFUL_SPACE_ID || 'missing',
+          accessToken: CONTENTFUL_ACCESS_TOKEN ? 'present' : 'missing',
+          windowConfig: window.CONTENTFUL_CONFIG || 'undefined'
+        });
         console.info('[INFO] To configure Contentful, create config.js with your Space ID and Access Token.');
       } else if (isFileProtocol) {
         console.info('[INFO] Skipping Contentful fetch while viewing the file directly. Loading fallback JSON file.');
@@ -802,7 +815,7 @@
       skillsContainer.innerHTML = '';
       
       // Handle both old array format and new categorized object format
-      if (Array.isArray(data.skills)) {
+    if (Array.isArray(data.skills)) {
         // Legacy format: single category
         const category = document.createElement('div');
         category.className = 'skill-category';
