@@ -61,7 +61,7 @@ jobs:
           EOF
             echo "✅ config.js created successfully"
             echo "Space ID: ${{ secrets.CONTENTFUL_SPACE_ID }}"
-            echo "Access Token: ${{ substr(secrets.CONTENTFUL_ACCESS_TOKEN, 0, 10) }}..."
+            echo "Access Token configured (hidden for security)"
           fi
           echo ""
           echo "config.js contents:"
