@@ -89,15 +89,36 @@ jobs:
         run: |
           echo "=== Verifying files to be deployed ==="
           echo "Checking for essential files..."
-          ls -la | grep -E "(index.html|script.js|styles.css|config.js|fallback-data.json)" || true
+          ls -la | grep -E "(index.html|script.js|styles.css|config.js|fallback-data.json|\.nojekyll)" || true
           echo ""
           echo "Checking config.js content (first 3 lines, secrets hidden):"
           if [ -f config.js ]; then
             head -3 config.js | sed 's/accessToken:.*/accessToken: [HIDDEN]/' | sed 's/spaceId:.*/spaceId: [HIDDEN]/'
+            echo ""
+            echo "File permissions:"
+            ls -l config.js
+            echo ""
+            echo "File size:"
+            wc -c config.js
           else
             echo "❌ ERROR: config.js not found!"
             exit 1
           fi
+          echo ""
+          echo "=== Verifying .nojekyll exists ==="
+          if [ -f .nojekyll ]; then
+            echo "✅ .nojekyll file exists"
+          else
+            echo "⚠️ Warning: .nojekyll not found, creating it..."
+            touch .nojekyll
+          fi
+          echo ""
+          echo "=== Creating file list for artifact ==="
+          echo "JavaScript files:"
+          find . -name "*.js" -not -path "./node_modules/*" -not -path "./.git/*" | sort
+          echo ""
+          echo "All essential files:"
+          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" -o -name "*.json" -o -name ".nojekyll" \) -not -path "./node_modules/*" -not -path "./.git/*" | sort
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

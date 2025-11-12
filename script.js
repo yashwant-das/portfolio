@@ -64,7 +64,31 @@
   const reduceMotionQuery = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
   
   // Contentful API configuration
-  const contentfulConfig = window.CONTENTFUL_CONFIG || {};
+  // Try to load config.js dynamically if it wasn't loaded by the script tag
+  let contentfulConfig = window.CONTENTFUL_CONFIG || {};
+  
+  // If config.js failed to load, try to load it dynamically as a script element
+  if (!contentfulConfig.spaceId && !contentfulConfig.accessToken) {
+    // Check if we're on GitHub Pages and config.js might not be loaded yet
+    if (window.location.hostname.includes('github.io')) {
+      const script = document.createElement('script');
+      script.src = 'config.js';
+      script.async = false; // Load synchronously to ensure config is available
+      script.onerror = () => {
+        console.warn('[WARN] config.js failed to load. Using fallback data.');
+      };
+      script.onload = () => {
+        contentfulConfig = window.CONTENTFUL_CONFIG || {};
+        if (contentfulConfig.spaceId && contentfulConfig.accessToken) {
+          console.info('[INFO] config.js loaded dynamically, retrying Contentful fetch');
+          // Retry fetching content if config is now available
+          fetchContent();
+        }
+      };
+      document.head.appendChild(script);
+    }
+  }
+  
   const CONTENTFUL_SPACE_ID = contentfulConfig.spaceId;
   const CONTENTFUL_ACCESS_TOKEN = contentfulConfig.accessToken;
   const CONTENTFUL_ENVIRONMENT = contentfulConfig.environment || CONTENTFUL_CONFIG.DEFAULT_ENVIRONMENT;
