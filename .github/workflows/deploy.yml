@@ -26,8 +26,13 @@ jobs:
       
       - name: Create config.js from secrets
         run: |
+          echo "=== Creating config.js from GitHub Secrets ==="
           echo "Checking for Contentful secrets..."
-          if [ -z "${{ secrets.CONTENTFUL_SPACE_ID }}" ] || [ -z "${{ secrets.CONTENTFUL_ACCESS_TOKEN }}" ]; then
+          
+          SPACE_ID="${{ secrets.CONTENTFUL_SPACE_ID }}"
+          ACCESS_TOKEN="${{ secrets.CONTENTFUL_ACCESS_TOKEN }}"
+          
+          if [ -z "$SPACE_ID" ] || [ -z "$ACCESS_TOKEN" ]; then
             echo "⚠️ Warning: CONTENTFUL_SPACE_ID or CONTENTFUL_ACCESS_TOKEN secrets are not set"
             echo "The site will use fallback-data.json instead of Contentful"
             echo ""
@@ -47,25 +52,30 @@ jobs:
             environment: 'master'
           };
           EOF
-            echo "Created config.js with empty values (fallback mode)"
+            echo "✅ Created config.js with empty values (fallback mode)"
           else
             echo "✅ Contentful secrets found! Creating config.js with credentials..."
             cat > config.js << EOF
           // Contentful Configuration
           // Generated automatically from GitHub Secrets during deployment
           window.CONTENTFUL_CONFIG = {
-            spaceId: '${{ secrets.CONTENTFUL_SPACE_ID }}',
-            accessToken: '${{ secrets.CONTENTFUL_ACCESS_TOKEN }}',
+            spaceId: '$SPACE_ID',
+            accessToken: '$ACCESS_TOKEN',
             environment: '${{ vars.CONTENTFUL_ENVIRONMENT || 'master' }}'
           };
           EOF
             echo "✅ config.js created successfully"
-            echo "Space ID: ${{ secrets.CONTENTFUL_SPACE_ID }}"
+            echo "Space ID: $SPACE_ID"
             echo "Access Token configured (hidden for security)"
           fi
           echo ""
-          echo "config.js contents:"
+          echo "=== Verifying config.js was created ==="
+          ls -la config.js || echo "ERROR: config.js not found!"
+          echo ""
+          echo "=== config.js contents ==="
           cat config.js
+          echo ""
+          echo "=== End of config.js ==="
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
