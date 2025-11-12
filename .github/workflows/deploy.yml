@@ -65,17 +65,20 @@ jobs:
           };
           EOF
             echo "✅ config.js created successfully"
-            echo "Space ID: $SPACE_ID"
-            echo "Access Token configured (hidden for security)"
+            echo "Contentful credentials configured (secrets hidden for security)"
           fi
           echo ""
           echo "=== Verifying config.js was created ==="
-          ls -la config.js || echo "ERROR: config.js not found!"
-          echo ""
-          echo "=== config.js contents ==="
-          cat config.js
-          echo ""
-          echo "=== End of config.js ==="
+          if [ -f config.js ]; then
+            echo "✅ config.js file exists"
+            echo "File size: $(wc -c < config.js) bytes"
+            # Show first few lines only (without secrets)
+            echo "File preview (first 3 lines):"
+            head -3 config.js | sed 's/accessToken:.*/accessToken: [HIDDEN]/' | sed 's/spaceId:.*/spaceId: [HIDDEN]/'
+          else
+            echo "❌ ERROR: config.js not found!"
+            exit 1
+          fi
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
