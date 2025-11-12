@@ -14,6 +14,8 @@ A modern, Apple-inspired portfolio website template. Content is managed through 
 
 ### 1. Contentful Setup
 
+> **Quick Start**: For a quick reference, see [CONTENTFUL_SETUP.md](CONTENTFUL_SETUP.md). For detailed step-by-step instructions, see [CONTENTFUL_GUIDE.md](CONTENTFUL_GUIDE.md).
+
 1. **Create a Contentful Account**
    - Sign up at [contentful.com](https://www.contentful.com)
    - Create a new space (free tier is sufficient)
@@ -28,7 +30,10 @@ A modern, Apple-inspired portfolio website template. Content is managed through 
      - `name` (Short text) - Your full name
      - `subtitle` (Short text) - Your job title
      - `email` (Short text) - Your email address
-     - `about` (Long text) - About section content
+     - `website` (Short text, Optional) - Your website URL
+     - `resume` (Short text, Optional) - Resume PDF filename (e.g., "resume.pdf")
+     - `about` (Rich text) - About section content
+     - `heroSummary` (Rich text, Optional) - Hero section summary
      - `avatar` (Media) - Profile picture
      - `socials` (JSON Object) - Social media links
        - **Simple format**: `{"LinkedIn": "https://linkedin.com/in/...", "GitHub": "https://github.com/..."}`
@@ -116,50 +121,59 @@ A modern, Apple-inspired portfolio website template. Content is managed through 
 
 ## Deployment to GitHub Pages
 
-### Option 1: Using GitHub Actions (Recommended)
+### Using GitHub Actions (Recommended)
 
-1. **The workflow file is already included** (`.github/workflows/deploy.yml`)
+The repository includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that automatically deploys your site to GitHub Pages.
 
-2. **Add `config.js` to repository**:
-   - Create `config.js` with your Contentful credentials (see Setup section)
-   - Since `config.js` is in `.gitignore` (for local development safety), force-add it:
-     ```bash
-     git add -f config.js
-     git commit -m "Add Contentful configuration"
-     git push
-     ```
-   - **Note**: The Content Delivery API token is read-only and safe to expose in client-side code
+#### Setup Steps
 
-3. **Enable GitHub Pages**:
+1. **Configure GitHub Secrets** (for Contentful integration):
+   - Go to your repository **Settings** → **Secrets and variables** → **Actions**
+   - Click **New repository secret** and add:
+     - **Name**: `CONTENTFUL_SPACE_ID`
+     - **Value**: Your Contentful Space ID (from Contentful Settings → API keys)
+   - Click **New repository secret** again and add:
+     - **Name**: `CONTENTFUL_ACCESS_TOKEN`
+     - **Value**: Your Content Delivery API access token (read-only)
+   - (Optional) Go to **Variables** tab and add:
+     - **Name**: `CONTENTFUL_ENVIRONMENT`
+     - **Value**: `master` (or your custom environment name)
+     - If not set, defaults to `master`
+
+2. **Enable GitHub Pages**:
    - Go to repository **Settings** → **Pages**
    - Under "Build and deployment", select source: **GitHub Actions**
    - The workflow will automatically deploy on every push to `main` branch
 
+3. **Deploy**:
+   - Push any commit to the `main` branch, or
+   - Manually trigger the workflow: **Actions** → **Deploy to GitHub Pages** → **Run workflow**
+
 4. **Your site will be available at**: `https://YOUR_USERNAME.github.io/portfolio/`
 
-### Option 2: Manual Deployment
+#### How It Works
 
-1. **Add `config.js` to repository** (required for GitHub Pages):
-   - Create `config.js` with your Contentful credentials (see Setup section)
-   - Since `config.js` is in `.gitignore` (for local development safety), force-add it:
-     ```bash
-     git add -f config.js
-     git commit -m "Add Contentful configuration"
-     git push
-     ```
-   - **Note**: The Content Delivery API token is read-only and safe to expose in client-side code
+- The workflow automatically creates `config.js` from GitHub Secrets during deployment
+- If secrets are not configured, the site will use `fallback-data.json` instead
+- No need to commit `config.js` to the repository (it's in `.gitignore` for security)
+- The Content Delivery API token is read-only and safe to expose in client-side code
 
-2. **Enable GitHub Pages**:
+#### Manual Deployment (Alternative)
+
+If you prefer not to use GitHub Actions:
+
+1. **Create `config.js` locally** with your Contentful credentials (see Local Development section)
+2. **Force-add `config.js`** to the repository:
+   ```bash
+   git add -f config.js
+   git commit -m "Add Contentful configuration"
+   git push
+   ```
+3. **Enable GitHub Pages**:
    - Go to repository **Settings** → **Pages**
    - Select source branch: **main** (or your default branch)
    - Select folder: **/ (root)**
    - Click **Save**
-
-3. **Your site will be available at**: `https://YOUR_USERNAME.github.io/portfolio/`
-
-### Option 3: Using Environment Variables (Advanced)
-
-For production deployments, you can set Contentful credentials as environment variables and inject them during build. This requires a build step.
 
 ## Content Management
 
@@ -235,7 +249,11 @@ portfolio/
 ├── styles.css          # Stylesheet
 ├── script.js           # JavaScript (Contentful integration + fallback JSON loader)
 ├── fallback-data.json  # Fallback content (used when Contentful unavailable)
-├── config.js           # Contentful credentials (not in git)
+├── config.js           # Contentful credentials (local dev only, not in git)
+├── .nojekyll           # Disables Jekyll processing on GitHub Pages
+├── .github/
+│   └── workflows/
+│       └── deploy.yml  # GitHub Actions deployment workflow
 ├── config.example.js   # Configuration template
 ├── .gitignore          # Git ignore rules
 ├── README.md           # This file
@@ -249,8 +267,13 @@ portfolio/
 ### Content Not Loading
 
 1. **Check browser console** for errors
-2. **Verify `config.js`** exists and has correct credentials
-3. **Check Contentful**:
+2. **For GitHub Pages**:
+   - Verify GitHub Secrets are configured correctly (`CONTENTFUL_SPACE_ID` and `CONTENTFUL_ACCESS_TOKEN`)
+   - Check workflow logs in **Actions** tab to see if `config.js` was created successfully
+   - Verify `config.js` is accessible at `https://YOUR_USERNAME.github.io/portfolio/config.js`
+3. **For local development**:
+   - Verify `config.js` exists and has correct credentials
+4. **Check Contentful**:
    - Ensure entries are published (not just saved as draft)
    - Verify API token has read permissions
    - Check Space ID is correct
@@ -270,7 +293,9 @@ portfolio/
 
 - The Content Delivery API token is **read-only** and safe to expose in client-side code
 - Never commit your Content Management API token (used for writing content)
-- `config.js` is excluded from version control via `.gitignore`
+- **For GitHub Pages deployment**: Use GitHub Secrets to store credentials securely. The workflow automatically creates `config.js` during deployment without exposing secrets in logs or repository
+- **For local development**: `config.js` is excluded from version control via `.gitignore` to prevent accidental commits
+- GitHub Secrets are encrypted and only accessible to GitHub Actions workflows
 
 ## License
 
