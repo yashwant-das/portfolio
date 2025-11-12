@@ -1,6 +1,19 @@
 # Contentful Configuration
 config.js
 
+# Personal/Resume files (keep these private)
+resume.*
+*.pdf
+*.doc
+*.docx
+*resume*
+
+# Temporary documentation files
+*_SUMMARY.md
+CLEANUP_*.md
+TEMP_*.md
+*_NOTES.md
+
 # Environment variables
 .env
 .env.local
