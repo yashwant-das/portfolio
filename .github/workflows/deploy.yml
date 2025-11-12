@@ -27,10 +27,27 @@ jobs:
       - name: Create config.js from secrets
         run: |
           if [ -z "${{ secrets.CONTENTFUL_SPACE_ID }}" ] || [ -z "${{ secrets.CONTENTFUL_ACCESS_TOKEN }}" ]; then
-            echo "Error: CONTENTFUL_SPACE_ID or CONTENTFUL_ACCESS_TOKEN secrets are not set"
-            exit 1
-          fi
-          cat > config.js << EOF
+            echo "Warning: CONTENTFUL_SPACE_ID or CONTENTFUL_ACCESS_TOKEN secrets are not set"
+            echo "The site will use fallback-data.json instead of Contentful"
+            echo ""
+            echo "To enable Contentful:"
+            echo "1. Go to Settings → Secrets and variables → Actions"
+            echo "2. Add CONTENTFUL_SPACE_ID secret"
+            echo "3. Add CONTENTFUL_ACCESS_TOKEN secret"
+            echo ""
+            # Create empty config.js so the site still works with fallback data
+            cat > config.js << EOF
+          // Contentful Configuration
+          // Contentful not configured - using fallback data
+          // To enable Contentful, add CONTENTFUL_SPACE_ID and CONTENTFUL_ACCESS_TOKEN secrets
+          window.CONTENTFUL_CONFIG = {
+            spaceId: '',
+            accessToken: '',
+            environment: 'master'
+          };
+          EOF
+          else
+            cat > config.js << EOF
           // Contentful Configuration
           // Generated automatically from GitHub Secrets during deployment
           window.CONTENTFUL_CONFIG = {
@@ -39,6 +56,7 @@ jobs:
             environment: '${{ vars.CONTENTFUL_ENVIRONMENT || 'master' }}'
           };
           EOF
+          fi
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
