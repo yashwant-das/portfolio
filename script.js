@@ -791,8 +791,7 @@
             img.src = exp.logo;
             img.alt = `${exp.company} logo`;
             img.loading = 'lazy';
-            img.width = ICON_CONFIG.COMPANY_LOGO_SIZE;
-            img.height = ICON_CONFIG.COMPANY_LOGO_SIZE;
+            // Size controlled by CSS for responsive behavior
             meta.appendChild(img);
           }
           
