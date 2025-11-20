@@ -212,8 +212,7 @@
     if (themeToggle) {
       const isDark = mode === 'dark';
       themeToggle.setAttribute('aria-pressed', String(isDark));
-      const iconNode = themeToggle.querySelector('.theme-icon');
-      if (iconNode) iconNode.textContent = isDark ? '🌞' : '🌙';
+      // Icons are now handled by CSS with SVG, no need to update text content
     }
   }
 
@@ -830,14 +829,14 @@
           if (p.live) {
             const a = document.createElement('a');
             a.href = p.live;
-            a.textContent = 'Live';
+            a.textContent = 'Live Demo';
             a.setAttribute('aria-label', 'Live demo');
             linkNodes.push(a);
           }
           if (p.code) {
             const a = document.createElement('a');
             a.href = p.code;
-            a.textContent = 'Code';
+            a.textContent = 'Source Code';
             a.setAttribute('aria-label', 'Source code');
             linkNodes.push(a);
           }
