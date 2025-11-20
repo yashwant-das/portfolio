@@ -48,7 +48,6 @@
    */
   const ICON_CONFIG = {
     SOCIAL_SIZE: 20,
-    COMPANY_LOGO_SIZE: 48,
     SVG_VIEWBOX: '0 0 24 24'
   };
 
