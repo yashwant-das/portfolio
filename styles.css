@@ -60,7 +60,7 @@ html {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.65;
   font-weight: 400;
   letter-spacing: -0.022em;
@@ -352,7 +352,7 @@ html[data-theme="dark"] .hero::before {
 }
 
 .hero-summary {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.7;
   color: var(--text-secondary);
   max-width: 60ch;
@@ -465,13 +465,32 @@ html[data-theme="dark"] .hero::before {
 }
 
 /* About Section */
+#about {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  margin: var(--spacing-xl) 0;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background: rgba(245, 245, 247, 0.8);
+  border: 0.5px solid var(--border-light);
+}
+
+html[data-theme="dark"] #about {
+  background: rgba(29, 29, 31, 0.8);
+}
+
 #about-body {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.7;
   color: var(--text-secondary);
   text-align: center;
   max-width: 85ch;
   margin: 0 auto;
+}
+
+#about-body p {
+  margin: 0;
 }
 
 /* Timeline - Experience */
@@ -492,7 +511,9 @@ html[data-theme="dark"] .hero::before {
 }
 
 .timeline-item {
-  background: var(--bg-secondary);
+  background: rgba(245, 245, 247, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   border: 0.5px solid var(--border-light);
@@ -500,6 +521,10 @@ html[data-theme="dark"] .hero::before {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+html[data-theme="dark"] .timeline-item {
+  background: rgba(29, 29, 31, 0.8);
 }
 
 .timeline-item:hover {
@@ -541,7 +566,7 @@ html[data-theme="dark"] .hero::before {
 }
 
 .timeline .company {
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--text-secondary);
   display: block;
@@ -565,7 +590,7 @@ html[data-theme="dark"] .hero::before {
 }
 
 .highlights li {
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.65;
   color: var(--text-secondary);
   padding-left: var(--spacing-md);
@@ -589,7 +614,9 @@ html[data-theme="dark"] .hero::before {
 }
 
 .project-card {
-  background: var(--bg-secondary);
+  background: rgba(245, 245, 247, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   border: 0.5px solid var(--border-light);
@@ -597,6 +624,10 @@ html[data-theme="dark"] .hero::before {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+html[data-theme="dark"] .project-card {
+  background: rgba(29, 29, 31, 0.8);
 }
 
 .project-card:hover {
@@ -614,7 +645,7 @@ html[data-theme="dark"] .hero::before {
 }
 
 .project-card p {
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.65;
   color: var(--text-secondary);
   margin: 0 0 var(--spacing-md) 0;
@@ -696,11 +727,17 @@ html[data-theme="dark"] .hero::before {
 }
 
 .skill-category {
-  background: var(--bg-secondary);
+  background: rgba(245, 245, 247, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   border: 0.5px solid var(--border-light);
   transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+html[data-theme="dark"] .skill-category {
+  background: rgba(29, 29, 31, 0.8);
 }
 
 .skill-category:hover {
@@ -727,19 +764,20 @@ html[data-theme="dark"] .hero::before {
 }
 
 .skills li {
-  font-size: 15px;
+  font-size: 13px;
   padding: 8px 14px;
   background: var(--bg-tertiary);
   color: var(--text-primary);
   border-radius: var(--radius-sm);
   border: 0.5px solid var(--border-light);
-  font-weight: 400;
-  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  font-weight: 500;
+  transition: background-color var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
 }
 
 .skills li:hover {
   background: var(--bg-primary);
-  transform: scale(1.03);
+  transform: scale(1.05);
+  border-color: var(--accent-blue);
 }
 
 /* Education */
@@ -753,11 +791,17 @@ html[data-theme="dark"] .hero::before {
 }
 
 .edu li {
-  background: var(--bg-secondary);
+  background: rgba(245, 245, 247, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   border: 0.5px solid var(--border-light);
   transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+html[data-theme="dark"] .edu li {
+  background: rgba(29, 29, 31, 0.8);
 }
 
 .edu li:hover {
@@ -776,7 +820,7 @@ html[data-theme="dark"] .hero::before {
 }
 
 .edu .school {
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--text-secondary);
   display: block;
@@ -792,14 +836,21 @@ html[data-theme="dark"] .hero::before {
 
 /* Contact Section */
 #contact {
-  background: var(--bg-secondary);
+  background: rgba(245, 245, 247, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   margin: var(--spacing-xl) 0;
+  border: 0.5px solid var(--border-light);
+}
+
+html[data-theme="dark"] #contact {
+  background: rgba(29, 29, 31, 0.8);
 }
 
 #contact p {
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.7;
   color: var(--text-secondary);
   text-align: center;
@@ -810,7 +861,7 @@ html[data-theme="dark"] .hero::before {
   color: var(--accent-blue);
   text-decoration: none;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 16px;
   transition: opacity var(--transition-fast);
 }
 
@@ -848,7 +899,7 @@ html[data-theme="dark"] .hero::before {
   color: var(--text-primary);
   text-decoration: none;
   border: 0.5px solid var(--border-light);
-  font-size: 17px;
+  font-size: 16px;
   transition: all var(--transition-fast);
 }
 
