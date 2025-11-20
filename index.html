@@ -75,18 +75,22 @@
     <main id="main">
       <section class="hero" id="home" aria-label="Intro">
         <div class="container hero-inner">
-          <div class="hero-copy">
-            <h1 class="hero-title" id="hero-name"></h1>
-            <p class="hero-subtitle" id="hero-subtitle"></p>
-            <p class="hero-summary"></p>
-            <div class="hero-cta">
-              <a class="btn btn-primary" href="#projects">View Projects</a>
-              <a class="btn btn-secondary" id="resume-link" href="" download style="display: none;">Download Resume</a>
+          <div class="hero-card">
+            <div class="hero-content">
+              <div class="hero-copy">
+                <h1 class="hero-title" id="hero-name"></h1>
+                <p class="hero-subtitle" id="hero-subtitle"></p>
+                <p class="hero-summary"></p>
+                <div class="hero-cta">
+                  <a class="btn btn-primary" href="#projects">View Projects</a>
+                  <a class="btn btn-secondary" id="resume-link" href="" download style="display: none;">Download Resume</a>
+                </div>
+              </div>
+              <figure class="avatar" aria-label="Profile photo">
+                <img id="avatar-img" src="assets/avatar.svg" alt="" loading="eager" width="320" height="320">
+              </figure>
             </div>
           </div>
-          <figure class="avatar" aria-label="Profile photo">
-            <img id="avatar-img" src="assets/avatar.svg" alt="" loading="eager" width="320" height="320">
-          </figure>
         </div>
       </section>
 
@@ -94,7 +98,9 @@
         <div class="container">
           <div class="section-content">
             <h2 id="about-title">About</h2>
-            <div id="about-body"></div>
+            <div class="about-card">
+              <div id="about-body"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -147,14 +153,16 @@
         <div class="container">
           <div class="section-content">
             <h2>Contact</h2>
-            <p>
-              Want to collaborate or say hello? Reach me at
-              <a id="contact-email" href="mailto:"></a>.
-            </p>
-            <p class="contact-cta">Open to collaboration and new opportunities.</p>
-            <ul class="social" id="social-list">
-              <!-- Social links will be populated by JavaScript -->
-            </ul>
+            <div class="contact-card">
+              <p>
+                Want to collaborate or say hello? Reach me at
+                <a id="contact-email" href="mailto:"></a>.
+              </p>
+              <p class="contact-cta">Open to collaboration and new opportunities.</p>
+              <ul class="social" id="social-list">
+                <!-- Social links will be populated by JavaScript -->
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -165,5 +173,11 @@
         <p>&copy; <span id="year"></span> <span id="footer-name"></span>. All rights reserved.</p>
       </div>
     </footer>
+
+    <button class="scroll-to-top" id="scroll-to-top" aria-label="Scroll to top" title="Scroll to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+        <path d="M18 15l-6-6-6 6"/>
+      </svg>
+    </button>
   </body>
 </html>

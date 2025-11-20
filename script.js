@@ -978,11 +978,16 @@
   }
 
   // Cursor-based dynamic highlight for Liquid Glass background
+  let rafId = null;
   window.addEventListener('pointermove', (e) => {
-    const x = (e.clientX / window.innerWidth) * 100;
-    const y = (e.clientY / window.innerHeight) * 100;
-    root.style.setProperty('--cursor-x', x + '%');
-    root.style.setProperty('--cursor-y', y + '%');
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      root.style.setProperty('--cursor-x', x + '%');
+      root.style.setProperty('--cursor-y', y + '%');
+      rafId = null;
+    });
   }, { passive: true });
 
   // Scroll-aware nav active state like tabs
@@ -1114,5 +1119,88 @@
     img.style.height = `${ICON_CONFIG.SOCIAL_SIZE}px`;
     span.appendChild(img);
     return span;
+  }
+
+  // ============================================================================
+  // Scroll to Top Button
+  // ============================================================================
+
+  const scrollToTopBtn = document.getElementById('scroll-to-top');
+  
+  if (scrollToTopBtn) {
+    // Show/hide button based on scroll position
+    function handleScroll() {
+      if (window.scrollY > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    }
+    
+    // Throttle scroll events for performance
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+      if (scrollTimeout) {
+        cancelAnimationFrame(scrollTimeout);
+      }
+      scrollTimeout = requestAnimationFrame(handleScroll);
+    }, { passive: true });
+    
+    // Scroll to top on click
+    scrollToTopBtn.addEventListener('click', () => {
+      const behavior = prefersReducedMotion() ? 'auto' : 'smooth';
+      window.scrollTo({ top: 0, behavior });
+    });
+  }
+
+  // ============================================================================
+  // Section Fade-in Animation on Scroll
+  // ============================================================================
+
+  function initSectionAnimations() {
+    const sections = document.querySelectorAll('.section');
+    
+    if (sections.length === 0) return;
+    
+    // Create Intersection Observer for fade-in animations
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Unobserve after animation to improve performance
+          sectionObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+    
+    // Observe all sections
+    sections.forEach(section => {
+      sectionObserver.observe(section);
+    });
+    
+    // Check if sections are already visible (for initial load)
+    const checkInitialVisibility = () => {
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        if (isVisible) {
+          section.classList.add('visible');
+        }
+      });
+    };
+    
+    // Run check after a short delay to ensure content is loaded
+    setTimeout(checkInitialVisibility, 100);
+  }
+  
+  // Initialize section animations after content is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSectionAnimations);
+  } else {
+    // If DOM is already loaded, wait for content to be applied
+    setTimeout(initSectionAnimations, 500);
   }
 })();
