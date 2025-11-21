@@ -173,7 +173,7 @@ If you prefer not to use GitHub Actions:
    - Go to repository **Settings** → **Pages**
    - Select source branch: **main** (or your default branch)
    - Select folder: **/ (root)**
-   - Click **Save**
+   - Click **Save**.
 
 ## Content Management
 
