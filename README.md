@@ -1,5 +1,9 @@
 # Portfolio Website Template
 
+[![Deploy to GitHub Pages](https://github.com/yashwant-das/portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/yashwant-das/portfolio/actions/workflows/deploy.yml)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Deployed-brightgreen)](https://yashwant-das.github.io/portfolio/)
+[![Open Source](https://img.shields.io/badge/Open%20Source-Yes-success)](https://github.com/yashwant-das/portfolio)
+
 A modern, Apple-inspired portfolio website template with Contentful CMS integration. Fully responsive, dark mode support, and optimized for GitHub Pages deployment.
 
 ## Features
