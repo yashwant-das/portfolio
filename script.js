@@ -74,12 +74,12 @@
       script.src = 'config.js';
       script.async = false; // Load synchronously to ensure config is available
       script.onerror = () => {
-        console.warn('[WARN] config.js failed to load. Using fallback data.');
+        debugLog('config.js failed to load. Using fallback data.');
       };
       script.onload = () => {
         contentfulConfig = window.CONTENTFUL_CONFIG || {};
         if (contentfulConfig.spaceId && contentfulConfig.accessToken) {
-          console.info('[INFO] config.js loaded dynamically, retrying Contentful fetch');
+          debugLog('config.js loaded dynamically, retrying Contentful fetch');
           // Retry fetching content if config is now available
           fetchContent();
         }
@@ -93,30 +93,13 @@
   const CONTENTFUL_ENVIRONMENT = contentfulConfig.environment || CONTENTFUL_CONFIG.DEFAULT_ENVIRONMENT;
   const CONTENTFUL_API_BASE = `${CONTENTFUL_CONFIG.API_BASE_URL}/spaces/${CONTENTFUL_SPACE_ID}/environments/${CONTENTFUL_ENVIRONMENT}`;
   
-  // Debug: Log Contentful configuration status
-  const configStatus = {
+  // Log Contentful configuration status (only in debug mode)
+  debugLog('Contentful Config:', {
     hasConfig: !!window.CONTENTFUL_CONFIG,
     spaceId: CONTENTFUL_SPACE_ID ? `${CONTENTFUL_SPACE_ID.substring(0, 8)}...` : 'missing',
     hasAccessToken: !!CONTENTFUL_ACCESS_TOKEN,
-    environment: CONTENTFUL_ENVIRONMENT,
-    configSource: window.CONTENTFUL_CONFIG ? 'config.js loaded' : 'config.js not found'
-  };
-  
-  // Always log config status (not just in debug mode) to help diagnose issues
-  if (!CONTENTFUL_SPACE_ID || !CONTENTFUL_ACCESS_TOKEN) {
-    console.warn('[WARN] Contentful not configured:', configStatus);
-    console.info('[INFO] To configure Contentful:');
-    console.info('  1. For GitHub Pages: Add CONTENTFUL_SPACE_ID and CONTENTFUL_ACCESS_TOKEN secrets in repository Settings');
-    console.info('  2. For local dev: Create config.js from config.example.js');
-  } else {
-    console.info('[INFO] Contentful configured:', {
-      spaceId: `${CONTENTFUL_SPACE_ID.substring(0, 8)}...`,
-      hasAccessToken: true,
-      environment: CONTENTFUL_ENVIRONMENT
-    });
-  }
-  
-  debugLog('Full Contentful Config Check:', configStatus);
+    environment: CONTENTFUL_ENVIRONMENT
+  });
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const SOCIAL_ICON_PATHS = {
     github: '<path d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.292 3.438 9.787 8.205 11.387.6.113.82-.26.82-.577 0-.285-.01-1.04-.016-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.082-.729.082-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.762-1.605-2.665-.304-5.466-1.332-5.466-5.93 0-1.31.468-2.382 1.235-3.221-.124-.303-.536-1.523.117-3.176 0 0 1.008-.323 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.553 3.297-1.23 3.297-1.23.655 1.653.243 2.873.12 3.176.77.839 1.233 1.911 1.233 3.221 0 4.61-2.804 5.624-5.476 5.921.43.371.823 1.104.823 2.226 0 1.606-.014 2.898-.014 3.293 0 .32.216.694.825.576C20.565 22.08 24 17.584 24 12.297 24 5.67 18.627.297 12 .297Z"/>',
@@ -310,29 +293,16 @@
           applyContent(data);
           return; // Successfully loaded from Contentful
         } else {
-          console.warn('[WARN] Contentful data is empty or invalid');
+          debugLog('Contentful data is empty or invalid');
         }
       } catch (err) {
         handleError(err, 'Failed to load content from Contentful. Falling back to JSON file');
       }
     } else {
       if (!isContentfulConfigured) {
-        console.warn('[WARN] Contentful not configured. Loading fallback JSON file.');
-        console.warn('[WARN] Config check:', {
-          spaceId: CONTENTFUL_SPACE_ID || 'missing',
-          accessToken: CONTENTFUL_ACCESS_TOKEN ? 'present' : 'missing',
-          windowConfig: window.CONTENTFUL_CONFIG || 'undefined',
-          hostname: window.location.hostname
-        });
-        if (window.location.hostname.includes('github.io')) {
-          console.info('[INFO] For GitHub Pages: Add CONTENTFUL_SPACE_ID and CONTENTFUL_ACCESS_TOKEN secrets in repository Settings → Secrets and variables → Actions');
-          console.info('[INFO] Check workflow logs in Actions tab to verify config.js was created');
-          console.info('[INFO] Verify config.js is accessible at: https://' + window.location.hostname + window.location.pathname.replace(/\/$/, '') + '/config.js');
-        } else {
-          console.info('[INFO] For local dev: Create config.js from config.example.js with your Space ID and Access Token');
-        }
+        debugLog('Contentful not configured. Loading fallback JSON file.');
       } else if (isFileProtocol) {
-        console.info('[INFO] Skipping Contentful fetch while viewing the file directly. Loading fallback JSON file.');
+        debugLog('Skipping Contentful fetch while viewing the file directly. Loading fallback JSON file.');
       }
     }
     
@@ -579,7 +549,7 @@
               try {
                 socialsObj = JSON.parse(socialsObj);
               } catch (e) {
-                console.warn('Failed to parse socials JSON:', e);
+                debugLog('Failed to parse socials JSON:', e);
                 socialsObj = null;
               }
             }
