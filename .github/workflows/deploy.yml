@@ -91,45 +91,55 @@ jobs:
         with:
           enablement: true
       
-      - name: Verify files before upload
+      - name: Prepare deployment directory
         run: |
-          echo "=== Verifying files to be deployed ==="
-          echo "Checking for essential files..."
-          ls -la | grep -E "(index.html|script.js|styles.css|config.js|fallback-data.json|\.nojekyll)" || true
-          echo ""
-          echo "Checking config.js content (first 3 lines, secrets hidden):"
-          if [ -f config.js ]; then
-            head -3 config.js | sed 's/accessToken:.*/accessToken: [HIDDEN]/' | sed 's/spaceId:.*/spaceId: [HIDDEN]/'
-            echo ""
-            echo "File permissions:"
-            ls -l config.js
-            echo ""
-            echo "File size:"
-            wc -c config.js
+          echo "=== Preparing deployment directory ==="
+          # Create a clean deployment directory
+          mkdir -p _deploy
+          
+          # Copy all essential files, explicitly including config.js
+          echo "Copying files to deployment directory..."
+          
+          # Copy HTML, CSS, JS files
+          cp index.html _deploy/ 2>/dev/null || true
+          cp styles.css _deploy/ 2>/dev/null || true
+          cp script.js _deploy/ 2>/dev/null || true
+          cp config.js _deploy/ 2>/dev/null || true
+          cp fallback-data.json _deploy/ 2>/dev/null || true
+          
+          # Copy assets directory
+          if [ -d assets ]; then
+            cp -r assets _deploy/
+          fi
+          
+          # Ensure .nojekyll exists
+          if [ -f .nojekyll ]; then
+            cp .nojekyll _deploy/
           else
-            echo "❌ ERROR: config.js not found!"
+            touch _deploy/.nojekyll
+            echo "Created .nojekyll file"
+          fi
+          
+          echo ""
+          echo "=== Verifying deployment directory ==="
+          echo "Files in _deploy:"
+          ls -la _deploy/
+          echo ""
+          echo "Checking config.js in deployment directory:"
+          if [ -f _deploy/config.js ]; then
+            echo "✅ config.js exists in deployment directory"
+            echo "File size: $(wc -c < _deploy/config.js) bytes"
+            echo "First 3 lines (secrets hidden):"
+            head -3 _deploy/config.js | sed 's/accessToken:.*/accessToken: [HIDDEN]/' | sed 's/spaceId:.*/spaceId: [HIDDEN]/'
+          else
+            echo "❌ ERROR: config.js not found in deployment directory!"
             exit 1
           fi
-          echo ""
-          echo "=== Verifying .nojekyll exists ==="
-          if [ -f .nojekyll ]; then
-            echo "✅ .nojekyll file exists"
-          else
-            echo "⚠️ Warning: .nojekyll not found, creating it..."
-            touch .nojekyll
-          fi
-          echo ""
-          echo "=== Creating file list for artifact ==="
-          echo "JavaScript files:"
-          find . -name "*.js" -not -path "./node_modules/*" -not -path "./.git/*" | sort
-          echo ""
-          echo "All essential files:"
-          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" -o -name "*.json" -o -name ".nojekyll" \) -not -path "./node_modules/*" -not -path "./.git/*" | sort
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_deploy'
       
       - name: Deploy to GitHub Pages
         id: deployment
