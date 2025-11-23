@@ -271,6 +271,76 @@
   fetchContent();
 
   // ============================================================================
+  // Image Optimization Utilities
+  // ============================================================================
+
+  /**
+   * Optimizes Contentful image URLs with size parameters and modern formats
+   * @param {string} url - Original Contentful image URL
+   * @param {Object} options - Optimization options
+   * @param {number} options.width - Target width in pixels
+   * @param {number} options.height - Target height in pixels (optional)
+   * @param {number} options.quality - Image quality 1-100 (default: 80)
+   * @param {string} options.format - Image format: 'webp', 'avif', 'jpg', 'png' (default: 'webp')
+   * @returns {string} Optimized image URL
+   */
+  function optimizeContentfulImage(url, options = {}) {
+    if (!url || typeof url !== 'string') return url;
+    
+    // Only optimize Contentful CDN URLs
+    if (!url.includes('ctfassets.net') && !url.includes('images.ctfassets.net')) {
+      return url;
+    }
+
+    const {
+      width,
+      height,
+      quality = 80,
+      format = 'webp'
+    } = options;
+
+    // Parse existing URL parameters
+    const urlObj = new URL(url);
+    const params = new URLSearchParams(urlObj.search);
+
+    // Add optimization parameters
+    if (width) params.set('w', String(width));
+    if (height) params.set('h', String(height));
+    params.set('q', String(quality));
+    params.set('fm', format);
+    params.set('fit', 'fill'); // Ensures image fills dimensions
+
+    // Reconstruct URL
+    urlObj.search = params.toString();
+    return urlObj.toString();
+  }
+
+  /**
+   * Gets responsive image srcset for Contentful images
+   * @param {string} url - Original Contentful image URL
+   * @param {number} baseWidth - Base width in pixels
+   * @returns {string} srcset string
+   */
+  function getResponsiveSrcset(url, baseWidth) {
+    if (!url || typeof url !== 'string') return '';
+    
+    // Only generate srcset for Contentful images
+    if (!url.includes('ctfassets.net') && !url.includes('images.ctfassets.net')) {
+      return '';
+    }
+
+    const sizes = [
+      baseWidth,
+      baseWidth * 1.5,
+      baseWidth * 2
+    ].map(w => Math.round(w));
+
+    return sizes
+      .map(w => `${optimizeContentfulImage(url, { width: w, format: 'webp' })} ${w}w`)
+      .join(', ');
+  }
+
+  // ============================================================================
   // Content Fetching
   // ============================================================================
 
@@ -757,10 +827,22 @@
           if (exp.logo) {
             const img = document.createElement('img');
             img.className = 'company-logo';
-            img.src = exp.logo;
+            // Optimize logo: 80px desktop, 64px mobile (actual CSS display sizes)
+            const optimizedUrl = optimizeContentfulImage(exp.logo, {
+              width: 80,
+              height: 80,
+              quality: 80,
+              format: 'webp'
+            });
+            img.src = optimizedUrl;
             img.alt = `${exp.company} logo`;
             img.loading = 'lazy';
-            // Size controlled by CSS for responsive behavior
+            // Add srcset for responsive images
+            const srcset = getResponsiveSrcset(exp.logo, 80);
+            if (srcset) {
+              img.srcset = srcset;
+              img.sizes = '(max-width: 768px) 64px, 80px';
+            }
             meta.appendChild(img);
           }
           
@@ -883,10 +965,29 @@
       }
     }
 
-    // Avatar
+    // Avatar - optimize for LCP
     if (data.avatar) {
       const img = document.querySelector('.avatar img');
-      if (img) img.src = data.avatar;
+      if (img) {
+        // Optimize avatar image: 240px desktop, 180px mobile (actual CSS display sizes)
+        const optimizedUrl = optimizeContentfulImage(data.avatar, {
+          width: 240,
+          height: 240,
+          quality: 85,
+          format: 'webp'
+        });
+        img.src = optimizedUrl;
+        // Set fetchPriority for modern browsers (with fallback)
+        if ('fetchPriority' in img) {
+          img.fetchPriority = 'high';
+        }
+        // Add srcset for responsive images
+        const srcset = getResponsiveSrcset(data.avatar, 240);
+        if (srcset) {
+          img.srcset = srcset;
+          img.sizes = '(max-width: 768px) 180px, 240px';
+        }
+      }
     }
 
     // Name, subtitle, and hero summary
