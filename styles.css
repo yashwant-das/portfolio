@@ -694,8 +694,8 @@ html[data-theme="dark"] .timeline-item {
 }
 
 html[data-theme="dark"] .company-logo {
-  mix-blend-mode: screen;
-  filter: invert(1);
+  mix-blend-mode: normal;
+  opacity: 0.9;
 }
 
 .timeline-meta-content {
@@ -810,10 +810,10 @@ html[data-theme="dark"] .project-card {
 .tags li {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
+  min-height: 40px;
   font-size: 13px;
   font-weight: 500;
-  padding: 8px 14px;
+  padding: 10px 16px;
   background: var(--bg-tertiary);
   color: var(--text-primary);
   border-radius: var(--radius-sm);
@@ -931,9 +931,9 @@ html[data-theme="dark"] .skill-category {
 .skills li {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
+  min-height: 40px;
   font-size: 13px;
-  padding: 8px 14px;
+  padding: 10px 16px;
   background: var(--bg-tertiary);
   color: var(--text-primary);
   border-radius: var(--radius-sm);
@@ -1068,9 +1068,9 @@ html[data-theme="dark"] .contact-card {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 32px;
+  min-height: 40px;
   gap: var(--spacing-xs);
-  padding: 8px 14px;
+  padding: 10px 16px;
   border-radius: var(--radius-sm);
   background: var(--bg-tertiary);
   color: var(--text-primary);
