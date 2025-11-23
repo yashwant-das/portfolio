@@ -267,6 +267,9 @@
   // Initialization
   // ============================================================================
 
+  // Show loading skeletons before fetching content
+  showLoadingSkeletons();
+  
   // Fetch content from Contentful CMS
   fetchContent();
 
@@ -367,6 +370,7 @@
         }
       } catch (err) {
         handleError(err, 'Failed to load content from Contentful. Falling back to JSON file');
+        // Don't hide skeletons yet - we'll try fallback
       }
     } else {
       if (!isContentfulConfigured) {
@@ -387,6 +391,8 @@
       applyContent(data);
     } catch (err) {
       handleError(err, 'Failed to load fallback data. Content may not display correctly');
+      // Hide skeletons even on error so users can see the error state
+      hideLoadingSkeletons();
       // HTML structure remains, but content won't be populated
     }
   }
@@ -913,10 +919,33 @@
   // ============================================================================
 
   /**
+   * Shows loading skeleton screens
+   */
+  function showLoadingSkeletons() {
+    const skeletons = document.querySelectorAll('.loading-container');
+    skeletons.forEach(skeleton => {
+      skeleton.classList.remove('hidden');
+    });
+  }
+
+  /**
+   * Hides loading skeleton screens
+   */
+  function hideLoadingSkeletons() {
+    const skeletons = document.querySelectorAll('.loading-container');
+    skeletons.forEach(skeleton => {
+      skeleton.classList.add('hidden');
+    });
+  }
+
+  /**
    * Applies portfolio data to the DOM
    * @param {Object} data - Portfolio data object
    */
   function applyContent(data) {
+    // Hide loading skeletons first, even if data is invalid
+    hideLoadingSkeletons();
+    
     if (!data || typeof data !== 'object') {
       handleError('Invalid data provided to applyContent', 'applyContent');
       return;
@@ -983,11 +1012,14 @@
       }
     }
 
-    // Avatar alt text
-    if (data.name) {
-      const avatarImg = document.getElementById('avatar-img');
-      if (avatarImg) {
+    // Avatar - always show image, set alt text if name exists
+    const avatarImg = document.getElementById('avatar-img');
+    if (avatarImg) {
+      avatarImg.style.display = '';
+      if (data.name) {
         avatarImg.alt = `Portrait of ${data.name}`;
+      } else {
+        avatarImg.alt = 'Profile photo';
       }
     }
 
