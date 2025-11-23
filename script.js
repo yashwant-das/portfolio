@@ -169,10 +169,31 @@
   })();
 
   /**
+   * Gets the system preference for color scheme
+   * @returns {string} 'dark' or 'light'
+   */
+  function getSystemPreference() {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return THEME_CONFIG.DEFAULT_THEME;
+  }
+
+  /**
+   * Checks if user has manually set a theme preference
+   * @returns {boolean} True if user has manually set preference
+   */
+  function hasManualPreference() {
+    if (!themeStorage) return false;
+    return themeStorage.getItem(THEME_CONFIG.STORAGE_KEY + '_manual') === 'true';
+  }
+
+  /**
    * Sets the theme (light/dark mode)
    * @param {string} mode - Theme mode ('light' or 'dark')
+   * @param {boolean} isManual - Whether this is a manual user selection (default: false)
    */
-  function setTheme(mode) {
+  function setTheme(mode, isManual = false) {
     // Validate theme mode
     if (!THEME_CONFIG.VALID_THEMES.includes(mode)) {
       debugLog(`Invalid theme: ${mode}. Defaulting to '${THEME_CONFIG.DEFAULT_THEME}'`);
@@ -181,10 +202,30 @@
 
     root.setAttribute('data-theme', mode);
     
-    // Persist theme preference
+    // Update theme-color meta tag for mobile browsers
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMeta) {
+      themeColorMeta.setAttribute('content', mode === 'dark' ? '#000000' : '#ffffff');
+    }
+    
+    // Persist theme preference and manual flag
     if (themeStorage) {
       try {
         themeStorage.setItem(THEME_CONFIG.STORAGE_KEY, mode);
+        if (isManual) {
+          // Check if manual selection matches system preference - if so, clear manual flag
+          // This allows users to revert to automatic mode by selecting the system preference
+          const systemPref = getSystemPreference();
+          if (mode === systemPref) {
+            themeStorage.removeItem(THEME_CONFIG.STORAGE_KEY + '_manual');
+            debugLog('Manual selection matches system preference, clearing manual flag');
+          } else {
+            themeStorage.setItem(THEME_CONFIG.STORAGE_KEY + '_manual', 'true');
+          }
+        } else {
+          // Clear manual flag when updating automatically (system preference change)
+          themeStorage.removeItem(THEME_CONFIG.STORAGE_KEY + '_manual');
+        }
       } catch (err) {
         handleError(err, 'Failed to save theme preference');
       }
@@ -198,18 +239,47 @@
     }
   }
 
-  // Initialize theme
+  // Initialize theme with system preference detection
   const storedTheme = themeStorage ? themeStorage.getItem(THEME_CONFIG.STORAGE_KEY) : null;
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const initTheme = storedTheme || (prefersDark ? 'dark' : THEME_CONFIG.DEFAULT_THEME);
-  setTheme(initTheme);
+  const hasManual = hasManualPreference();
+  const systemPreference = getSystemPreference();
+  
+  // Use stored theme if user has manually set it, otherwise use system preference
+  const initTheme = hasManual && storedTheme ? storedTheme : systemPreference;
+  setTheme(initTheme, hasManual);
+
+  // Listen for system preference changes
+  if (window.matchMedia) {
+    const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Use addEventListener if available (modern browsers), fallback to addListener
+    if (colorSchemeQuery.addEventListener) {
+      colorSchemeQuery.addEventListener('change', (e) => {
+        // Only update if user hasn't manually set a preference
+        if (!hasManualPreference()) {
+          const newPreference = e.matches ? 'dark' : THEME_CONFIG.DEFAULT_THEME;
+          setTheme(newPreference, false);
+          debugLog('System preference changed to:', newPreference);
+        }
+      });
+    } else if (colorSchemeQuery.addListener) {
+      // Fallback for older browsers
+      colorSchemeQuery.addListener((e) => {
+        if (!hasManualPreference()) {
+          const newPreference = e.matches ? 'dark' : THEME_CONFIG.DEFAULT_THEME;
+          setTheme(newPreference, false);
+          debugLog('System preference changed to:', newPreference);
+        }
+      });
+    }
+  }
 
   // Theme toggle event listener
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
       const currentTheme = root.getAttribute('data-theme');
       const next = currentTheme === 'dark' ? 'light' : 'dark';
-      setTheme(next);
+      setTheme(next, true); // Mark as manual selection
     });
   }
 
