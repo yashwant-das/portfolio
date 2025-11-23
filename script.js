@@ -414,21 +414,53 @@
     const assetMap = new Map();
     if (entriesData.includes && entriesData.includes.Asset) {
       entriesData.includes.Asset.forEach(asset => {
-        if (asset.fields && asset.fields.file) {
-          let url = asset.fields.file.url;
-          // Handle Contentful CDN URLs
-          if (url.startsWith('//')) {
-            url = `https:${url}`;
-          } else if (!url.startsWith('http')) {
-            // If relative URL, prepend https:// (double slash)
-            url = `https://${url}`;
+        if (!asset.sys || !asset.sys.id) return;
+        
+        // Handle locale-aware asset fields
+        const fileField = asset.fields?.file;
+        if (!fileField) return;
+        
+        // Get file URL (handling locale-aware fields)
+        let fileObj = fileField;
+        if (typeof fileField === 'object' && !fileField.url && !fileField.contentType) {
+          // Try common locales
+          const locales = ['en-US', 'en', 'en-GB'];
+          for (const locale of locales) {
+            if (fileField[locale] && fileField[locale].url) {
+              fileObj = fileField[locale];
+              break;
+            }
           }
-          assetMap.set(asset.sys.id, {
-            url: url,
-            title: asset.fields.title || '',
-            description: asset.fields.description || ''
-          });
+          // Fallback to first available locale
+          if (!fileObj.url) {
+            const firstKey = Object.keys(fileField)[0];
+            if (firstKey && fileField[firstKey]) {
+              fileObj = fileField[firstKey];
+            }
+          }
         }
+        
+        if (!fileObj || !fileObj.url) return;
+        
+        let url = fileObj.url;
+        // Handle Contentful CDN URLs
+        if (url.startsWith('//')) {
+          url = `https:${url}`;
+        } else if (!url.startsWith('http')) {
+          // If relative URL, prepend https:// (double slash)
+          url = `https://${url}`;
+        }
+        
+        // Get title and description (handling locale-aware fields)
+        const title = getFieldValue(asset.fields || {}, 'title', '');
+        const description = getFieldValue(asset.fields || {}, 'description', '');
+        
+        assetMap.set(asset.sys.id, {
+          url: url,
+          title: title,
+          description: description,
+          contentType: fileObj.contentType || ''
+        });
       });
     }
 
@@ -573,6 +605,103 @@
   // ============================================================================
 
   /**
+   * Checks if an object appears to be a Contentful localized field
+   * Localized fields typically have locale codes as keys (e.g., 'en-US', 'en', 'de-DE')
+   * @param {Object} obj - Object to check
+   * @returns {boolean} True if object appears to be localized
+   */
+  function isLocalizedObject(obj) {
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false;
+    
+    const keys = Object.keys(obj);
+    if (keys.length === 0) return false;
+    
+    // Check if keys look like locale codes (e.g., 'en-US', 'en', 'de-DE', 'fr-FR')
+    // Locale codes are typically 2-5 characters, may contain hyphens, and are lowercase
+    const localePattern = /^[a-z]{2}(-[a-z]{2})?$/i;
+    const hasLocaleKeys = keys.some(key => localePattern.test(key));
+    
+    // If at least one key looks like a locale code, treat as localized
+    return hasLocaleKeys;
+  }
+
+  /**
+   * Gets a field value from Contentful entry, handling locale-aware fields
+   * Contentful can return fields as either:
+   * - Flat: fields.name (single locale)
+   * - Localized: fields.name['en-US'] (multiple locales)
+   * - JSON Object: fields.socials = { "LinkedIn": "url" } (not localized)
+   * @param {Object} fields - Contentful entry fields object
+   * @param {string} fieldName - Field name to retrieve
+   * @param {string} defaultValue - Default value if field is missing
+   * @returns {*} Field value or default
+   */
+  function getFieldValue(fields, fieldName, defaultValue = '') {
+    if (!fields || !fieldName) return defaultValue;
+    
+    const field = fields[fieldName];
+    if (field === undefined || field === null) return defaultValue;
+    
+    // If field is an object, check if it's localized or a JSON Object
+    if (typeof field === 'object' && !Array.isArray(field) && field.nodeType === undefined) {
+      // Check if this looks like a localized field (has locale keys like 'en-US')
+      if (isLocalizedObject(field)) {
+        // Try common locales in order of preference
+        const locales = ['en-US', 'en', 'en-GB'];
+        for (const locale of locales) {
+          if (field[locale] !== undefined && field[locale] !== null) {
+            return field[locale];
+          }
+        }
+        // If no locale match, return first available value
+        const firstKey = Object.keys(field)[0];
+        if (firstKey) return field[firstKey];
+        return defaultValue;
+      }
+      // Not localized - return the object as-is (e.g., JSON Object fields)
+      return field;
+    }
+    
+    // Field is already a direct value (single locale or non-localized)
+    return field;
+  }
+
+  /**
+   * Gets an asset reference from a Contentful field, handling locale-aware fields
+   * @param {Object} fields - Contentful entry fields object
+   * @param {string} fieldName - Field name containing asset reference
+   * @returns {Object|null} Asset reference object with sys.id, or null
+   */
+  function getAssetReference(fields, fieldName) {
+    if (!fields || !fieldName) return null;
+    
+    const field = fields[fieldName];
+    if (!field) return null;
+    
+    // Handle localized asset reference: field['en-US'].sys.id
+    if (typeof field === 'object' && !Array.isArray(field) && field.nodeType === undefined) {
+      const locales = ['en-US', 'en', 'en-GB'];
+      for (const locale of locales) {
+        if (field[locale] && field[locale].sys && field[locale].sys.id) {
+          return field[locale];
+        }
+      }
+      // Try first available locale
+      const firstKey = Object.keys(field)[0];
+      if (firstKey && field[firstKey] && field[firstKey].sys && field[firstKey].sys.id) {
+        return field[firstKey];
+      }
+    }
+    
+    // Handle direct asset reference: field.sys.id
+    if (field.sys && field.sys.id) {
+      return field;
+    }
+    
+    return null;
+  }
+
+  /**
    * Transforms Contentful entries into portfolio data structure
    * @param {Array<Object>} entries - Array of Contentful entry objects
    * @param {Map<string, Object>} assetMap - Map of asset IDs to asset data
@@ -599,22 +728,42 @@
       switch (contentType) {
         case 'portfolio':
           // Portfolio is a single entry - map to top-level data
-          data.name = fields.name || '';
-          data.subtitle = fields.subtitle || '';
-          data.email = fields.email || '';
-          data.website = fields.website || '';
-          data.resume = fields.resume || '';
-          data.about = extractRichTextPlainText(fields.about) || '';
-          data.heroSummary = extractRichTextPlainText(fields.heroSummary) || '';
+          data.name = getFieldValue(fields, 'name', '');
+          data.subtitle = getFieldValue(fields, 'subtitle', '');
+          data.email = getFieldValue(fields, 'email', '');
+          data.website = getFieldValue(fields, 'website', '');
+          data.about = extractRichTextPlainText(getFieldValue(fields, 'about')) || '';
+          data.heroSummary = extractRichTextPlainText(getFieldValue(fields, 'heroSummary')) || '';
           
-          // Handle avatar asset
-          if (fields.avatar && fields.avatar.sys && assetMap.has(fields.avatar.sys.id)) {
-            data.avatar = assetMap.get(fields.avatar.sys.id).url;
+          // Handle avatar asset (Media field)
+          const avatarRef = getAssetReference(fields, 'avatar');
+          if (avatarRef && assetMap.has(avatarRef.sys.id)) {
+            data.avatar = assetMap.get(avatarRef.sys.id).url;
+          }
+          
+          // Handle resume - can be either Media asset or text filename
+          const resumeRef = getAssetReference(fields, 'resume');
+          if (resumeRef) {
+            // Resume field is a Media asset reference
+            if (assetMap.has(resumeRef.sys.id)) {
+              // Asset found in map - use its URL
+              data.resume = assetMap.get(resumeRef.sys.id).url;
+            } else {
+              // Asset reference exists but asset not found in map - set to empty string
+              // This handles cases where the asset wasn't included in the API response
+              data.resume = '';
+            }
+          } else {
+            // Resume is not an asset reference - treat as text field (filename/URL)
+            const resumeValue = getFieldValue(fields, 'resume', '');
+            // Ensure we only set string values (not objects)
+            data.resume = typeof resumeValue === 'string' ? resumeValue : '';
           }
           
           // Handle socials (can be object or JSON string)
-          if (fields.socials) {
-            let socialsObj = fields.socials;
+          const socialsField = getFieldValue(fields, 'socials');
+          if (socialsField) {
+            let socialsObj = socialsField;
             if (typeof socialsObj === 'string') {
               try {
                 socialsObj = JSON.parse(socialsObj);
@@ -642,13 +791,14 @@
           }
           
           // Handle social icons as separate asset references (alternative approach)
-          if (fields.socialIcons && Array.isArray(fields.socialIcons)) {
+          const socialIconsField = getFieldValue(fields, 'socialIcons');
+          if (socialIconsField && Array.isArray(socialIconsField)) {
             if (!data.socialIcons) data.socialIcons = {};
-            fields.socialIcons.forEach(iconRef => {
+            socialIconsField.forEach(iconRef => {
               if (iconRef && iconRef.sys && iconRef.fields) {
-                const label = iconRef.fields.label || '';
-                const iconAsset = iconRef.fields.icon;
-                if (label && iconAsset && iconAsset.sys && assetMap.has(iconAsset.sys.id)) {
+                const label = getFieldValue(iconRef.fields, 'label', '');
+                const iconAsset = getAssetReference(iconRef.fields, 'icon');
+                if (label && iconAsset && assetMap.has(iconAsset.sys.id)) {
                   data.socialIcons[label] = assetMap.get(iconAsset.sys.id).url;
                 }
               }
@@ -658,15 +808,16 @@
 
         case 'experience':
           const experience = {
-            role: fields.role || '',
-            company: fields.company || '',
-            period: fields.period || '',
-            highlights: parseRichTextToList(fields.highlights)
+            role: getFieldValue(fields, 'role', ''),
+            company: getFieldValue(fields, 'company', ''),
+            period: getFieldValue(fields, 'period', ''),
+            highlights: parseRichTextToList(getFieldValue(fields, 'highlights'))
           };
           
-          // Handle logo asset
-          if (fields.logo && fields.logo.sys && assetMap.has(fields.logo.sys.id)) {
-            experience.logo = assetMap.get(fields.logo.sys.id).url;
+          // Handle logo asset (Media field)
+          const logoRef = getAssetReference(fields, 'logo');
+          if (logoRef && assetMap.has(logoRef.sys.id)) {
+            experience.logo = assetMap.get(logoRef.sys.id).url;
           }
           
           data.experience.push(experience);
@@ -674,18 +825,18 @@
 
         case 'project':
           const project = {
-            title: fields.title || '',
-            description: fields.description || '',
-            tags: parseRichTextToList(fields.tags),
-            live: fields.liveUrl || '',
-            code: fields.codeUrl || ''
+            title: getFieldValue(fields, 'title', ''),
+            description: getFieldValue(fields, 'description', ''),
+            tags: parseRichTextToList(getFieldValue(fields, 'tags')),
+            live: getFieldValue(fields, 'liveUrl', ''),
+            code: getFieldValue(fields, 'codeUrl', '')
           };
           data.projects.push(project);
           break;
 
         case 'skillCategory':
-          const categoryName = fields.categoryName || 'Other';
-          const skills = parseRichTextToList(fields.skills);
+          const categoryName = getFieldValue(fields, 'categoryName', 'Other');
+          const skills = parseRichTextToList(getFieldValue(fields, 'skills'));
           if (skills.length > 0) {
             data.skills[categoryName] = skills;
           }
@@ -693,9 +844,9 @@
 
         case 'education':
           const education = {
-            degree: fields.degree || '',
-            school: fields.school || '',
-            period: fields.period || ''
+            degree: getFieldValue(fields, 'degree', ''),
+            school: getFieldValue(fields, 'school', ''),
+            period: getFieldValue(fields, 'period', '')
           };
           data.education.push(education);
           break;
@@ -706,12 +857,18 @@
     data.experience.sort((a, b) => {
       /**
        * Extracts the end year from a period string for sorting
-       * Handles formats like "04/2021 — 06/2024" or "2020 — 2023"
+       * Handles formats like "04/2021 — 06/2024", "2020 — 2023", or "01/2023 — Present"
        * @param {string} period - Period string containing dates
-       * @returns {number} End year (0 if not found)
+       * @returns {number} End year (0 if not found, 9999 for "Present")
        */
       const getEndYear = (period) => {
         if (!period || typeof period !== 'string') return 0;
+        
+        // Check for "Present" or "Current" (case-insensitive)
+        if (/present|current/i.test(period)) {
+          return 9999; // Treat "Present" as most recent
+        }
+        
         // Match all 4-digit years in the string
         const matches = period.match(/\d{4}/g);
         // Use the last match (end date) for "most recent first" sorting
@@ -720,6 +877,33 @@
       };
       return getEndYear(b.period) - getEndYear(a.period);
     });
+    
+    // Sort projects alphabetically by title
+    data.projects.sort((a, b) => {
+      const titleA = String(a.title || '').toLowerCase();
+      const titleB = String(b.title || '').toLowerCase();
+      return titleA.localeCompare(titleB, undefined, { sensitivity: 'base' });
+    });
+    
+    // Sort skill categories alphabetically
+    if (data.skills && typeof data.skills === 'object' && !Array.isArray(data.skills)) {
+      const sortedSkills = {};
+      Object.keys(data.skills)
+        .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
+        .forEach(categoryName => {
+          // Sort skills within each category alphabetically
+          const skills = Array.isArray(data.skills[categoryName]) 
+            ? [...data.skills[categoryName]].sort((a, b) => 
+                String(a).localeCompare(String(b), undefined, { sensitivity: 'base' })
+              )
+            : data.skills[categoryName];
+          sortedSkills[categoryName] = skills;
+        });
+      data.skills = sortedSkills;
+    } else if (Array.isArray(data.skills)) {
+      // Sort legacy array format alphabetically
+      data.skills.sort((a, b) => String(a).localeCompare(String(b), undefined, { sensitivity: 'base' }));
+    }
 
     return data;
   }
@@ -791,7 +975,7 @@
     }
 
     // Resume link
-    if (data.resume) {
+    if (data.resume && typeof data.resume === 'string' && data.resume.trim()) {
       const resumeLink = document.getElementById('resume-link');
       if (resumeLink) {
         resumeLink.href = data.resume;
@@ -874,7 +1058,11 @@
           const h3 = document.createElement('h3'); h3.textContent = p.title || '';
           const desc = document.createElement('p'); desc.textContent = p.description || '';
           const tags = document.createElement('ul'); tags.className = 'tags';
-          (p.tags || []).forEach(t => { const li = document.createElement('li'); li.textContent = t; tags.appendChild(li); });
+          // Sort tags alphabetically
+          const sortedTags = Array.isArray(p.tags) 
+            ? [...p.tags].sort((a, b) => String(a).localeCompare(String(b), undefined, { sensitivity: 'base' }))
+            : [];
+          sortedTags.forEach(t => { const li = document.createElement('li'); li.textContent = t; tags.appendChild(li); });
           const linkNodes = [];
           if (p.live) {
             const a = document.createElement('a');

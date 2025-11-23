@@ -21,7 +21,7 @@ Complete guide for setting up Contentful CMS with this portfolio template.
 | `subtitle` | Short text | Yes | Your job title |
 | `email` | Short text | Yes | Your email address |
 | `website` | Short text | No | Your website URL |
-| `resume` | Short text | No | Resume PDF filename (e.g., "resume.pdf") |
+| `resume` | Media or Short text | No | Resume PDF (Media) or filename/URL (Short text) |
 | `about` | Rich text | Yes | About section content |
 | `heroSummary` | Rich text | No | Hero section summary |
 | `avatar` | Media | No | Profile picture (recommended: 800x800px) |
@@ -96,7 +96,7 @@ Complete guide for setting up Contentful CMS with this portfolio template.
    - **Short text**: For single-line text (name, email, role, etc.)
    - **Long text**: For multi-line text (description)
    - **Rich text**: For formatted text with lists (highlights, tags, skills)
-   - **Media**: For images (avatar, logos)
+   - **Media**: For images (avatar, logos) or PDFs (resume)
    - **JSON Object**: For structured data (socials)
 7. Set **Required** field as needed
 8. Click **"Save"** (top right)
@@ -116,7 +116,7 @@ For fields that need multiple values (`highlights`, `tags`, `skills`):
 2. Click **"Add entry"** (top right)
 3. Select the content type
 4. Fill in all required fields
-5. **Link assets** (avatar, logos) from Media library
+5. **Link assets** (avatar, logos, resume PDF) from Media library or upload new files
 6. Click **"Publish"** (top right)
 
 **Important**: Entries must be **Published** (not just saved) to appear on the website.
