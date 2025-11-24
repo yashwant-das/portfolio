@@ -1296,11 +1296,25 @@
 
     // Contact and socials
     if (data.email) {
-      const el = document.getElementById('contact-email');
-      if (el) { el.textContent = data.email; el.href = `mailto:${data.email}`; }
+      const emailBtn = document.getElementById('contact-email');
+      const emailText = document.getElementById('contact-email-text');
+      if (emailBtn) {
+        emailBtn.href = `mailto:${data.email}`;
+        emailBtn.setAttribute('aria-label', `Send email to ${data.email}`);
+      }
+      if (emailText) {
+        emailText.textContent = data.email;
+      }
+      
+      // Initialize copy-to-clipboard functionality
+      initCopyEmail(data.email);
     }
+    // Handle social links
+    const ul = document.getElementById('social-list');
+    const socialSection = ul ? ul.closest('.social-section') : null;
+    const socialIntro = socialSection ? socialSection.querySelector('.social-intro') : null;
+    
     if (data.socials && typeof data.socials === 'object') {
-      const ul = document.getElementById('social-list');
       if (ul) {
         ul.innerHTML = '';
         for (const [label, href] of Object.entries(data.socials)) {
@@ -1324,14 +1338,20 @@
           li.appendChild(a);
           ul.appendChild(li);
         }
-        if (!ul.childElementCount) {
-          ul.style.display = 'none';
+        
+        // Show/hide social section based on whether there are links
+        if (ul.childElementCount > 0) {
+          if (socialSection) socialSection.style.display = '';
+          if (socialIntro) socialIntro.style.display = '';
         } else {
-          ul.style.display = '';
+          if (socialSection) socialSection.style.display = 'none';
+          if (socialIntro) socialIntro.style.display = 'none';
         }
       }
     } else {
-      const ul = document.getElementById('social-list');
+      // Hide social section if no social links
+      if (socialSection) socialSection.style.display = 'none';
+      if (socialIntro) socialIntro.style.display = 'none';
       if (ul) ul.style.display = 'none';
     }
   }
@@ -1430,6 +1450,58 @@
    */
   function prefersReducedMotion() {
     return !!(reduceMotionQuery && reduceMotionQuery.matches);
+  }
+
+  /**
+   * Initializes copy-to-clipboard functionality for email
+   * @param {string} email - Email address to copy
+   */
+  function initCopyEmail(email) {
+    const copyBtn = document.getElementById('copy-email-btn');
+    if (!copyBtn || !email) return;
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        // Use modern Clipboard API if available
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(email);
+        } else {
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = email;
+          textArea.style.position = 'fixed';
+          textArea.style.opacity = '0';
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+        }
+
+        // Show visual feedback
+        copyBtn.classList.add('copied');
+        copyBtn.setAttribute('aria-label', 'Email copied!');
+        
+        // Reset after 2 seconds
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.setAttribute('aria-label', 'Copy email address');
+        }, 2000);
+
+        debugLog('Email copied to clipboard:', email);
+      } catch (err) {
+        handleError(err, 'Failed to copy email to clipboard');
+        // Fallback: show email in alert if copy fails
+        alert(`Email: ${email}`);
+      }
+    });
+
+    // Keyboard support
+    copyBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        copyBtn.click();
+      }
+    });
   }
 
   // ============================================================================

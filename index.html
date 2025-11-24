@@ -217,14 +217,31 @@
           <div class="section-content">
             <h2>Contact</h2>
             <div class="contact-card">
-              <p>
-                Want to collaborate or say hello? Reach me at
-                <a id="contact-email" href="mailto:"></a>.
-              </p>
+              <p class="contact-intro">Want to collaborate or say hello? Get in touch!</p>
+              
+              <div class="contact-email-wrapper">
+                <a class="btn btn-primary contact-email-btn" id="contact-email" href="mailto:" aria-label="Send email">
+                  <span id="contact-email-text"></span>
+                </a>
+                <button class="btn-copy" id="copy-email-btn" aria-label="Copy email address" title="Copy email address">
+                  <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </button>
+              </div>
+              
               <p class="contact-cta">Open to collaboration and new opportunities.</p>
-              <ul class="social" id="social-list">
-                <!-- Social links will be populated by JavaScript -->
-              </ul>
+              
+              <div class="social-section">
+                <p class="social-intro">Connect with me:</p>
+                <ul class="social" id="social-list">
+                  <!-- Social links will be populated by JavaScript -->
+                </ul>
+              </div>
             </div>
           </div>
         </div>
