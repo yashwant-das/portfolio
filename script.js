@@ -1481,10 +1481,14 @@
         copyBtn.classList.add('copied');
         copyBtn.setAttribute('aria-label', 'Email copied!');
         
+        const copyText = copyBtn.querySelector('.copy-text');
+        if (copyText) copyText.textContent = 'Copied!';
+        
         // Reset after 2 seconds
         setTimeout(() => {
           copyBtn.classList.remove('copied');
           copyBtn.setAttribute('aria-label', 'Copy email address');
+          if (copyText) copyText.textContent = 'Copy';
         }, 2000);
 
         debugLog('Email copied to clipboard:', email);
