@@ -343,7 +343,7 @@ html[data-theme="dark"] .moon-icon {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-sm);
-  border: none;
+  border: 1px solid var(--border-light);
   background: var(--bg-secondary);
   color: var(--text-primary);
   cursor: pointer;
@@ -351,11 +351,16 @@ html[data-theme="dark"] .moon-icon {
   justify-content: center;
   align-items: center;
   gap: 4px;
-  transition: background-color var(--transition-fast);
+  transition: all var(--transition-fast);
+  padding: 0;
+  flex-shrink: 0;
 }
 
 .nav-toggle:hover {
   background: var(--bg-tertiary);
+  border-color: var(--accent-blue);
+  transform: scale(1.05);
+  color: var(--accent-blue);
 }
 
 .nav-toggle-bar {
@@ -1347,7 +1352,17 @@ html[data-theme="dark"] .contact-card:hover {
 
 
   .header-inner {
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
+  }
+
+  /* Ensure nav-toggle appears on the right with theme-toggle */
+  .header-inner .nav-toggle {
+    margin-left: auto;
+  }
+
+  /* Add small gap between nav-toggle and theme-toggle (site-nav is hidden in mobile) */
+  .header-inner .theme-toggle {
+    margin-left: var(--spacing-xs);
   }
 
   .site-nav {
@@ -1481,6 +1496,14 @@ html[data-theme="dark"] .contact-card:hover {
     padding: 10px 16px;
     font-size: 13px;
   }
+
+  .scroll-to-top {
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
 }
 
 /* Scroll to Top Button */
@@ -1522,16 +1545,6 @@ html[data-theme="dark"] .contact-card:hover {
 .scroll-to-top:focus-visible {
   outline: 2px solid var(--accent-blue);
   outline-offset: 3px;
-}
-
-@media (max-width: 768px) {
-  .scroll-to-top {
-    bottom: 24px;
-    right: 24px;
-    width: 44px;
-    height: 44px;
-    font-size: 18px;
-  }
 }
 
 /* Loading States & Skeleton Screens */
