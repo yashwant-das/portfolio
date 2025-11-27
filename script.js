@@ -1094,16 +1094,20 @@
     }
 
     // About
-    if (data.about) {
-      const aboutBody = document.getElementById('about-body');
-      if (aboutBody) aboutBody.textContent = data.about;
+    const aboutBody = document.getElementById('about-body');
+    if (aboutBody) {
+      // Only update if the field exists in data (handles partial updates gracefully)
+      if ('about' in data) {
+        aboutBody.textContent = data.about || '';
+      }
     }
 
     // Experience
-    if (Array.isArray(data.experience)) {
-      const list = document.getElementById('experience-list');
-      if (list) {
-        list.innerHTML = '';
+    const experienceList = document.getElementById('experience-list');
+    if (experienceList && 'experience' in data) {
+      // Only clear if we have valid data to populate, or if explicitly empty/null
+      if (Array.isArray(data.experience) && data.experience.length > 0) {
+        experienceList.innerHTML = '';
         data.experience.forEach(exp => {
           const li = document.createElement('li');
           li.className = 'timeline-item';
@@ -1144,16 +1148,20 @@
           const ul = document.createElement('ul'); ul.className = 'highlights';
           (exp.highlights || []).forEach(h => { const liH = document.createElement('li'); liH.textContent = h; ul.appendChild(liH); });
           li.appendChild(ul);
-          list.appendChild(li);
+          experienceList.appendChild(li);
         });
+      } else {
+        // Field exists but is empty/null - clear to allow hideEmptySections to detect it
+        experienceList.innerHTML = '';
       }
     }
 
     // Projects
-    if (Array.isArray(data.projects)) {
-      const grid = document.getElementById('projects-grid');
-      if (grid) {
-        grid.innerHTML = '';
+    const projectsGrid = document.getElementById('projects-grid');
+    if (projectsGrid && 'projects' in data) {
+      // Only clear if we have valid data to populate, or if explicitly empty/null
+      if (Array.isArray(data.projects) && data.projects.length > 0) {
+        projectsGrid.innerHTML = '';
         data.projects.forEach(p => {
           const card = document.createElement('article');
           card.className = 'project-card';
@@ -1187,71 +1195,79 @@
             linkNodes.forEach(node => links.appendChild(node));
             card.appendChild(links);
           }
-          grid.appendChild(card);
+          projectsGrid.appendChild(card);
         });
+      } else {
+        // Field exists but is empty/null - clear to allow hideEmptySections to detect it
+        projectsGrid.innerHTML = '';
       }
     }
 
     // Skills - Categorized
     const skillsContainer = document.getElementById('skills-container');
-    // Only clear and populate if skills data exists and has entries
-    if (skillsContainer && data.skills && (
-      (Array.isArray(data.skills) && data.skills.length > 0) ||
-      (typeof data.skills === 'object' && Object.keys(data.skills).length > 0)
-    )) {
+    if (skillsContainer && 'skills' in data) {
       skillsContainer.innerHTML = '';
-      
-      // Handle both old array format and new categorized object format
-    if (Array.isArray(data.skills)) {
-        // Legacy format: single category
-        const category = document.createElement('div');
-        category.className = 'skill-category';
-        const h3 = document.createElement('h3');
-        h3.textContent = 'Technical Skills';
-        const ul = document.createElement('ul');
-        ul.className = 'skills';
-        data.skills.forEach(s => {
-          const li = document.createElement('li');
-          li.textContent = s;
-          ul.appendChild(li);
-        });
-        category.append(h3, ul);
-        skillsContainer.appendChild(category);
-      } else if (typeof data.skills === 'object') {
-        // New categorized format
-        Object.entries(data.skills).forEach(([categoryName, skills]) => {
-          if (!Array.isArray(skills) || skills.length === 0) return;
-          
+      // Only populate if skills data exists and has entries
+      if (data.skills && (
+        (Array.isArray(data.skills) && data.skills.length > 0) ||
+        (typeof data.skills === 'object' && Object.keys(data.skills).length > 0)
+      )) {
+        // Handle both old array format and new categorized object format
+        if (Array.isArray(data.skills)) {
+          // Legacy format: single category
           const category = document.createElement('div');
           category.className = 'skill-category';
           const h3 = document.createElement('h3');
-          h3.textContent = categoryName;
+          h3.textContent = 'Technical Skills';
           const ul = document.createElement('ul');
           ul.className = 'skills';
-          skills.forEach(skill => {
+          data.skills.forEach(s => {
             const li = document.createElement('li');
-            li.textContent = skill;
+            li.textContent = s;
             ul.appendChild(li);
           });
           category.append(h3, ul);
           skillsContainer.appendChild(category);
-        });
+        } else if (typeof data.skills === 'object') {
+          // New categorized format
+          Object.entries(data.skills).forEach(([categoryName, skills]) => {
+            if (!Array.isArray(skills) || skills.length === 0) return;
+            
+            const category = document.createElement('div');
+            category.className = 'skill-category';
+            const h3 = document.createElement('h3');
+            h3.textContent = categoryName;
+            const ul = document.createElement('ul');
+            ul.className = 'skills';
+            skills.forEach(skill => {
+              const li = document.createElement('li');
+              li.textContent = skill;
+              ul.appendChild(li);
+            });
+            category.append(h3, ul);
+            skillsContainer.appendChild(category);
+          });
+        }
       }
     }
 
     // Education
-    if (Array.isArray(data.education)) {
-      const ul = document.getElementById('education-list');
-      if (ul) {
-        ul.innerHTML = '';
+    const educationList = document.getElementById('education-list');
+    if (educationList && 'education' in data) {
+      // Only clear if we have valid data to populate, or if explicitly empty/null
+      if (Array.isArray(data.education) && data.education.length > 0) {
+        educationList.innerHTML = '';
         data.education.forEach(ed => {
           const li = document.createElement('li');
           const degree = document.createElement('span'); degree.className = 'degree'; degree.textContent = ed.degree || '';
           const school = document.createElement('span'); school.className = 'school'; school.textContent = ed.school || '';
           const period = document.createElement('span'); period.className = 'period'; period.textContent = ed.period || '';
           li.append(degree, school, period);
-          ul.appendChild(li);
+          educationList.appendChild(li);
         });
+      } else {
+        // Field exists but is empty/null - clear to allow hideEmptySections to detect it
+        educationList.innerHTML = '';
       }
     }
 
@@ -1354,6 +1370,67 @@
       if (socialIntro) socialIntro.style.display = 'none';
       if (ul) ul.style.display = 'none';
     }
+    
+    // Hide sections that don't have content
+    hideEmptySections(data);
+  }
+
+  /**
+   * Hides sections that don't have content and their corresponding navigation links
+   * @param {Object} data - Portfolio data object
+   */
+  function hideEmptySections(data) {
+    if (!data || typeof data !== 'object') return;
+    
+    // Map of section IDs to their content check functions
+    const sectionChecks = {
+      'about': () => {
+        const aboutBody = document.getElementById('about-body');
+        return aboutBody && aboutBody.textContent && aboutBody.textContent.trim().length > 0;
+      },
+      'experience': () => {
+        const experienceList = document.getElementById('experience-list');
+        return experienceList && experienceList.children.length > 0;
+      },
+      'projects': () => {
+        const projectsGrid = document.getElementById('projects-grid');
+        return projectsGrid && projectsGrid.children.length > 0;
+      },
+      'skills': () => {
+        const skillsContainer = document.getElementById('skills-container');
+        return skillsContainer && skillsContainer.children.length > 0;
+      },
+      'education': () => {
+        const educationList = document.getElementById('education-list');
+        return educationList && educationList.children.length > 0;
+      }
+      // Note: 'contact' section is always shown
+    };
+    
+    // Hide sections and their nav links if they have no content
+    Object.entries(sectionChecks).forEach(([sectionId, hasContent]) => {
+      const section = document.getElementById(sectionId);
+      const navLink = document.querySelector(`#site-nav a[href="#${sectionId}"]`);
+      
+      if (!hasContent()) {
+        // Hide the section
+        if (section) {
+          section.style.display = 'none';
+        }
+        // Hide the navigation link
+        if (navLink && navLink.parentElement) {
+          navLink.parentElement.style.display = 'none';
+        }
+      } else {
+        // Ensure section and nav link are visible if they have content
+        if (section) {
+          section.style.display = '';
+        }
+        if (navLink && navLink.parentElement) {
+          navLink.parentElement.style.display = '';
+        }
+      }
+    });
   }
 
   // Cursor-based dynamic highlight for Liquid Glass background
