@@ -969,10 +969,11 @@
           break;
 
         case 'project':
+          const tagsData = parseRichTextToList(getFieldValue(fields, 'tags'));
           const project = {
             title: getFieldValue(fields, 'title', ''),
             description: getFieldValue(fields, 'description', ''),
-            tags: parseRichTextToList(getFieldValue(fields, 'tags')),
+            tags: tagsData.items,
             live: getFieldValue(fields, 'liveUrl', ''),
             code: getFieldValue(fields, 'codeUrl', '')
           };
@@ -981,9 +982,9 @@
 
         case 'skillCategory':
           const categoryName = getFieldValue(fields, 'categoryName', 'Other');
-          const skills = parseRichTextToList(getFieldValue(fields, 'skills'));
-          if (skills.length > 0) {
-            data.skills[categoryName] = skills;
+          const skillsData = parseRichTextToList(getFieldValue(fields, 'skills'));
+          if (skillsData.items.length > 0) {
+            data.skills[categoryName] = skillsData.items;
           }
           break;
 
