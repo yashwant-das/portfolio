@@ -596,25 +596,54 @@
   }
 
   /**
-   * Parses Contentful Rich text and extracts list items
-   * Handles multiple formats: Rich text lists, arrays, or plain strings
-   * @param {Object|Array|string} richTextField - Rich text document, array, or string
-   * @returns {Array<string>} Array of list item strings
-   * @example
-   * parseRichTextToList({ nodeType: 'document', content: [{ nodeType: 'unordered-list', ... }] })
-   * // Returns: ["Item 1", "Item 2"]
+   * Checks if Rich text contains list nodes
+   * @param {Object} richTextField - Rich text document object
+   * @returns {boolean} True if contains list nodes
    */
-  function parseRichTextToList(richTextField) {
-    if (!richTextField) return [];
+  function hasListNodes(richTextField) {
+    if (!richTextField || typeof richTextField !== 'object') return false;
     
-    // If it's already an array (from old Text field with multiple values), return as-is
-    if (Array.isArray(richTextField)) {
-      return richTextField;
+    if (richTextField.nodeType === 'document' && richTextField.content) {
+      function checkForLists(nodes) {
+        if (!Array.isArray(nodes)) return false;
+        
+        for (const node of nodes) {
+          if (node.nodeType === 'unordered-list' || node.nodeType === 'ordered-list') {
+            return true;
+          }
+          if (node.content && checkForLists(node.content)) {
+            return true;
+          }
+        }
+        return false;
+      }
+      
+      return checkForLists(richTextField.content);
     }
     
-    // If it's a string (from old Text field), return as single-item array
+    return false;
+  }
+
+  /**
+   * Parses Contentful Rich text and extracts list items or plain text
+   * Handles multiple formats: Rich text lists, arrays, or plain strings
+   * @param {Object|Array|string} richTextField - Rich text document, array, or string
+   * @returns {Object} Object with {items: Array<string>, isList: boolean}
+   * @example
+   * parseRichTextToList({ nodeType: 'document', content: [{ nodeType: 'unordered-list', ... }] })
+   * // Returns: {items: ["Item 1", "Item 2"], isList: true}
+   */
+  function parseRichTextToList(richTextField) {
+    if (!richTextField) return { items: [], isList: false };
+    
+    // If it's already an array (from old Text field with multiple values), treat as list
+    if (Array.isArray(richTextField)) {
+      return { items: richTextField, isList: true };
+    }
+    
+    // If it's a string (from old Text field), treat as non-list text
     if (typeof richTextField === 'string') {
-      return richTextField ? [richTextField] : [];
+      return { items: richTextField ? [richTextField] : [], isList: false };
     }
     
     // If it's Rich text structure (Contentful Rich text format)
@@ -635,6 +664,9 @@
         
         return '';
       }
+      
+      // Check if it contains list nodes
+      const containsLists = hasListNodes(richTextField);
       
       // Find list nodes (unordered-list or ordered-list)
       function findLists(nodes) {
@@ -663,19 +695,52 @@
         return results;
       }
       
-      const listItems = findLists(richTextField.content);
-      
-      // If we found list items, return them
-      if (listItems.length > 0) {
-        return listItems;
+      if (containsLists) {
+        // If it contains lists, extract list items
+        const listItems = findLists(richTextField.content);
+        if (listItems.length > 0) {
+          return { items: listItems, isList: true };
+        }
       }
       
-      // If no lists found, extract all text content as a single item
+      // If no lists found or not a list format, extract all text content as paragraphs
+      // Split by paragraph nodes if available
+      function extractParagraphs(nodes) {
+        const paragraphs = [];
+        if (!Array.isArray(nodes)) return paragraphs;
+        
+        nodes.forEach(node => {
+          if (node.nodeType === 'paragraph') {
+            const text = extractText(node);
+            if (text.trim()) {
+              paragraphs.push(text.trim());
+            }
+          } else if (node.content) {
+            // Recursively search in nested content
+            paragraphs.push(...extractParagraphs(node.content));
+          } else if (node.nodeType === 'text') {
+            // Handle standalone text nodes
+            const text = node.value || '';
+            if (text.trim()) {
+              paragraphs.push(text.trim());
+            }
+          }
+        });
+        
+        return paragraphs;
+      }
+      
+      const paragraphs = extractParagraphs(richTextField.content);
+      if (paragraphs.length > 0) {
+        return { items: paragraphs, isList: false };
+      }
+      
+      // Fallback: extract all text as single item
       const allText = extractText(richTextField);
-      return allText ? [allText] : [];
+      return { items: allText ? [allText] : [], isList: false };
     }
     
-    return [];
+    return { items: [], isList: false };
   }
 
   // ============================================================================
@@ -885,11 +950,13 @@
           break;
 
         case 'experience':
+          const highlightsData = parseRichTextToList(getFieldValue(fields, 'highlights'));
           const experience = {
             role: getFieldValue(fields, 'role', ''),
             company: getFieldValue(fields, 'company', ''),
             period: getFieldValue(fields, 'period', ''),
-            highlights: parseRichTextToList(getFieldValue(fields, 'highlights'))
+            highlights: highlightsData.items,
+            highlightsIsList: highlightsData.isList
           };
           
           // Handle logo asset (Media field)
@@ -1147,9 +1214,30 @@
           meta.appendChild(metaContent);
           li.appendChild(meta);
 
-          const ul = document.createElement('ul'); ul.className = 'highlights';
-          (exp.highlights || []).forEach(h => { const liH = document.createElement('li'); liH.textContent = h; ul.appendChild(liH); });
-          li.appendChild(ul);
+          // Render highlights based on format (list or paragraphs)
+          if (exp.highlights && exp.highlights.length > 0) {
+            if (exp.highlightsIsList) {
+              // Render as bullet list
+              const ul = document.createElement('ul');
+              ul.className = 'highlights';
+              exp.highlights.forEach(h => {
+                const liH = document.createElement('li');
+                liH.textContent = h;
+                ul.appendChild(liH);
+              });
+              li.appendChild(ul);
+            } else {
+              // Render as paragraphs
+              const highlightsDiv = document.createElement('div');
+              highlightsDiv.className = 'highlights-text';
+              exp.highlights.forEach(h => {
+                const p = document.createElement('p');
+                p.textContent = h;
+                highlightsDiv.appendChild(p);
+              });
+              li.appendChild(highlightsDiv);
+            }
+          }
           experienceList.appendChild(li);
         });
       } else {
@@ -1193,7 +1281,7 @@
             icon.setAttribute('width', '16');
             icon.setAttribute('height', '16');
             icon.setAttribute('aria-hidden', 'true');
-            icon.innerHTML = '<circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>';
+            icon.innerHTML = '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line>';
             const text = document.createElement('span');
             text.className = 'link-text';
             text.textContent = 'Live Demo';
@@ -1337,18 +1425,44 @@
     // Name, subtitle, and hero summary
     if (data.name) {
       const el = document.getElementById('hero-name');
-      if (el) el.textContent = data.name;
+      if (el) {
+        el.textContent = data.name;
+        el.style.display = '';
+      }
     }
     if (data.subtitle) {
       const el = document.getElementById('hero-subtitle');
-      if (el) el.textContent = data.subtitle;
+      if (el) {
+        el.textContent = data.subtitle;
+        el.style.display = '';
+      }
     }
     if (data.heroSummary) {
       const el = document.querySelector('.hero-summary');
-      if (el) el.textContent = data.heroSummary;
+      if (el) {
+        el.textContent = data.heroSummary;
+        el.style.display = '';
+      }
+    }
+    // Show hero CTA buttons if we have any content
+    if (data.name || data.subtitle || data.heroSummary) {
+      const heroCta = document.querySelector('.hero-cta');
+      if (heroCta) {
+        heroCta.style.display = '';
+      }
     }
 
     // Contact and socials
+    // Hide contact skeleton and show contact card when content is loaded
+    const contactSkeleton = document.getElementById('contact-skeleton');
+    const contactCard = document.querySelector('.contact-card');
+    if (contactSkeleton) {
+      contactSkeleton.classList.add('hidden');
+    }
+    if (contactCard) {
+      contactCard.style.display = '';
+    }
+    
     if (data.email) {
       const emailBtn = document.getElementById('contact-email');
       const emailText = document.getElementById('contact-email-text');
@@ -1377,6 +1491,8 @@
           const a = document.createElement('a');
           a.href = href;
           a.setAttribute('aria-label', label);
+          a.setAttribute('target', '_blank');
+          a.setAttribute('rel', 'noopener noreferrer');
           
           // Use custom icon from Contentful if available, otherwise use default
           const customIconUrl = data.socialIcons && data.socialIcons[label];

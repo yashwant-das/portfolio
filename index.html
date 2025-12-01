@@ -94,10 +94,10 @@
                   <span class="skeleton skeleton-button"></span>
                 </div>
               </div>
-              <h1 class="hero-title" id="hero-name"></h1>
-              <p class="hero-subtitle" id="hero-subtitle"></p>
-              <p class="hero-summary"></p>
-              <div class="hero-cta">
+              <h1 class="hero-title" id="hero-name" style="display: none;"></h1>
+              <p class="hero-subtitle" id="hero-subtitle" style="display: none;"></p>
+              <p class="hero-summary" style="display: none;"></p>
+              <div class="hero-cta" style="display: none;">
                 <a class="btn btn-primary" href="#projects">View Projects</a>
                 <a class="btn btn-secondary" id="resume-link" href="" download style="display: none;">Download
                   Resume</a>
@@ -250,7 +250,19 @@
       <div class="container">
         <div class="section-content">
           <h2>Contact</h2>
-          <div class="contact-card">
+          <div class="loading-container hidden" id="contact-skeleton">
+            <div class="skeleton-card">
+              <div class="skeleton skeleton-text" style="width: 80%; height: 20px; margin-bottom: var(--spacing-md);"></div>
+              <div class="skeleton skeleton-button" style="width: 200px; height: 44px; margin-bottom: var(--spacing-md);"></div>
+              <div class="skeleton skeleton-text" style="width: 70%; height: 18px; margin-bottom: var(--spacing-md);"></div>
+              <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-md);">
+                <span class="skeleton skeleton-pill" style="width: 80px; height: 40px;"></span>
+                <span class="skeleton skeleton-pill" style="width: 80px; height: 40px;"></span>
+                <span class="skeleton skeleton-pill" style="width: 80px; height: 40px;"></span>
+              </div>
+            </div>
+          </div>
+          <div class="contact-card" style="display: none;">
             <p class="contact-intro">Want to collaborate or say hello? Get in touch!</p>
 
             <div class="contact-email-wrapper">
