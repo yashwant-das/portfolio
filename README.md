@@ -67,7 +67,7 @@ npx http-server -p 8000
 ### Content Sources
 
 - **Primary**: Contentful CMS (when configured)
-- **Fallback**: `fallback-data.json` (when Contentful unavailable)
+- **Fallback**: `data/fallback-data.json` (when Contentful unavailable)
 
 ### Updating Content
 
@@ -90,15 +90,18 @@ portfolio/
 ├── index.html          # Main HTML structure
 ├── styles.css          # Stylesheet
 ├── script.js           # Contentful integration & content loader
-├── fallback-data.json  # Fallback content
 ├── config.example.js   # Configuration template
 ├── .nojekyll           # Disables Jekyll processing
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml  # GitHub Actions workflow
+├── data/
+│   └── fallback-data.json  # Fallback content
+├── assets/             # Images, logos, avatars
+│   ├── avatars/        # Profile avatars
+│   └── logos/          # Company logos
 ├── CONTENTFUL.md        # Complete Contentful setup guide
-├── DEBUGGING.md        # Troubleshooting guide
-└── assets/             # Fallback assets
+└── DEBUGGING.md        # Troubleshooting guide
 ```
 
 ## Documentation

@@ -1,0 +1,135 @@
+{
+  "avatar": "assets/avatars/avatar.svg",
+  "name": "John Doe",
+  "subtitle": "Senior Full Stack Engineer",
+  "email": "john.doe@example.com",
+  "website": "https://github.com/johndoe",
+  "resume": "https://pdfobject.com/pdf/sample.pdf",
+  "about": "I'm a full stack engineer passionate about building scalable web applications and developer tools. With over 8 years of experience, I specialize in modern JavaScript frameworks, cloud infrastructure, and AI-powered solutions. I enjoy solving complex problems and mentoring the next generation of developers.",
+  "heroSummary": "Building the future of web applications with modern technologies and best practices.",
+  "socials": {
+    "LinkedIn": "https://linkedin.com/in/johndoe",
+    "GitHub": "https://github.com/johndoe",
+    "X": "https://twitter.com/johndoe"
+  },
+  "experience": [
+    {
+      "role": "Senior Full Stack Engineer",
+      "company": "TechFlow Inc.",
+      "period": "03/2022 — Present · San Francisco, CA",
+      "logo": "assets/logos/company-1.svg",
+      "highlights": [
+        "Led development of AI-powered analytics platform using React, TypeScript, and Python, serving 100K+ daily active users.",
+        "Architected microservices infrastructure on AWS using Docker and Kubernetes, reducing deployment time by 60%.",
+        "Implemented real-time data processing pipeline with Apache Kafka and Redis, handling 1M+ events per day.",
+        "Mentored team of 5 junior engineers and established code review best practices."
+      ]
+    },
+    {
+      "role": "Full Stack Developer",
+      "company": "StartupHub",
+      "period": "06/2019 — 02/2022 · Remote",
+      "logo": "assets/logos/company-2.svg",
+      "highlights": [
+        "Built customer-facing web application using Next.js and Node.js, increasing user engagement by 40%.",
+        "Designed and implemented RESTful APIs and GraphQL endpoints serving mobile and web clients.",
+        "Optimized database queries and implemented caching strategies, improving page load times by 50%.",
+        "Collaborated with design team to create responsive, accessible user interfaces."
+      ]
+    },
+    {
+      "role": "Software Engineer",
+      "company": "Digital Solutions",
+      "period": "08/2017 — 05/2019 · New York, NY",
+      "logo": "assets/logos/company-3.svg",
+      "highlights": [
+        "Developed and maintained React-based dashboard for internal analytics tools.",
+        "Integrated third-party APIs and payment processing systems.",
+        "Participated in agile development process and sprint planning."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "AI Code Assistant",
+      "description": "A VS Code extension powered by OpenAI that provides intelligent code suggestions and explanations. Built with TypeScript, React, and WebSocket for real-time communication.",
+      "tags": ["TypeScript", "React", "OpenAI API", "VS Code Extension", "WebSocket"],
+      "live": "https://ai-code-assistant.dev",
+      "code": "https://github.com/johndoe/ai-code-assistant"
+    },
+    {
+      "title": "Real-time Collaboration Platform",
+      "description": "A collaborative document editor with real-time synchronization, built with Next.js, Socket.io, and PostgreSQL. Supports markdown, code highlighting, and live cursors.",
+      "tags": ["Next.js", "Socket.io", "PostgreSQL", "TypeScript", "Tailwind CSS"],
+      "live": "https://collab-platform.example.com",
+      "code": "https://github.com/johndoe/collab-platform"
+    },
+    {
+      "title": "Cloud Infrastructure Dashboard",
+      "description": "A comprehensive dashboard for monitoring and managing cloud resources across AWS, GCP, and Azure. Features real-time metrics, cost analysis, and automated scaling recommendations.",
+      "tags": ["React", "Python", "AWS SDK", "D3.js", "Docker"],
+      "live": "https://cloud-dashboard.example.com",
+      "code": "https://github.com/johndoe/cloud-dashboard"
+    },
+    {
+      "title": "Developer Portfolio Generator",
+      "description": "An open-source tool that generates beautiful portfolio websites from JSON configuration. Built with vanilla JavaScript and modern CSS.",
+      "tags": ["JavaScript", "CSS3", "HTML5", "Open Source"],
+      "live": "https://portfolio-generator.dev",
+      "code": "https://github.com/johndoe/portfolio-generator"
+    }
+  ],
+  "skills": {
+    "Frontend": [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Vue.js",
+      "Tailwind CSS",
+      "Sass",
+      "Web Components"
+    ],
+    "Backend": [
+      "Node.js",
+      "Python",
+      "Go",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis",
+      "GraphQL",
+      "REST APIs"
+    ],
+    "Cloud & DevOps": [
+      "AWS",
+      "Docker",
+      "Kubernetes",
+      "GitHub Actions",
+      "Terraform",
+      "CI/CD",
+      "Vercel",
+      "Cloudflare"
+    ],
+    "AI & ML": [
+      "OpenAI API",
+      "LangChain",
+      "Vector Databases",
+      "Machine Learning",
+      "TensorFlow"
+    ],
+    "Tools & Others": [
+      "Git",
+      "Figma",
+      "Jira",
+      "Agile",
+      "Scrum",
+      "Technical Writing"
+    ]
+  },
+  "education": [
+    {
+      "degree": "Bachelor of Science in Computer Science",
+      "school": "Stanford University",
+      "period": "2013 — 2017"
+    }
+  ]
+}
