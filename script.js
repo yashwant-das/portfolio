@@ -1509,7 +1509,7 @@
   }
 
   /**
-   * Scrolls to a section smoothly or instantly
+   * Scrolls to a section smoothly or instantly, accounting for fixed header
    * @param {HTMLElement} element - Target element to scroll to
    * @param {Object} [options={}] - Scroll options
    * @param {string} [options.behavior='auto'] - Scroll behavior ('smooth' or 'auto')
@@ -1520,7 +1520,16 @@
       return;
     }
     const behavior = options.behavior || 'auto';
-    element.scrollIntoView({ behavior, block: 'start' });
+    // Use scroll-margin-top from CSS, but also calculate offset for better control
+    const header = document.querySelector('.site-header');
+    const headerHeight = header ? header.offsetHeight : 72; // Fallback to CSS variable value
+    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = elementPosition - headerHeight;
+    
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: behavior
+    });
   }
 
   /**
@@ -1556,18 +1565,14 @@
           document.body.removeChild(textArea);
         }
 
-        // Show visual feedback
+        // Show visual feedback - toggle icons
         copyBtn.classList.add('copied');
         copyBtn.setAttribute('aria-label', 'Email copied!');
-        
-        const copyText = copyBtn.querySelector('.copy-text');
-        if (copyText) copyText.textContent = 'Copied!';
         
         // Reset after 2 seconds
         setTimeout(() => {
           copyBtn.classList.remove('copied');
           copyBtn.setAttribute('aria-label', 'Copy email address');
-          if (copyText) copyText.textContent = 'Copy';
         }, 2000);
 
         debugLog('Email copied to clipboard:', email);

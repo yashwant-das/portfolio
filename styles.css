@@ -579,6 +579,7 @@ html[data-theme="dark"] .btn::after {
 /* Sections */
 .section {
   padding: var(--spacing-2xl) 0;
+  scroll-margin-top: var(--header-height);
 }
 
 /* Section fade-in animation (only if JavaScript adds the class) */
@@ -1130,10 +1131,11 @@ html[data-theme="dark"] .contact-card:hover {
 
 .btn-copy {
   position: relative;
+  width: 44px;
   height: 44px;
-  padding: 0 20px;
-  border-radius: 980px;
-  /* Pill shape */
+  padding: 0;
+  border-radius: 50%;
+  /* Circular button for icon-only design */
   border: 1px solid var(--border-light);
   background: var(--bg-secondary);
   color: var(--text-primary);
@@ -1141,11 +1143,12 @@ html[data-theme="dark"] .contact-card:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0;
+  /* No gap needed since icons are absolutely positioned */
   transition: all var(--transition-fast);
   font-size: 15px;
   font-weight: 500;
-  min-width: 100px;
+  /* Square/circular button for icon-only design */
 }
 
 .btn-copy:hover {
@@ -1164,26 +1167,24 @@ html[data-theme="dark"] .contact-card:hover {
   outline-offset: 2px;
 }
 
-.copy-text {
-  font-weight: 500;
-}
-
 .btn-copy svg {
   width: 18px;
   height: 18px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
 
-.copy-icon,
-.check-icon {
-  position: static;
-  /* Reset absolute positioning */
-  transform: none;
+.copy-icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .check-icon {
-  display: none;
-  /* Hidden by default */
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+  pointer-events: none;
 }
 
 .btn-copy.copied {
@@ -1193,13 +1194,15 @@ html[data-theme="dark"] .contact-card:hover {
 }
 
 .btn-copy.copied .copy-icon {
-  display: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+  pointer-events: none;
 }
 
 .btn-copy.copied .check-icon {
-  display: block;
   opacity: 1;
-  transform: scale(1);
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
 }
 
 .contact-card .contact-cta {
@@ -1476,8 +1479,8 @@ html[data-theme="dark"] .contact-card:hover {
   }
 
   .btn-copy {
-    width: 100%;
-    max-width: 200px;
+    width: 44px;
+    height: 44px;
     align-self: center;
   }
 
@@ -1498,8 +1501,8 @@ html[data-theme="dark"] .contact-card:hover {
   }
 
   .scroll-to-top {
-    bottom: 24px;
-    right: 24px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    right: max(20px, env(safe-area-inset-right, 20px));
     width: 44px;
     height: 44px;
     font-size: 18px;
