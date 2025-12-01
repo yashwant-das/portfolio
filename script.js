@@ -1179,15 +1179,51 @@
           if (p.live) {
             const a = document.createElement('a');
             a.href = p.live;
-            a.textContent = 'Live Demo';
             a.setAttribute('aria-label', 'Live demo');
+            a.setAttribute('target', '_blank');
+            a.setAttribute('rel', 'noopener noreferrer');
+            // Add external link icon
+            const icon = document.createElementNS(SVG_NS, 'svg');
+            icon.setAttribute('viewBox', '0 0 24 24');
+            icon.setAttribute('fill', 'none');
+            icon.setAttribute('stroke', 'currentColor');
+            icon.setAttribute('stroke-width', '2');
+            icon.setAttribute('stroke-linecap', 'round');
+            icon.setAttribute('stroke-linejoin', 'round');
+            icon.setAttribute('width', '16');
+            icon.setAttribute('height', '16');
+            icon.setAttribute('aria-hidden', 'true');
+            icon.innerHTML = '<circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>';
+            const text = document.createElement('span');
+            text.className = 'link-text';
+            text.textContent = 'Live Demo';
+            a.appendChild(icon);
+            a.appendChild(text);
             linkNodes.push(a);
           }
           if (p.code) {
             const a = document.createElement('a');
             a.href = p.code;
-            a.textContent = 'Source Code';
             a.setAttribute('aria-label', 'Source code');
+            a.setAttribute('target', '_blank');
+            a.setAttribute('rel', 'noopener noreferrer');
+            // Add code icon
+            const icon = document.createElementNS(SVG_NS, 'svg');
+            icon.setAttribute('viewBox', '0 0 24 24');
+            icon.setAttribute('fill', 'none');
+            icon.setAttribute('stroke', 'currentColor');
+            icon.setAttribute('stroke-width', '2');
+            icon.setAttribute('stroke-linecap', 'round');
+            icon.setAttribute('stroke-linejoin', 'round');
+            icon.setAttribute('width', '16');
+            icon.setAttribute('height', '16');
+            icon.setAttribute('aria-hidden', 'true');
+            icon.innerHTML = '<polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline>';
+            const text = document.createElement('span');
+            text.className = 'link-text';
+            text.textContent = 'Source Code';
+            a.appendChild(icon);
+            a.appendChild(text);
             linkNodes.push(a);
           }
           card.append(h3, desc, tags);
