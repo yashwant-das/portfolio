@@ -1148,7 +1148,7 @@
       const resumeLink = document.getElementById('resume-link');
       if (resumeLink) {
         resumeLink.href = data.resume;
-        resumeLink.style.display = '';
+        resumeLink.removeAttribute('style');
       }
     }
 
@@ -1428,28 +1428,30 @@
       const el = document.getElementById('hero-name');
       if (el) {
         el.textContent = data.name;
-        el.style.display = '';
+        el.removeAttribute('style');
       }
     }
     if (data.subtitle) {
       const el = document.getElementById('hero-subtitle');
       if (el) {
         el.textContent = data.subtitle;
-        el.style.display = '';
+        el.removeAttribute('style');
       }
     }
     if (data.heroSummary) {
       const el = document.querySelector('.hero-summary');
       if (el) {
         el.textContent = data.heroSummary;
-        el.style.display = '';
+        el.removeAttribute('style');
       }
     }
-    // Show hero CTA buttons if we have any content
-    if (data.name || data.subtitle || data.heroSummary) {
+    // Show hero CTA buttons if we have hero content or a resume link
+    const hasHeroContent = !!(data.name || data.subtitle || data.heroSummary);
+    const hasResume = !!(data.resume && typeof data.resume === 'string' && data.resume.trim());
+    if (hasHeroContent || hasResume) {
       const heroCta = document.querySelector('.hero-cta');
       if (heroCta) {
-        heroCta.style.display = '';
+        heroCta.removeAttribute('style');
       }
     }
 
@@ -1461,7 +1463,7 @@
       contactSkeleton.classList.add('hidden');
     }
     if (contactCard) {
-      contactCard.style.display = '';
+      contactCard.removeAttribute('style');
     }
     
     if (data.email) {
