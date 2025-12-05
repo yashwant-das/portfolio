@@ -17,7 +17,7 @@ A modern, Apple-inspired portfolio website template with Contentful CMS integrat
 
 ## Quick Start
 
-### 1. Contentful Setup
+### 1. Contentful Setup:
 
 See [CONTENTFUL.md](CONTENTFUL.md) for complete setup instructions.
 
