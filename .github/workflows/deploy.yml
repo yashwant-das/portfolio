@@ -24,44 +24,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Create config.js from secrets
-        run: |
-          SPACE_ID="${{ secrets.CONTENTFUL_SPACE_ID }}"
-          ACCESS_TOKEN="${{ secrets.CONTENTFUL_ACCESS_TOKEN }}"
-          ENVIRONMENT="${{ vars.CONTENTFUL_ENVIRONMENT }}"
-          
-          if [ -z "$ENVIRONMENT" ]; then
-            ENVIRONMENT="master"
-          fi
-          
-          if [ -z "$SPACE_ID" ] || [ -z "$ACCESS_TOKEN" ]; then
-            echo "⚠️ Contentful secrets not configured. Using fallback data."
-            cat > config.js << 'EOF'
-          // Contentful Configuration
-          // Contentful not configured - using fallback data
-          window.CONTENTFUL_CONFIG = {
-            spaceId: '',
-            accessToken: '',
-            environment: 'master'
-          };
-          EOF
-          else
-            cat > config.js << EOF
-          // Contentful Configuration
-          // Generated automatically from GitHub Secrets during deployment
-          window.CONTENTFUL_CONFIG = {
-            spaceId: '$SPACE_ID',
-            accessToken: '$ACCESS_TOKEN',
-            environment: '$ENVIRONMENT'
-          };
-          EOF
-          fi
-          
-          if [ ! -f config.js ]; then
-            echo "❌ ERROR: Failed to create config.js"
-            exit 1
-          fi
-      
       - name: Setup Pages
         uses: actions/configure-pages@v4
         with:
@@ -71,7 +33,19 @@ jobs:
         run: |
           mkdir -p _deploy
           
-          cp index.html styles.css script.js config.js fallback-data.json _deploy/ 2>/dev/null || true
+          cp index.html _deploy/
+          
+          if [ -d css ]; then
+            cp -r css _deploy/
+          fi
+          
+          if [ -d js ]; then
+            cp -r js _deploy/
+          fi
+          
+          if [ -d data ]; then
+            cp -r data _deploy/
+          fi
           
           if [ -d assets ]; then
             cp -r assets _deploy/
@@ -82,11 +56,6 @@ jobs:
           else
             touch _deploy/.nojekyll
           fi
-          
-          if [ ! -f _deploy/config.js ]; then
-            echo "❌ ERROR: config.js not found in deployment directory"
-            exit 1
-          fi
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -96,4 +65,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-

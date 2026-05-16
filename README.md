@@ -1,137 +1,75 @@
-# Portfolio Website Template
+# Personal Portfolio - Yashwant Das
 
-[![Deploy to GitHub Pages](https://github.com/yashwant-das/portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/yashwant-das/portfolio/actions/workflows/deploy.yml)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Deployed-brightgreen)](https://yashwant-das.github.io/portfolio/)
-[![Open Source](https://img.shields.io/badge/Open%20Source-Yes-success)](https://github.com/yashwant-das/portfolio)
+[![Deployment](https://github.com/yashwant-das/portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/yashwant-das/portfolio/actions/workflows/deploy.yml)
+[![Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://yashwant-das.github.io/portfolio/)
 
-A modern, Apple-inspired portfolio website template with Contentful CMS integration. Fully responsive, dark mode support, and optimized for GitHub Pages deployment.
+A modern, minimal portfolio website built with vanilla JavaScript and CSS, following Apple-inspired design principles.
 
-## Features
+## 🚀 Overview
 
-- **Contentful CMS Integration** - Manage all content through Contentful without code changes
-- **Apple-Inspired Design** - Clean, minimal design following Apple's Human Interface Guidelines
-- **Fully Responsive** - Works seamlessly on all devices
-- **Dark Mode** - Built-in dark mode with system preference detection
-- **GitHub Pages Ready** - Automated deployment via GitHub Actions
-- **Zero Hardcoded Data** - All content loaded dynamically
+This repository contains the source code for my personal portfolio website. It is designed to be lightweight, performant, and easy to maintain using a decoupled data approach.
 
-## Quick Start
+### Key Features
+- **Apple-Inspired Aesthetics**: Clean typography, subtle gradients, and smooth micro-animations.
+- **Dynamic Content**: Powered by a local JSON data source for easy updates without touching the HTML.
+- **Responsive & Accessible**: Optimized for all screen sizes and follows accessibility best practices.
+- **Dark Mode**: Automatic system preference detection with a manual toggle.
+- **Automated Deployment**: Integrated with GitHub Actions for seamless updates to GitHub Pages.
 
-### 1. Contentful Setup
+## 🛠️ Technology Stack
+- **Structure**: HTML5
+- **Styling**: Vanilla CSS3 (Liquid Glass effects, CSS Grid/Flexbox)
+- **Logic**: Modern JavaScript (ES6+)
+- **Data**: JSON
+- **Hosting**: GitHub Pages
 
-See [CONTENTFUL.md](CONTENTFUL.md) for complete setup instructions.
+## 💻 Local Development
 
-**Quick steps:**
-1. Create account at [contentful.com](https://www.contentful.com)
-2. Create space and content models (see CONTENTFUL.md)
-3. Get API credentials (Space ID and Access Token)
-4. Configure GitHub Secrets or local `config.js`
-
-### 2. Local Development
+To run the project locally for maintenance or updates:
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/portfolio.git
-cd portfolio
-
-# Copy configuration template
-cp config.example.js config.js
-
-# Edit config.js with your Contentful credentials
-# (See CONTENTFUL.md for details)
-
-# Start local server
+# Start a local development server
 python3 -m http.server 8000
-# or
-npx http-server -p 8000
 
 # Open http://localhost:8000
 ```
 
-### 3. GitHub Pages Deployment
+## 📝 Content Management
 
-1. **Configure GitHub Secrets**:
-   - Go to repository **Settings** → **Secrets and variables** → **Actions**
-   - Add `CONTENTFUL_SPACE_ID` and `CONTENTFUL_ACCESS_TOKEN`
+All profile data, experience, and project details are managed in:
+`data/content.json`
 
-2. **Enable GitHub Pages**:
-   - Go to **Settings** → **Pages**
-   - Select source: **GitHub Actions**
+To update the site content, simply modify the JSON fields. The changes will be reflected immediately upon refresh (when running locally) or after the next deployment.
 
-3. **Deploy**:
-   - Push to `main` branch or manually trigger workflow
-   - Site available at `https://yourusername.github.io/portfolio/`
+### Assets
+- **Avatars**: Store profile photos in `assets/avatars/`.
+- **Logos**: Store company/project logos in `assets/logos/`.
 
-## Content Management
+## 🚀 Deployment
 
-### Content Sources
+The site is automatically deployed to GitHub Pages whenever changes are pushed to the `main` branch via the [GitHub Actions workflow](.github/workflows/deploy.yml).
 
-- **Primary**: Contentful CMS (when configured)
-- **Fallback**: `data/fallback-data.json` (when Contentful unavailable)
-
-### Updating Content
-
-1. Log in to Contentful
-2. Edit entries in **Content** section
-3. Click **Publish**
-4. Changes appear immediately (no redeployment needed)
-
-### Adding New Content
-
-- **Experience**: Create new `experience` entry
-- **Projects**: Create new `project` entry
-- **Skills**: Create new `skillCategory` entry
-- **Education**: Create new `education` entry
-
-## File Structure
+## 📁 Project Structure
 
 ```
 portfolio/
-├── index.html          # Main HTML structure
-├── styles.css          # Stylesheet
-├── script.js           # Contentful integration & content loader
-├── config.example.js   # Configuration template
-├── .nojekyll           # Disables Jekyll processing
-├── .github/
-│   └── workflows/
-│       └── deploy.yml  # GitHub Actions workflow
+├── index.html          # Main entry point
+├── css/
+│   └── style.css       # Core styles
+├── js/
+│   └── main.js         # UI logic and content loader
 ├── data/
-│   └── fallback-data.json  # Fallback content
-├── assets/             # Images, logos, avatars
-│   ├── avatars/        # Profile avatars
-│   └── logos/          # Company logos
-├── CONTENTFUL.md        # Complete Contentful setup guide
-└── DEBUGGING.md        # Troubleshooting guide
+│   └── content.json    # Site content source
+├── assets/             # Media and images
+│   ├── avatars/        # Profile photos
+│   └── logos/          # Project/Company logos
+└── .github/
+    └── workflows/
+        └── deploy.yml  # Automated deployment
 ```
 
-## Documentation
+## ⚖️ License
 
-- **[CONTENTFUL.md](CONTENTFUL.md)** - Complete Contentful setup guide
-- **[DEBUGGING.md](DEBUGGING.md)** - Troubleshooting and debugging
+© 2024 Yashwant Das. All Rights Reserved.
 
-## Troubleshooting
-
-### Content Not Loading
-
-1. Check browser console for errors (add `?debug=true` to URL for detailed logs)
-2. Verify Contentful entries are **Published** (not just saved)
-3. Check API credentials are correct
-4. For GitHub Pages: Verify secrets are configured and workflow completed
-
-### Common Issues
-
-- **CORS errors**: Use `http://localhost:8000`, not `file://`
-- **Empty content**: Ensure entries are **Published** in Contentful
-- **Images not loading**: Verify media assets are published and linked correctly
-
-See [DEBUGGING.md](DEBUGGING.md) for detailed troubleshooting.
-
-## Security
-
-- Content Delivery API token is **read-only** and safe to expose client-side
-- `config.js` is excluded from version control (`.gitignore`)
-- GitHub Secrets are encrypted and only accessible to workflows
-
-## License
-
-Open source - available for personal use.
+This repository contains my personal portfolio. The design, content, and media assets are my intellectual property. Unauthorized use, reproduction, or distribution is strictly prohibited.

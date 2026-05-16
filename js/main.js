@@ -11,16 +11,6 @@
    */
   const DEBUG = window.location.search.includes('debug=true');
 
-  /**
-   * Contentful API configuration constants
-   * @type {Object}
-   */
-  const CONTENTFUL_CONFIG = {
-    MAX_ENTRIES: 1000,
-    INCLUDE_DEPTH: 10,
-    DEFAULT_ENVIRONMENT: 'master',
-    API_BASE_URL: 'https://cdn.contentful.com'
-  };
 
   /**
    * Theme configuration
@@ -62,44 +52,6 @@
   const yearEl = document.getElementById('year');
   const reduceMotionQuery = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
   
-  // Contentful API configuration
-  // Try to load config.js dynamically if it wasn't loaded by the script tag
-  let contentfulConfig = window.CONTENTFUL_CONFIG || {};
-  
-  // If config.js failed to load, try to load it dynamically as a script element
-  if (!contentfulConfig.spaceId && !contentfulConfig.accessToken) {
-    // Check if we're on GitHub Pages and config.js might not be loaded yet
-    if (window.location.hostname.includes('github.io')) {
-      const script = document.createElement('script');
-      script.src = 'config.js';
-      script.async = false; // Load synchronously to ensure config is available
-      script.onerror = () => {
-        debugLog('config.js failed to load. Using fallback data.');
-      };
-      script.onload = () => {
-        contentfulConfig = window.CONTENTFUL_CONFIG || {};
-        if (contentfulConfig.spaceId && contentfulConfig.accessToken) {
-          debugLog('config.js loaded dynamically, retrying Contentful fetch');
-          // Retry fetching content if config is now available
-          fetchContent();
-        }
-      };
-      document.head.appendChild(script);
-    }
-  }
-  
-  const CONTENTFUL_SPACE_ID = contentfulConfig.spaceId;
-  const CONTENTFUL_ACCESS_TOKEN = contentfulConfig.accessToken;
-  const CONTENTFUL_ENVIRONMENT = contentfulConfig.environment || CONTENTFUL_CONFIG.DEFAULT_ENVIRONMENT;
-  const CONTENTFUL_API_BASE = `${CONTENTFUL_CONFIG.API_BASE_URL}/spaces/${CONTENTFUL_SPACE_ID}/environments/${CONTENTFUL_ENVIRONMENT}`;
-  
-  // Log Contentful configuration status (only in debug mode)
-  debugLog('Contentful Config:', {
-    hasConfig: !!window.CONTENTFUL_CONFIG,
-    spaceId: CONTENTFUL_SPACE_ID ? `${CONTENTFUL_SPACE_ID.substring(0, 8)}...` : 'missing',
-    hasAccessToken: !!CONTENTFUL_ACCESS_TOKEN,
-    environment: CONTENTFUL_ENVIRONMENT
-  });
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const SOCIAL_ICON_PATHS = {
     github: '<path d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.292 3.438 9.787 8.205 11.387.6.113.82-.26.82-.577 0-.285-.01-1.04-.016-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.082-.729.082-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.762-1.605-2.665-.304-5.466-1.332-5.466-5.93 0-1.31.468-2.382 1.235-3.221-.124-.303-.536-1.523.117-3.176 0 0 1.008-.323 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.553 3.297-1.23 3.297-1.23.655 1.653.243 2.873.12 3.176.77.839 1.233 1.911 1.233 3.221 0 4.61-2.804 5.624-5.476 5.921.43.371.823 1.104.823 2.226 0 1.606-.014 2.898-.014 3.293 0 .32.216.694.825.576C20.565 22.08 24 17.584 24 12.297 24 5.67 18.627.297 12 .297Z"/>',
@@ -349,710 +301,31 @@
   // Image Optimization Utilities
   // ============================================================================
 
-  /**
-   * Optimizes Contentful image URLs with size parameters and modern formats
-   * @param {string} url - Original Contentful image URL
-   * @param {Object} options - Optimization options
-   * @param {number} options.width - Target width in pixels
-   * @param {number} options.height - Target height in pixels (optional)
-   * @param {number} options.quality - Image quality 1-100 (default: 80)
-   * @param {string} options.format - Image format: 'webp', 'avif', 'jpg', 'png' (default: 'webp')
-   * @returns {string} Optimized image URL
-   */
-  function optimizeContentfulImage(url, options = {}) {
-    if (!url || typeof url !== 'string') return url;
-    
-    // Only optimize Contentful CDN URLs
-    if (!url.includes('ctfassets.net') && !url.includes('images.ctfassets.net')) {
-      return url;
-    }
-
-    const {
-      width,
-      height,
-      quality = 80,
-      format = 'webp'
-    } = options;
-
-    // Parse existing URL parameters
-    const urlObj = new URL(url);
-    const params = new URLSearchParams(urlObj.search);
-
-    // Add optimization parameters
-    if (width) params.set('w', String(width));
-    if (height) params.set('h', String(height));
-    params.set('q', String(quality));
-    params.set('fm', format);
-    params.set('fit', 'fill'); // Ensures image fills dimensions
-
-    // Reconstruct URL
-    urlObj.search = params.toString();
-    return urlObj.toString();
-  }
-
-  /**
-   * Gets responsive image srcset for Contentful images
-   * @param {string} url - Original Contentful image URL
-   * @param {number} baseWidth - Base width in pixels
-   * @returns {string} srcset string
-   */
-  function getResponsiveSrcset(url, baseWidth) {
-    if (!url || typeof url !== 'string') return '';
-    
-    // Only generate srcset for Contentful images
-    if (!url.includes('ctfassets.net') && !url.includes('images.ctfassets.net')) {
-      return '';
-    }
-
-    const sizes = [
-      baseWidth,
-      baseWidth * 1.5,
-      baseWidth * 2
-    ].map(w => Math.round(w));
-
-    return sizes
-      .map(w => `${optimizeContentfulImage(url, { width: w, format: 'webp' })} ${w}w`)
-      .join(', ');
-  }
 
   // ============================================================================
   // Content Fetching
   // ============================================================================
 
   /**
-   * Fetches content from Contentful CMS or falls back to JSON file
+   * Fetches portfolio data from local JSON file
    * @returns {Promise<void>}
    */
   async function fetchContent() {
-    let data = null;
-    
-    // Try to fetch from Contentful first if configured
-    const isFileProtocol = window.location.protocol === 'file:';
-    const isContentfulConfigured = CONTENTFUL_SPACE_ID && CONTENTFUL_ACCESS_TOKEN;
-    
-    if (isContentfulConfigured && !isFileProtocol) {
-      try {
-        data = await fetchContentfulData();
-        if (data) {
-          debugLog('Contentful data loaded successfully:', data);
-          applyContent(data);
-          return; // Successfully loaded from Contentful
-        } else {
-          debugLog('Contentful data is empty or invalid');
-        }
-      } catch (err) {
-        handleError(err, 'Failed to load content from Contentful. Falling back to JSON file');
-        // Don't hide skeletons yet - we'll try fallback
-      }
-    } else {
-      if (!isContentfulConfigured) {
-        debugLog('Contentful not configured. Loading fallback JSON file.');
-      } else if (isFileProtocol) {
-        debugLog('Skipping Contentful fetch while viewing the file directly. Loading fallback JSON file.');
-      }
-    }
-    
-    // Fallback: Load from JSON file
     try {
-      const fallbackRes = await fetch('data/fallback-data.json', { cache: 'no-store' });
-      if (!fallbackRes.ok) {
-        throw new Error(`Failed to load data/fallback-data.json: ${fallbackRes.status}`);
+      const res = await fetch('data/content.json', { cache: 'no-store' });
+      if (!res.ok) {
+        throw new Error(`Failed to load data/portfolio-data.json: ${res.status}`);
       }
-      data = await fallbackRes.json();
-      debugLog('Fallback data loaded successfully:', data);
+      const data = await res.json();
+      debugLog('Portfolio data loaded successfully:', data);
       applyContent(data);
     } catch (err) {
-      handleError(err, 'Failed to load fallback data. Content may not display correctly');
+      handleError(err, 'Failed to load portfolio data. Content may not display correctly');
       // Hide skeletons even on error so users can see the error state
       hideLoadingSkeletons();
-      // HTML structure remains, but content won't be populated
     }
   }
 
-  /**
-   * Fetches data from Contentful Content Delivery API
-   * @returns {Promise<Object>} Transformed portfolio data
-   * @throws {Error} If API request fails
-   */
-  async function fetchContentfulData() {
-    const url = `${CONTENTFUL_API_BASE}/entries?access_token=${CONTENTFUL_ACCESS_TOKEN}&limit=${CONTENTFUL_CONFIG.MAX_ENTRIES}&include=${CONTENTFUL_CONFIG.INCLUDE_DEPTH}`;
-    debugLog('Fetching from Contentful:', url.replace(CONTENTFUL_ACCESS_TOKEN, '***'));
-    
-    const entriesRes = await fetch(url);
-
-    if (!entriesRes.ok) {
-      const errorText = await entriesRes.text();
-      throw new Error(`Contentful entries API error: ${entriesRes.status} - ${errorText}`);
-    }
-
-    const entriesData = await entriesRes.json();
-    debugLog('Contentful entries received:', entriesData.total, 'entries');
-
-    // Create asset lookup map from includes
-    const assetMap = new Map();
-    if (entriesData.includes && entriesData.includes.Asset) {
-      entriesData.includes.Asset.forEach(asset => {
-        if (!asset.sys || !asset.sys.id) return;
-        
-        // Handle locale-aware asset fields
-        const fileField = asset.fields?.file;
-        if (!fileField) return;
-        
-        // Get file URL (handling locale-aware fields)
-        let fileObj = fileField;
-        if (typeof fileField === 'object' && !fileField.url && !fileField.contentType) {
-          // Try common locales
-          const locales = ['en-US', 'en', 'en-GB'];
-          for (const locale of locales) {
-            if (fileField[locale] && fileField[locale].url) {
-              fileObj = fileField[locale];
-              break;
-            }
-          }
-          // Fallback to first available locale
-          if (!fileObj.url) {
-            const firstKey = Object.keys(fileField)[0];
-            if (firstKey && fileField[firstKey]) {
-              fileObj = fileField[firstKey];
-            }
-          }
-        }
-        
-        if (!fileObj || !fileObj.url) return;
-        
-        let url = fileObj.url;
-        // Handle Contentful CDN URLs
-        if (url.startsWith('//')) {
-          url = `https:${url}`;
-        } else if (!url.startsWith('http')) {
-          // If relative URL, prepend https:// (double slash)
-          url = `https://${url}`;
-        }
-        
-        // Get title and description (handling locale-aware fields)
-        const title = getFieldValue(asset.fields || {}, 'title', '');
-        const description = getFieldValue(asset.fields || {}, 'description', '');
-        
-        assetMap.set(asset.sys.id, {
-          url: url,
-          title: title,
-          description: description,
-          contentType: fileObj.contentType || ''
-        });
-      });
-    }
-
-    // Transform Contentful entries to our data structure
-    const transformedData = transformContentfulEntries(entriesData.items, assetMap);
-    debugLog('Transformed data:', transformedData);
-    return transformedData;
-  }
-
-  // ============================================================================
-  // Rich Text Processing
-  // ============================================================================
-
-  /**
-   * Extracts plain text from Contentful Rich text field
-   * @param {Object|string} richTextField - Rich text document object or plain string
-   * @returns {string} Extracted plain text
-   * @example
-   * extractRichTextPlainText({ nodeType: 'document', content: [...] })
-   * // Returns: "Plain text content"
-   */
-  function extractRichTextPlainText(richTextField) {
-    if (!richTextField) return '';
-    
-    // If it's already a string, return as-is
-    if (typeof richTextField === 'string') {
-      return richTextField;
-    }
-    
-    // If it's Rich text structure
-    if (richTextField.nodeType === 'document' && richTextField.content) {
-      /**
-       * Recursively extracts text from Rich text nodes
-       * @param {Object} node - Rich text node
-       * @returns {string} Extracted text
-       */
-      function extractText(node) {
-        if (!node) return '';
-        
-        if (node.nodeType === 'text') {
-          return node.value || '';
-        }
-        
-        if (node.content && Array.isArray(node.content)) {
-          return node.content.map(extractText).join('');
-        }
-        
-        return '';
-      }
-      
-      return extractText(richTextField).trim();
-    }
-    
-    return '';
-  }
-
-  /**
-   * Checks if Rich text contains list nodes
-   * @param {Object} richTextField - Rich text document object
-   * @returns {boolean} True if contains list nodes
-   */
-  function hasListNodes(richTextField) {
-    if (!richTextField || typeof richTextField !== 'object') return false;
-    
-    if (richTextField.nodeType === 'document' && richTextField.content) {
-      function checkForLists(nodes) {
-        if (!Array.isArray(nodes)) return false;
-        
-        for (const node of nodes) {
-          if (node.nodeType === 'unordered-list' || node.nodeType === 'ordered-list') {
-            return true;
-          }
-          if (node.content && checkForLists(node.content)) {
-            return true;
-          }
-        }
-        return false;
-      }
-      
-      return checkForLists(richTextField.content);
-    }
-    
-    return false;
-  }
-
-  /**
-   * Parses Contentful Rich text and extracts list items or plain text
-   * Handles multiple formats: Rich text lists, arrays, or plain strings
-   * @param {Object|Array|string} richTextField - Rich text document, array, or string
-   * @returns {Object} Object with {items: Array<string>, isList: boolean}
-   * @example
-   * parseRichTextToList({ nodeType: 'document', content: [{ nodeType: 'unordered-list', ... }] })
-   * // Returns: {items: ["Item 1", "Item 2"], isList: true}
-   */
-  function parseRichTextToList(richTextField) {
-    if (!richTextField) return { items: [], isList: false };
-    
-    // If it's already an array (from old Text field with multiple values), treat as list
-    if (Array.isArray(richTextField)) {
-      return { items: richTextField, isList: true };
-    }
-    
-    // If it's a string (from old Text field), treat as non-list text
-    if (typeof richTextField === 'string') {
-      return { items: richTextField ? [richTextField] : [], isList: false };
-    }
-    
-    // If it's Rich text structure (Contentful Rich text format)
-    if (richTextField.nodeType === 'document' && richTextField.content) {
-      const items = [];
-      
-      // Recursively extract text from Rich text nodes
-      function extractText(node) {
-        if (!node) return '';
-        
-        if (node.nodeType === 'text') {
-          return node.value || '';
-        }
-        
-        if (node.content && Array.isArray(node.content)) {
-          return node.content.map(extractText).join('');
-        }
-        
-        return '';
-      }
-      
-      // Check if it contains list nodes
-      const containsLists = hasListNodes(richTextField);
-      
-      // Find list nodes (unordered-list or ordered-list)
-      function findLists(nodes) {
-        const results = [];
-        if (!Array.isArray(nodes)) return results;
-        
-        nodes.forEach(node => {
-          if (node.nodeType === 'unordered-list' || node.nodeType === 'ordered-list') {
-            // Extract items from list
-            if (node.content && Array.isArray(node.content)) {
-              node.content.forEach(listItem => {
-                if (listItem.nodeType === 'list-item') {
-                  const text = extractText(listItem);
-                  if (text.trim()) {
-                    results.push(text.trim());
-                  }
-                }
-              });
-            }
-          } else if (node.content) {
-            // Recursively search in nested content
-            results.push(...findLists(node.content));
-          }
-        });
-        
-        return results;
-      }
-      
-      if (containsLists) {
-        // If it contains lists, extract list items
-        const listItems = findLists(richTextField.content);
-        if (listItems.length > 0) {
-          return { items: listItems, isList: true };
-        }
-      }
-      
-      // If no lists found or not a list format, extract all text content as paragraphs
-      // Split by paragraph nodes if available
-      function extractParagraphs(nodes) {
-        const paragraphs = [];
-        if (!Array.isArray(nodes)) return paragraphs;
-        
-        nodes.forEach(node => {
-          if (node.nodeType === 'paragraph') {
-            const text = extractText(node);
-            if (text.trim()) {
-              paragraphs.push(text.trim());
-            }
-          } else if (node.content) {
-            // Recursively search in nested content
-            paragraphs.push(...extractParagraphs(node.content));
-          } else if (node.nodeType === 'text') {
-            // Handle standalone text nodes
-            const text = node.value || '';
-            if (text.trim()) {
-              paragraphs.push(text.trim());
-            }
-          }
-        });
-        
-        return paragraphs;
-      }
-      
-      const paragraphs = extractParagraphs(richTextField.content);
-      if (paragraphs.length > 0) {
-        return { items: paragraphs, isList: false };
-      }
-      
-      // Fallback: extract all text as single item
-      const allText = extractText(richTextField);
-      return { items: allText ? [allText] : [], isList: false };
-    }
-    
-    return { items: [], isList: false };
-  }
-
-  // ============================================================================
-  // Data Transformation
-  // ============================================================================
-
-  /**
-   * Checks if an object appears to be a Contentful localized field
-   * Localized fields typically have locale codes as keys (e.g., 'en-US', 'en', 'de-DE')
-   * @param {Object} obj - Object to check
-   * @returns {boolean} True if object appears to be localized
-   */
-  function isLocalizedObject(obj) {
-    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false;
-    
-    const keys = Object.keys(obj);
-    if (keys.length === 0) return false;
-    
-    // Check if keys look like locale codes (e.g., 'en-US', 'en', 'de-DE', 'fr-FR')
-    // Locale codes are typically 2-5 characters, may contain hyphens, and are lowercase
-    const localePattern = /^[a-z]{2}(-[a-z]{2})?$/i;
-    const hasLocaleKeys = keys.some(key => localePattern.test(key));
-    
-    // If at least one key looks like a locale code, treat as localized
-    return hasLocaleKeys;
-  }
-
-  /**
-   * Gets a field value from Contentful entry, handling locale-aware fields
-   * Contentful can return fields as either:
-   * - Flat: fields.name (single locale)
-   * - Localized: fields.name['en-US'] (multiple locales)
-   * - JSON Object: fields.socials = { "LinkedIn": "url" } (not localized)
-   * @param {Object} fields - Contentful entry fields object
-   * @param {string} fieldName - Field name to retrieve
-   * @param {string} defaultValue - Default value if field is missing
-   * @returns {*} Field value or default
-   */
-  function getFieldValue(fields, fieldName, defaultValue = '') {
-    if (!fields || !fieldName) return defaultValue;
-    
-    const field = fields[fieldName];
-    if (field === undefined || field === null) return defaultValue;
-    
-    // If field is an object, check if it's localized or a JSON Object
-    if (typeof field === 'object' && !Array.isArray(field) && field.nodeType === undefined) {
-      // Check if this looks like a localized field (has locale keys like 'en-US')
-      if (isLocalizedObject(field)) {
-        // Try common locales in order of preference
-        const locales = ['en-US', 'en', 'en-GB'];
-        for (const locale of locales) {
-          if (field[locale] !== undefined && field[locale] !== null) {
-            return field[locale];
-          }
-        }
-        // If no locale match, return first available value
-        const firstKey = Object.keys(field)[0];
-        if (firstKey) return field[firstKey];
-        return defaultValue;
-      }
-      // Not localized - return the object as-is (e.g., JSON Object fields)
-      return field;
-    }
-    
-    // Field is already a direct value (single locale or non-localized)
-    return field;
-  }
-
-  /**
-   * Gets an asset reference from a Contentful field, handling locale-aware fields
-   * @param {Object} fields - Contentful entry fields object
-   * @param {string} fieldName - Field name containing asset reference
-   * @returns {Object|null} Asset reference object with sys.id, or null
-   */
-  function getAssetReference(fields, fieldName) {
-    if (!fields || !fieldName) return null;
-    
-    const field = fields[fieldName];
-    if (!field) return null;
-    
-    // Handle localized asset reference: field['en-US'].sys.id
-    if (typeof field === 'object' && !Array.isArray(field) && field.nodeType === undefined) {
-      const locales = ['en-US', 'en', 'en-GB'];
-      for (const locale of locales) {
-        if (field[locale] && field[locale].sys && field[locale].sys.id) {
-          return field[locale];
-        }
-      }
-      // Try first available locale
-      const firstKey = Object.keys(field)[0];
-      if (firstKey && field[firstKey] && field[firstKey].sys && field[firstKey].sys.id) {
-        return field[firstKey];
-      }
-    }
-    
-    // Handle direct asset reference: field.sys.id
-    if (field.sys && field.sys.id) {
-      return field;
-    }
-    
-    return null;
-  }
-
-  /**
-   * Transforms Contentful entries into portfolio data structure
-   * @param {Array<Object>} entries - Array of Contentful entry objects
-   * @param {Map<string, Object>} assetMap - Map of asset IDs to asset data
-   * @returns {Object} Transformed portfolio data
-   */
-  function transformContentfulEntries(entries, assetMap) {
-    if (!Array.isArray(entries)) {
-      handleError('Entries must be an array', 'transformContentfulEntries');
-      return { experience: [], projects: [], skills: {}, education: [] };
-    }
-
-    const data = {
-      experience: [],
-      projects: [],
-      skills: {},
-      education: []
-    };
-
-    entries.forEach(entry => {
-      const contentType = entry.sys?.contentType?.sys?.id;
-      const fields = entry.fields || {};
-      debugLog('Processing entry:', contentType, entry.sys?.id);
-
-      switch (contentType) {
-        case 'portfolio':
-          // Portfolio is a single entry - map to top-level data
-          data.name = getFieldValue(fields, 'name', '');
-          data.subtitle = getFieldValue(fields, 'subtitle', '');
-          data.email = getFieldValue(fields, 'email', '');
-          data.website = getFieldValue(fields, 'website', '');
-          data.about = extractRichTextPlainText(getFieldValue(fields, 'about')) || '';
-          data.heroSummary = extractRichTextPlainText(getFieldValue(fields, 'heroSummary')) || '';
-          
-          // Handle avatar asset (Media field)
-          const avatarRef = getAssetReference(fields, 'avatar');
-          if (avatarRef && assetMap.has(avatarRef.sys.id)) {
-            data.avatar = assetMap.get(avatarRef.sys.id).url;
-          }
-          
-          // Handle resume - can be either Media asset or text filename
-          const resumeRef = getAssetReference(fields, 'resume');
-          if (resumeRef) {
-            // Resume field is a Media asset reference
-            if (assetMap.has(resumeRef.sys.id)) {
-              // Asset found in map - use its URL
-              data.resume = assetMap.get(resumeRef.sys.id).url;
-            } else {
-              // Asset reference exists but asset not found in map - set to empty string
-              // This handles cases where the asset wasn't included in the API response
-              data.resume = '';
-            }
-          } else {
-            // Resume is not an asset reference - treat as text field (filename/URL)
-            const resumeValue = getFieldValue(fields, 'resume', '');
-            // Ensure we only set string values (not objects)
-            data.resume = typeof resumeValue === 'string' ? resumeValue : '';
-          }
-          
-          // Handle socials (can be object or JSON string)
-          const socialsField = getFieldValue(fields, 'socials');
-          if (socialsField) {
-            let socialsObj = socialsField;
-            if (typeof socialsObj === 'string') {
-              try {
-                socialsObj = JSON.parse(socialsObj);
-              } catch (e) {
-                debugLog('Failed to parse socials JSON:', e);
-                socialsObj = null;
-              }
-            }
-            if (socialsObj && typeof socialsObj === 'object') {
-              data.socials = {};
-              data.socialIcons = {}; // Store custom icons separately
-              Object.entries(socialsObj).forEach(([key, value]) => {
-                if (!value) return;
-                // Support both simple format {"LinkedIn": "url"} and advanced {"LinkedIn": {"url": "...", "icon": "..."}}
-                if (typeof value === 'string') {
-                  data.socials[key] = value;
-                } else if (typeof value === 'object' && value.url) {
-                  data.socials[key] = value.url;
-                  if (value.icon) {
-                    data.socialIcons[key] = value.icon;
-                  }
-                }
-              });
-            }
-          }
-          
-          // Handle social icons as separate asset references (alternative approach)
-          const socialIconsField = getFieldValue(fields, 'socialIcons');
-          if (socialIconsField && Array.isArray(socialIconsField)) {
-            if (!data.socialIcons) data.socialIcons = {};
-            socialIconsField.forEach(iconRef => {
-              if (iconRef && iconRef.sys && iconRef.fields) {
-                const label = getFieldValue(iconRef.fields, 'label', '');
-                const iconAsset = getAssetReference(iconRef.fields, 'icon');
-                if (label && iconAsset && assetMap.has(iconAsset.sys.id)) {
-                  data.socialIcons[label] = assetMap.get(iconAsset.sys.id).url;
-                }
-              }
-            });
-          }
-          break;
-
-        case 'experience':
-          const highlightsData = parseRichTextToList(getFieldValue(fields, 'highlights'));
-          const experience = {
-            role: getFieldValue(fields, 'role', ''),
-            company: getFieldValue(fields, 'company', ''),
-            period: getFieldValue(fields, 'period', ''),
-            highlights: highlightsData.items,
-            highlightsIsList: highlightsData.isList
-          };
-          
-          // Handle logo asset (Media field)
-          const logoRef = getAssetReference(fields, 'logo');
-          if (logoRef && assetMap.has(logoRef.sys.id)) {
-            experience.logo = assetMap.get(logoRef.sys.id).url;
-          }
-          
-          data.experience.push(experience);
-          break;
-
-        case 'project':
-          const tagsData = parseRichTextToList(getFieldValue(fields, 'tags'));
-          const project = {
-            title: getFieldValue(fields, 'title', ''),
-            description: getFieldValue(fields, 'description', ''),
-            tags: tagsData.items,
-            live: getFieldValue(fields, 'liveUrl', ''),
-            code: getFieldValue(fields, 'codeUrl', '')
-          };
-          data.projects.push(project);
-          break;
-
-        case 'skillCategory':
-          const categoryName = getFieldValue(fields, 'categoryName', 'Other');
-          const skillsData = parseRichTextToList(getFieldValue(fields, 'skills'));
-          if (skillsData.items.length > 0) {
-            data.skills[categoryName] = skillsData.items;
-          }
-          break;
-
-        case 'education':
-          const education = {
-            degree: getFieldValue(fields, 'degree', ''),
-            school: getFieldValue(fields, 'school', ''),
-            period: getFieldValue(fields, 'period', '')
-          };
-          data.education.push(education);
-          break;
-      }
-    });
-
-    // Sort experience by date (most recent first)
-    data.experience.sort((a, b) => {
-      /**
-       * Extracts the end year from a period string for sorting
-       * Handles formats like "04/2021 — 06/2024", "2020 — 2023", or "01/2023 — Present"
-       * @param {string} period - Period string containing dates
-       * @returns {number} End year (0 if not found, 9999 for "Present")
-       */
-      const getEndYear = (period) => {
-        if (!period || typeof period !== 'string') return 0;
-        
-        // Check for "Present" or "Current" (case-insensitive)
-        if (/present|current/i.test(period)) {
-          return 9999; // Treat "Present" as most recent
-        }
-        
-        // Match all 4-digit years in the string
-        const matches = period.match(/\d{4}/g);
-        // Use the last match (end date) for "most recent first" sorting
-        // If only one year found, use it (could be single year format)
-        return matches && matches.length > 0 ? parseInt(matches[matches.length - 1], 10) : 0;
-      };
-      return getEndYear(b.period) - getEndYear(a.period);
-    });
-    
-    // Sort projects alphabetically by title
-    data.projects.sort((a, b) => {
-      const titleA = String(a.title || '').toLowerCase();
-      const titleB = String(b.title || '').toLowerCase();
-      return titleA.localeCompare(titleB, undefined, { sensitivity: 'base' });
-    });
-    
-    // Sort skill categories alphabetically
-    if (data.skills && typeof data.skills === 'object' && !Array.isArray(data.skills)) {
-      const sortedSkills = {};
-      Object.keys(data.skills)
-        .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
-        .forEach(categoryName => {
-          // Sort skills within each category alphabetically
-          const skills = Array.isArray(data.skills[categoryName]) 
-            ? [...data.skills[categoryName]].sort((a, b) => 
-                String(a).localeCompare(String(b), undefined, { sensitivity: 'base' })
-              )
-            : data.skills[categoryName];
-          sortedSkills[categoryName] = skills;
-        });
-      data.skills = sortedSkills;
-    } else if (Array.isArray(data.skills)) {
-      // Sort legacy array format alphabetically
-      data.skills.sort((a, b) => String(a).localeCompare(String(b), undefined, { sensitivity: 'base' }));
-    }
-
-    return data;
-  }
 
   // ============================================================================
   // Content Application
@@ -1187,22 +460,9 @@
           if (exp.logo) {
             const img = document.createElement('img');
             img.className = 'company-logo';
-            // Optimize logo: 80px desktop, 64px mobile (actual CSS display sizes)
-            const optimizedUrl = optimizeContentfulImage(exp.logo, {
-              width: 80,
-              height: 80,
-              quality: 80,
-              format: 'webp'
-            });
-            img.src = optimizedUrl;
+            img.src = exp.logo;
             img.alt = `${exp.company} logo`;
             img.loading = 'lazy';
-            // Add srcset for responsive images
-            const srcset = getResponsiveSrcset(exp.logo, 80);
-            if (srcset) {
-              img.srcset = srcset;
-              img.sizes = '(max-width: 768px) 64px, 80px';
-            }
             meta.appendChild(img);
           }
           
@@ -1217,27 +477,14 @@
 
           // Render highlights based on format (list or paragraphs)
           if (exp.highlights && exp.highlights.length > 0) {
-            if (exp.highlightsIsList) {
-              // Render as bullet list
-              const ul = document.createElement('ul');
-              ul.className = 'highlights';
-              exp.highlights.forEach(h => {
-                const liH = document.createElement('li');
-                liH.textContent = h;
-                ul.appendChild(liH);
-              });
-              li.appendChild(ul);
-            } else {
-              // Render as paragraphs
-              const highlightsDiv = document.createElement('div');
-              highlightsDiv.className = 'highlights-text';
-              exp.highlights.forEach(h => {
-                const p = document.createElement('p');
-                p.textContent = h;
-                highlightsDiv.appendChild(p);
-              });
-              li.appendChild(highlightsDiv);
-            }
+            const ul = document.createElement('ul');
+            ul.className = 'highlights';
+            exp.highlights.forEach(h => {
+              const liH = document.createElement('li');
+              liH.textContent = h;
+              ul.appendChild(liH);
+            });
+            li.appendChild(ul);
           }
           experienceList.appendChild(li);
         });
@@ -1402,23 +649,10 @@
     if (data.avatar) {
       const img = document.querySelector('.avatar img');
       if (img) {
-        // Optimize avatar image: 240px desktop, 180px mobile (actual CSS display sizes)
-        const optimizedUrl = optimizeContentfulImage(data.avatar, {
-          width: 240,
-          height: 240,
-          quality: 85,
-          format: 'webp'
-        });
-        img.src = optimizedUrl;
+        img.src = data.avatar;
         // Set fetchPriority for modern browsers (with fallback)
         if ('fetchPriority' in img) {
           img.fetchPriority = 'high';
-        }
-        // Add srcset for responsive images
-        const srcset = getResponsiveSrcset(data.avatar, 240);
-        if (srcset) {
-          img.srcset = srcset;
-          img.sizes = '(max-width: 768px) 180px, 240px';
         }
       }
     }
@@ -1497,11 +731,7 @@
           a.setAttribute('target', '_blank');
           a.setAttribute('rel', 'noopener noreferrer');
           
-          // Use custom icon from Contentful if available, otherwise use default
-          const customIconUrl = data.socialIcons && data.socialIcons[label];
-          const iconNode = customIconUrl 
-            ? createCustomSocialIcon(customIconUrl, label)
-            : createSocialIcon(label);
+          const iconNode = createSocialIcon(label);
           if (iconNode) a.appendChild(iconNode);
           
           const textNode = document.createElement('span');
@@ -1774,26 +1004,6 @@
     return span;
   }
 
-  /**
-   * Creates a custom social icon from an image URL
-   * @param {string} iconUrl - URL of the icon image
-   * @param {string} label - Social platform label for alt text
-   * @returns {HTMLElement|null} Span element containing image icon, or null if URL invalid
-   */
-  function createCustomSocialIcon(iconUrl, label) {
-    if (!iconUrl || typeof iconUrl !== 'string') return null;
-    
-    const span = document.createElement('span');
-    span.className = 'social-icon';
-    const img = document.createElement('img');
-    img.src = iconUrl;
-    img.alt = `${label} icon`;
-    img.setAttribute('aria-hidden', 'true');
-    img.style.width = `${ICON_CONFIG.SOCIAL_SIZE}px`;
-    img.style.height = `${ICON_CONFIG.SOCIAL_SIZE}px`;
-    span.appendChild(img);
-    return span;
-  }
 
   // ============================================================================
   // Scroll to Top Button
