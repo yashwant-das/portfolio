@@ -31,8 +31,8 @@ This repository contains the source code for my personal portfolio website. It i
 To run the project locally for maintenance or updates:
 
 ```bash
-# Install dependencies
-npm install
+# Install reproducible dependencies from package-lock.json
+npm ci
 
 # Start TypeScript watcher in one terminal
 npm run watch
@@ -52,15 +52,22 @@ To maintain high code quality and functional reliability, the following gates ar
 npm run validate
 
 # Run individual checks
+npm run build    # Compile TypeScript for production
 npm run check    # Type validation
 npm run lint     # Code quality and style
+npm run format:check # Formatting check
+npm run audit    # High-severity dependency audit
 npm test         # Playwright E2E tests
 npm run format   # Auto-format codebase
 ```
 
 ### JSON Data Validation
+
 The content in `data/content.json` is validated against a JSON Schema (`data/schema.json`). This provides real-time validation and autocompletion in your code editor.
 
+### Design Handoff
+
+The current visual system and implementation contract are documented in [`DESIGN-HANDOFF.md`](DESIGN-HANDOFF.md), with a machine-readable map in [`DESIGN-MANIFEST.json`](DESIGN-MANIFEST.json). Use these files as the source of truth for future design changes.
 
 ## 📝 Content Management
 
@@ -92,13 +99,20 @@ portfolio/
 │   ├── render.ts       # DOM manipulation
 │   ├── theme.ts        # Theme management
 │   └── types.ts        # Interface definitions
-├── dist/               # Compiled JavaScript files
+├── dist/               # Generated JavaScript output (ignored; created by npm run build)
 ├── tests/              # Playwright E2E tests
 ├── css/                # Stylesheets
 ├── data/               # Site content & JSON Schema
 ├── assets/             # Media and images
+├── DESIGN-HANDOFF.md   # Visual system and design implementation contract
+├── DESIGN-MANIFEST.json # Machine-readable design map
+├── AGENTS.md           # AI agent operating guide
 └── .github/            # GitHub Actions CI/CD
 ```
+
+## Future Enhancements
+
+See [`docs/FUTURE-ENHANCEMENTS.md`](docs/FUTURE-ENHANCEMENTS.md) for scoped, non-blocking improvements that preserve the current architecture and design contract.
 
 ## ⚖️ License
 

@@ -8,6 +8,20 @@
   "resume": "https://pdfobject.com/pdf/sample.pdf",
   "about": "I'm a full stack engineer passionate about building scalable web applications and developer tools. With over 8 years of experience, I specialize in modern JavaScript frameworks, cloud infrastructure, and AI-powered solutions. I enjoy solving complex problems and mentoring the next generation of developers.",
   "heroSummary": "Building the future of web applications with modern technologies and best practices.",
+  "heroStats": [
+    {
+      "value": "8+",
+      "label": "years building products"
+    },
+    {
+      "value": "100k+",
+      "label": "users served"
+    },
+    {
+      "value": "5",
+      "label": "skill domains"
+    }
+  ],
   "socials": {
     "LinkedIn": "https://linkedin.com/in/johndoe",
     "GitHub": "https://github.com/johndoe",
@@ -18,7 +32,7 @@
       "role": "Senior Full Stack Engineer",
       "company": "TechFlow Inc.",
       "period": "03/2022 — Present · San Francisco, CA",
-      "logo": "assets/logos/company-1.svg",
+      "logo": "assets/logos/techflow-inc.svg",
       "highlights": [
         "Led development of AI-powered analytics platform using React, TypeScript, and Python, serving 100K+ daily active users.",
         "Architected microservices infrastructure on AWS using Docker and Kubernetes, reducing deployment time by 60%.",
@@ -30,7 +44,7 @@
       "role": "Full Stack Developer",
       "company": "StartupHub",
       "period": "06/2019 — 02/2022 · Remote",
-      "logo": "assets/logos/company-2.svg",
+      "logo": "assets/logos/startuphub.svg",
       "highlights": [
         "Built customer-facing web application using Next.js and Node.js, increasing user engagement by 40%.",
         "Designed and implemented RESTful APIs and GraphQL endpoints serving mobile and web clients.",
@@ -42,7 +56,7 @@
       "role": "Software Engineer",
       "company": "Digital Solutions",
       "period": "08/2017 — 05/2019 · New York, NY",
-      "logo": "assets/logos/company-3.svg",
+      "logo": "assets/logos/digital-solutions.svg",
       "highlights": [
         "Developed and maintained React-based dashboard for internal analytics tools.",
         "Integrated third-party APIs and payment processing systems.",
@@ -124,7 +138,7 @@
     {
       "name": "Professional Scrum Master I (PSM I)",
       "organization": "Scrum.org",
-      "logo": "assets/logos/scrumorg.png",
+      "logo": "assets/logos/scrum-org.png",
       "credentialUrl": "https://example.com/certificate"
     },
     {

@@ -76,10 +76,9 @@ export function applyContent(data: PortfolioData) {
     const logoText = document.getElementById('logo-text');
     if (logoMark) {
       const nameParts = data.name.trim().split(/\s+/);
-      const initials =
-        nameParts.length >= 2
-          ? (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase()
-          : nameParts[0][0].toUpperCase();
+      const firstInitial = nameParts[0]?.[0] ?? '';
+      const lastInitial = nameParts.length >= 2 ? (nameParts.at(-1)?.[0] ?? '') : '';
+      const initials = `${firstInitial}${lastInitial}`.toUpperCase();
       logoMark.textContent = initials;
     }
     if (logoText) {
@@ -409,6 +408,23 @@ export function applyContent(data: PortfolioData) {
       el.removeAttribute('style');
     }
   }
+  const heroMeta = document.getElementById('hero-meta');
+  if (heroMeta) {
+    heroMeta.innerHTML = '';
+    if (Array.isArray(data.heroStats) && data.heroStats.length > 0) {
+      data.heroStats.forEach((stat) => {
+        if (!stat.value || !stat.label) return;
+        const item = document.createElement('span');
+        const value = document.createElement('strong');
+        value.textContent = stat.value;
+        item.append(value, ` ${stat.label}`);
+        heroMeta.appendChild(item);
+      });
+    }
+    if (heroMeta.childElementCount > 0) {
+      heroMeta.removeAttribute('style');
+    }
+  }
 
   const hasHeroContent = !!(data.name || data.subtitle || data.heroSummary);
   const hasResume = !!(data.resume && typeof data.resume === 'string' && data.resume.trim());
@@ -590,7 +606,9 @@ function createSocialIcon(label: string): HTMLElement | null {
   svg.setAttribute('viewBox', ICON_CONFIG.SVG_VIEWBOX);
   svg.setAttribute('aria-hidden', 'true');
   svg.setAttribute('focusable', 'false');
-  svg.innerHTML = SOCIAL_ICON_PATHS[iconKey];
+  const iconPath = SOCIAL_ICON_PATHS[iconKey];
+  if (!iconPath) return null;
+  svg.innerHTML = iconPath;
   span.appendChild(svg);
   return span;
 }

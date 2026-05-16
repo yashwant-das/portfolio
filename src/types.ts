@@ -27,6 +27,11 @@ export interface Certification {
   credentialUrl?: string;
 }
 
+export interface HeroStat {
+  value: string;
+  label: string;
+}
+
 export interface PortfolioData {
   avatar?: string;
   name?: string;
@@ -36,6 +41,7 @@ export interface PortfolioData {
   resume?: string;
   about?: string;
   heroSummary?: string;
+  heroStats?: HeroStat[];
   socials?: Record<string, string>;
   experience?: Experience[];
   projects?: Project[];

@@ -6,12 +6,6 @@ resume.*
 *.docx
 *resume*
 
-# Temporary documentation files
-*_SUMMARY.md
-CLEANUP_*.md
-TEMP_*.md
-*_NOTES.md
-
 # Environment variables
 .env
 .env.local
@@ -44,23 +38,29 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# Dependencies
+# Dependencies and package-manager artifacts
 node_modules/
 .pnp
 .pnp.js
+.npm/
 
-# Build outputs
+# Build outputs and generated reports
 dist/
 build/
 *.min.js
 *.min.css
 *.tsbuildinfo
 *.js.map
+coverage/
+.nyc_output/
+*.lcov
+playwright-report/
+test-results/
+blob-report/
 
 # Cache
 .cache/
 .parcel-cache/
-.npm/
 .eslintcache
 .stylelintcache
 
@@ -82,18 +82,9 @@ ENV/
 *.backup
 *~
 
-# Test coverage
-coverage/
-.nyc_output/
-*.lcov
-
 # Deployment artifacts
 .vercel
 .netlify
+_deploy/
 
 .cursor/worktrees.json
-
-# Playwright
-playwright-report/
-test-results/
-blob-report/
