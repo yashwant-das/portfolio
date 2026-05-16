@@ -1,0 +1,168 @@
+{
+  "schema": "portfolio.design-manifest.v1",
+  "title": "Portfolio Website Design System",
+  "updated": "2026-05-16",
+  "kind": "static-web",
+  "entryFile": "index.html",
+  "sourceFiles": {
+    "html": ["index.html"],
+    "css": ["css/style.css"],
+    "typescript": ["src/main.ts", "src/render.ts", "src/theme.ts", "src/types.ts", "src/utils.ts"],
+    "data": ["data/content.json", "data/schema.json"],
+    "assets": [
+      "assets/avatars/avatar.svg",
+      "assets/logos/digital-solutions.svg",
+      "assets/logos/istqb.png",
+      "assets/logos/scrum-org.png",
+      "assets/logos/startuphub.svg",
+      "assets/logos/techflow-inc.svg"
+    ]
+  },
+  "designReferences": {
+    "handoff": "DESIGN-HANDOFF.md",
+    "temporarySourceFolder": "Apple-showcase/",
+    "temporarySourceFolderCanBeDeleted": true
+  },
+  "implementationSurfaces": [
+    {
+      "id": "portfolio-home",
+      "file": "index.html",
+      "role": "primary-screen",
+      "description": "Single-page portfolio with hero, about, experience, projects, skills, education, certifications, and contact sections."
+    }
+  ],
+  "tokens": {
+    "colors": {
+      "bgPrimary": { "light": "#ffffff", "dark": "#000000" },
+      "bgSecondary": { "light": "#f5f5f7", "dark": "#1d1d1f" },
+      "bgTertiary": { "light": "#fafafa", "dark": "#2c2c2e" },
+      "textPrimary": { "light": "#1d1d1f", "dark": "#f5f5f7" },
+      "textSecondary": { "light": "#6e6e73", "dark": "#a1a1a6" },
+      "textTertiary": { "light": "#86868b", "dark": "#86868b" },
+      "accentBlue": { "light": "#0071e3", "dark": "#0a84ff" },
+      "borderLight": { "light": "#d2d2d7", "dark": "#424245" }
+    },
+    "radii": {
+      "sm": "8px",
+      "md": "10px",
+      "lg": "14px",
+      "xl": "18px"
+    },
+    "spacing": {
+      "xs": "8px",
+      "sm": "16px",
+      "md": "24px",
+      "lg": "40px",
+      "xl": "64px",
+      "2xl": "96px"
+    },
+    "layout": {
+      "containerMaxWidth": "1180px",
+      "containerGutterDesktop": "28px",
+      "containerGutterMobile": "18px-20px",
+      "headerHeight": "64px"
+    },
+    "typography": {
+      "fontStack": "system-ui, -apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, Segoe UI, Roboto, sans-serif",
+      "heroTitle": "clamp(44px, 6.6vw, 84px)",
+      "sectionTitle": "clamp(32px, 4.2vw, 48px)",
+      "body": "16px"
+    },
+    "motion": {
+      "fast": "0.18s ease",
+      "base": "0.28s ease",
+      "reducedMotionRequired": true
+    }
+  },
+  "components": [
+    {
+      "id": "site-header",
+      "selectors": [".site-header", ".site-nav", ".nav-toggle", ".theme-toggle"],
+      "states": ["default", "hover", "focus-visible", "mobile-open", "dark"]
+    },
+    {
+      "id": "hero",
+      "selectors": [".hero", ".hero-eyebrow", ".hero-title", ".hero-cta", ".hero-meta", ".avatar"],
+      "states": ["loading", "loaded", "desktop-two-column", "mobile-stacked", "dark"]
+    },
+    {
+      "id": "content-card",
+      "selectors": [
+        ".about-card",
+        ".timeline-item",
+        ".project-card",
+        ".skill-category",
+        ".edu li",
+        ".contact-card"
+      ],
+      "states": ["default", "hover", "focus-within", "dark"]
+    },
+    {
+      "id": "button-link",
+      "selectors": [".btn", ".project-card .links a", ".social a", ".btn-copy"],
+      "states": ["default", "hover", "focus-visible", "active", "copied", "dark"]
+    },
+    {
+      "id": "pills",
+      "selectors": [".tags li", ".skills li"],
+      "states": ["default", "hover", "dark"]
+    }
+  ],
+  "interactions": [
+    {
+      "id": "section-navigation",
+      "owner": "src/main.ts",
+      "description": "Anchor navigation scrolls to sections and updates active nav state through IntersectionObserver."
+    },
+    {
+      "id": "mobile-navigation",
+      "owner": "src/main.ts",
+      "description": "Hamburger toggles the mobile menu and closes it after link selection."
+    },
+    {
+      "id": "theme-toggle",
+      "owner": "src/theme.ts",
+      "description": "Theme follows system preference unless manually changed and persisted in localStorage."
+    },
+    {
+      "id": "content-rendering",
+      "owner": "src/render.ts",
+      "description": "Portfolio data is fetched from data/content.json, rendered into stable DOM targets, and empty sections are hidden."
+    },
+    {
+      "id": "copy-email",
+      "owner": "src/render.ts",
+      "description": "Copy button writes email to clipboard, displays copied state, and falls back to selection copying."
+    }
+  ],
+  "responsiveViewports": [
+    { "name": "mobile-compact", "width": 360, "height": 800, "mustAvoidHorizontalScroll": true },
+    { "name": "mobile-standard", "width": 390, "height": 844, "mustAvoidHorizontalScroll": true },
+    { "name": "mobile-large", "width": 430, "height": 932, "mustAvoidHorizontalScroll": true },
+    {
+      "name": "foldable-small-tablet",
+      "width": 600,
+      "height": 960,
+      "mustAvoidHorizontalScroll": true
+    },
+    { "name": "tablet-portrait", "width": 820, "height": 1180, "mustAvoidHorizontalScroll": true },
+    { "name": "tablet-landscape", "width": 1024, "height": 768, "mustAvoidHorizontalScroll": true },
+    { "name": "laptop", "width": 1366, "height": 768, "mustAvoidHorizontalScroll": true },
+    { "name": "desktop", "width": 1440, "height": 900, "mustAvoidHorizontalScroll": true },
+    { "name": "wide", "width": 1920, "height": 1080, "mustAvoidHorizontalScroll": true }
+  ],
+  "accessibilityRequirements": [
+    "Preserve skip link to main content.",
+    "Keep exactly one hero h1.",
+    "Maintain accessible names for icon-only controls.",
+    "Keep visible focus states in both themes.",
+    "Respect prefers-reduced-motion.",
+    "Do not rely on color alone for important state."
+  ],
+  "qualityGates": ["npm run validate"],
+  "contentContract": {
+    "source": "data/content.json",
+    "schema": "data/schema.json",
+    "rule": "Personal claims and profile-specific metrics must be backed by data/content.json fields such as heroStats, not hard-coded in index.html."
+  }
+}

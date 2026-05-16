@@ -10,6 +10,17 @@
     "resume": { "type": "string" },
     "about": { "type": "string" },
     "heroSummary": { "type": "string" },
+    "heroStats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": { "type": "string" },
+          "label": { "type": "string" }
+        },
+        "required": ["value", "label"]
+      }
+    },
     "socials": {
       "type": "object",
       "additionalProperties": { "type": "string", "format": "uri" }

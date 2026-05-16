@@ -128,7 +128,7 @@ function initObservers() {
   });
 
   const visibility = new Map<string, number>();
-  const fallbackSectionId = sections.length ? sections[0].id : null;
+  const fallbackSectionId = sections[0]?.id ?? null;
   const initialSectionId = window.location.hash.replace('#', '');
   let currentActive: string | null = null;
 
