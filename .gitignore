@@ -54,6 +54,8 @@ dist/
 build/
 *.min.js
 *.min.css
+*.tsbuildinfo
+*.js.map
 
 # Cache
 .cache/
@@ -90,3 +92,8 @@ coverage/
 .netlify
 
 .cursor/worktrees.json
+
+# Playwright
+playwright-report/
+test-results/
+blob-report/

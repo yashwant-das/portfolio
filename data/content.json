@@ -1,4 +1,5 @@
 {
+  "$schema": "./schema.json",
   "avatar": "assets/avatars/avatar.svg",
   "name": "John Doe",
   "subtitle": "Senior Full Stack Engineer",
@@ -109,27 +110,27 @@
       "Vercel",
       "Cloudflare"
     ],
-    "AI & ML": [
-      "OpenAI API",
-      "LangChain",
-      "Vector Databases",
-      "Machine Learning",
-      "TensorFlow"
-    ],
-    "Tools & Others": [
-      "Git",
-      "Figma",
-      "Jira",
-      "Agile",
-      "Scrum",
-      "Technical Writing"
-    ]
+    "AI & ML": ["OpenAI API", "LangChain", "Vector Databases", "Machine Learning", "TensorFlow"],
+    "Tools & Others": ["Git", "Figma", "Jira", "Agile", "Scrum", "Technical Writing"]
   },
   "education": [
     {
       "degree": "Bachelor of Science in Computer Science",
       "school": "Stanford University",
       "period": "2013 — 2017"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Professional Scrum Master I (PSM I)",
+      "organization": "Scrum.org",
+      "logo": "assets/logos/scrumorg.png",
+      "credentialUrl": "https://example.com/certificate"
+    },
+    {
+      "name": "ISTQB CTFL v4.0",
+      "organization": "ISTQB",
+      "logo": "assets/logos/istqb.png"
     }
   ]
 }

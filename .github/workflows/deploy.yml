@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
 
 jobs:
@@ -23,45 +23,51 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
         with:
           enablement: true
-      
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E Tests
+        run: npm test -- --project=chromium
+
       - name: Prepare deployment directory
         run: |
           mkdir -p _deploy
-          
+
+          # Copy core files
           cp index.html _deploy/
-          
-          if [ -d css ]; then
-            cp -r css _deploy/
-          fi
-          
-          if [ -d js ]; then
-            cp -r js _deploy/
-          fi
-          
-          if [ -d data ]; then
-            cp -r data _deploy/
-          fi
-          
-          if [ -d assets ]; then
-            cp -r assets _deploy/
-          fi
-          
-          if [ -f .nojekyll ]; then
-            cp .nojekyll _deploy/
-          else
-            touch _deploy/.nojekyll
-          fi
-      
+
+          # Copy directories if they exist
+          [ -d css ] && cp -r css _deploy/
+          [ -d dist ] && cp -r dist _deploy/
+          [ -d data ] && cp -r data _deploy/
+          [ -d assets ] && cp -r assets _deploy/
+
+          # Ensure .nojekyll exists
+          touch _deploy/.nojekyll
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: '_deploy'
-      
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

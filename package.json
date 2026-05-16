@@ -1,0 +1,29 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Developer Portfolio",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "watch": "tsc -w",
+    "check": "tsc --noEmit",
+    "test": "playwright test",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "validate": "npm run check && npm run lint && npm test",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.8.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.3",
+    "@typescript-eslint/parser": "^8.59.3",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "husky": "^9.1.7",
+    "prettier": "^3.8.3",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^8.59.3"
+  }
+}
