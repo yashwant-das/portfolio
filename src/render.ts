@@ -63,9 +63,11 @@ export function applyContent(data: PortfolioData) {
         '@context': 'https://schema.org',
         '@type': 'Person',
         name: data.name || '',
-        url: data.website || '',
+        url: data.contact?.website || '',
         jobTitle: data.subtitle || '',
-        sameAs: data.socials ? Object.values(data.socials).filter((url) => url) : [],
+        sameAs: data.contact?.socials
+          ? Object.values(data.contact.socials).filter((url) => url)
+          : [],
       };
       structuredDataEl.textContent = JSON.stringify(structuredData);
     }
@@ -120,9 +122,12 @@ export function applyContent(data: PortfolioData) {
 
   const experienceList = document.getElementById('experience-list');
   if (experienceList && 'experience' in data) {
-    if (Array.isArray(data.experience) && data.experience.length > 0) {
+    const activeExperience = Array.isArray(data.experience)
+      ? data.experience.filter((exp) => !exp.disabled)
+      : [];
+    if (activeExperience.length > 0) {
       experienceList.innerHTML = '';
-      data.experience.forEach((exp) => {
+      activeExperience.forEach((exp) => {
         const li = document.createElement('li');
         li.className = 'timeline-item';
         const meta = document.createElement('div');
@@ -171,13 +176,40 @@ export function applyContent(data: PortfolioData) {
 
   const projectsGrid = document.getElementById('projects-grid');
   if (projectsGrid && 'projects' in data) {
-    if (Array.isArray(data.projects) && data.projects.length > 0) {
+    const activeProjects = Array.isArray(data.projects)
+      ? data.projects.filter((p) => !p.disabled)
+      : [];
+
+    activeProjects.sort((a, b) => {
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      return 0;
+    });
+
+    if (activeProjects.length > 0) {
       projectsGrid.innerHTML = '';
-      data.projects.forEach((p) => {
+      activeProjects.forEach((p) => {
         const card = document.createElement('article');
         card.className = 'project-card';
         const h3 = document.createElement('h3');
         h3.textContent = p.title || '';
+
+        if (p.featured) {
+          const badge = document.createElement('span');
+          badge.textContent = '★ Featured';
+          badge.style.display = 'inline-block';
+          badge.style.marginLeft = 'var(--spacing-sm)';
+          badge.style.fontSize = '0.75rem';
+          badge.style.fontWeight = '600';
+          badge.style.color = 'var(--primary-color)';
+          badge.style.background = 'var(--surface-color)';
+          badge.style.padding = '0.125rem 0.375rem';
+          badge.style.borderRadius = 'var(--radius-pill)';
+          badge.style.border = '1px solid var(--border-color)';
+          badge.style.verticalAlign = 'middle';
+          h3.appendChild(badge);
+        }
+
         const desc = document.createElement('p');
         desc.textContent = p.description || '';
         const tags = document.createElement('ul');
@@ -264,16 +296,17 @@ export function applyContent(data: PortfolioData) {
     skillsContainer.innerHTML = '';
     if (data.skills) {
       if (Array.isArray(data.skills)) {
-        if (data.skills.length > 0) {
+        const activeSkills = data.skills.filter((s) => typeof s === 'string' || !s.disabled);
+        if (activeSkills.length > 0) {
           const category = document.createElement('div');
           category.className = 'skill-category';
           const h3 = document.createElement('h3');
           h3.textContent = 'Technical Skills';
           const ul = document.createElement('ul');
           ul.className = 'skills';
-          data.skills.forEach((s) => {
+          activeSkills.forEach((s) => {
             const li = document.createElement('li');
-            li.textContent = s as string;
+            li.textContent = typeof s === 'string' ? s : s.name;
             ul.appendChild(li);
           });
           category.append(h3, ul);
@@ -281,16 +314,20 @@ export function applyContent(data: PortfolioData) {
         }
       } else if (typeof data.skills === 'object') {
         Object.entries(data.skills).forEach(([categoryName, skills]) => {
-          if (!Array.isArray(skills) || skills.length === 0) return;
+          if (!Array.isArray(skills)) return;
+          const activeSkills = skills.filter(
+            (skill) => typeof skill === 'string' || !skill.disabled
+          );
+          if (activeSkills.length === 0) return;
           const category = document.createElement('div');
           category.className = 'skill-category';
           const h3 = document.createElement('h3');
           h3.textContent = categoryName;
           const ul = document.createElement('ul');
           ul.className = 'skills';
-          skills.forEach((skill) => {
+          activeSkills.forEach((skill) => {
             const li = document.createElement('li');
-            li.textContent = skill as string;
+            li.textContent = typeof skill === 'string' ? skill : skill.name;
             ul.appendChild(li);
           });
           category.append(h3, ul);
@@ -302,9 +339,12 @@ export function applyContent(data: PortfolioData) {
 
   const educationList = document.getElementById('education-list');
   if (educationList && 'education' in data) {
-    if (Array.isArray(data.education) && data.education.length > 0) {
+    const activeEducation = Array.isArray(data.education)
+      ? data.education.filter((ed) => !ed.disabled)
+      : [];
+    if (activeEducation.length > 0) {
       educationList.innerHTML = '';
-      data.education.forEach((ed) => {
+      activeEducation.forEach((ed) => {
         const li = document.createElement('li');
         const degree = document.createElement('span');
         degree.className = 'degree';
@@ -326,9 +366,12 @@ export function applyContent(data: PortfolioData) {
   // Certifications
   const certificationsList = document.getElementById('certifications-list');
   if (certificationsList && 'certifications' in data) {
-    if (Array.isArray(data.certifications) && data.certifications.length > 0) {
+    const activeCertifications = Array.isArray(data.certifications)
+      ? data.certifications.filter((cert) => !cert.disabled)
+      : [];
+    if (activeCertifications.length > 0) {
       certificationsList.innerHTML = '';
-      data.certifications.forEach((cert) => {
+      activeCertifications.forEach((cert) => {
         const li = document.createElement('li');
         li.className = 'timeline-item';
         const meta = document.createElement('div');
@@ -411,8 +454,11 @@ export function applyContent(data: PortfolioData) {
   const heroMeta = document.getElementById('hero-meta');
   if (heroMeta) {
     heroMeta.innerHTML = '';
-    if (Array.isArray(data.heroStats) && data.heroStats.length > 0) {
-      data.heroStats.forEach((stat) => {
+    const activeStats = Array.isArray(data.heroStats)
+      ? data.heroStats.filter((s) => !s.disabled)
+      : [];
+    if (activeStats.length > 0) {
+      activeStats.forEach((stat) => {
         if (!stat.value || !stat.label) return;
         const item = document.createElement('span');
         const value = document.createElement('strong');
@@ -444,17 +490,17 @@ export function applyContent(data: PortfolioData) {
     contactCard.removeAttribute('style');
   }
 
-  if (data.email) {
+  if (data.contact?.email) {
     const emailBtn = document.getElementById('contact-email') as HTMLAnchorElement;
     const emailText = document.getElementById('contact-email-text');
     if (emailBtn) {
-      emailBtn.href = `mailto:${data.email}`;
-      emailBtn.setAttribute('aria-label', `Send email to ${data.email}`);
+      emailBtn.href = `mailto:${data.contact.email}`;
+      emailBtn.setAttribute('aria-label', `Send email to ${data.contact.email}`);
     }
     if (emailText) {
-      emailText.textContent = data.email;
+      emailText.textContent = data.contact.email;
     }
-    initCopyEmail(data.email);
+    initCopyEmail(data.contact.email);
   }
 
   const ul = document.getElementById('social-list');
@@ -463,10 +509,10 @@ export function applyContent(data: PortfolioData) {
     ? (socialSection.querySelector('.social-intro') as HTMLElement)
     : null;
 
-  if (data.socials && typeof data.socials === 'object') {
+  if (data.contact?.socials && typeof data.contact.socials === 'object') {
     if (ul) {
       ul.innerHTML = '';
-      for (const [label, href] of Object.entries(data.socials)) {
+      for (const [label, href] of Object.entries(data.contact.socials)) {
         if (!href) continue;
         const li = document.createElement('li');
         const a = document.createElement('a');
@@ -507,6 +553,9 @@ function hideEmptySections(data: PortfolioData) {
   if (!data || typeof data !== 'object') return;
 
   const sectionChecks: Record<string, () => boolean> = {
+    home: () => {
+      return !!(data.name || data.subtitle || data.heroSummary || data.resume);
+    },
     about: () => {
       const aboutBody = document.getElementById('about-body');
       return !!(aboutBody && aboutBody.textContent && aboutBody.textContent.trim().length > 0);
@@ -531,13 +580,25 @@ function hideEmptySections(data: PortfolioData) {
       const certificationsList = document.getElementById('certifications-list');
       return !!(certificationsList && certificationsList.children.length > 0);
     },
+    contact: () => {
+      return !!(
+        data.contact?.email ||
+        (data.contact?.socials && Object.keys(data.contact.socials).length > 0)
+      );
+    },
   };
 
   Object.entries(sectionChecks).forEach(([sectionId, hasContent]) => {
     const section = document.getElementById(sectionId);
     const navLink = document.querySelector(`#site-nav a[href="#${sectionId}"]`);
 
-    if (!hasContent()) {
+    // Explicit visibility overrides auto-hiding
+    const explicitVisibility = data.visibility
+      ? data.visibility[sectionId as keyof typeof data.visibility]
+      : undefined;
+    const shouldShow = explicitVisibility === false ? false : hasContent();
+
+    if (!shouldShow) {
       if (section) section.style.display = 'none';
       if (navLink && navLink.parentElement) {
         navLink.parentElement.style.display = 'none';

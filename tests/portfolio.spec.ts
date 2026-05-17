@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 
 const EXPECTED_SECTIONS = [
   'about',
@@ -30,6 +31,12 @@ test.describe('Portfolio E2E Tests', () => {
 
   test('should have the correct page title', async ({ page }) => {
     await expect(page).toHaveTitle(/Portfolio/);
+  });
+
+  test('should not have any automatically detectable accessibility issues', async ({ page }) => {
+    await expect(page.locator('#hero-name')).toBeVisible();
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 
   test('should display all main sections', async ({ page }) => {

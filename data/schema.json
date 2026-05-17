@@ -2,39 +2,97 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "avatar": { "type": "string" },
-    "name": { "type": "string" },
-    "subtitle": { "type": "string" },
-    "email": { "type": "string", "format": "email" },
-    "website": { "type": "string", "format": "uri" },
-    "resume": { "type": "string" },
-    "about": { "type": "string" },
-    "heroSummary": { "type": "string" },
+    "visibility": {
+      "type": "object",
+      "properties": {
+        "home": {
+          "type": "boolean"
+        },
+        "about": {
+          "type": "boolean"
+        },
+        "experience": {
+          "type": "boolean"
+        },
+        "projects": {
+          "type": "boolean"
+        },
+        "skills": {
+          "type": "boolean"
+        },
+        "education": {
+          "type": "boolean"
+        },
+        "certifications": {
+          "type": "boolean"
+        },
+        "contact": {
+          "type": "boolean"
+        }
+      }
+    },
+    "name": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "avatar": {
+      "type": "string"
+    },
+    "resume": {
+      "type": "string"
+    },
+    "heroSummary": {
+      "type": "string"
+    },
     "heroStats": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "value": { "type": "string" },
-          "label": { "type": "string" }
+          "value": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
         },
         "required": ["value", "label"]
       }
     },
-    "socials": {
-      "type": "object",
-      "additionalProperties": { "type": "string", "format": "uri" }
+    "about": {
+      "type": "string"
     },
     "experience": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "role": { "type": "string" },
-          "company": { "type": "string" },
-          "period": { "type": "string" },
-          "logo": { "type": "string" },
-          "highlights": { "type": "array", "items": { "type": "string" } }
+          "role": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "period": {
+            "type": "string"
+          },
+          "logo": {
+            "type": "string"
+          },
+          "highlights": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "disabled": {
+            "type": "boolean"
+          }
         },
         "required": ["role", "company", "period"]
       }
@@ -44,21 +102,82 @@
       "items": {
         "type": "object",
         "properties": {
-          "title": { "type": "string" },
-          "description": { "type": "string" },
-          "tags": { "type": "array", "items": { "type": "string" } },
-          "live": { "type": "string" },
-          "code": { "type": "string" }
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "live": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "featured": {
+            "type": "boolean"
+          }
         },
         "required": ["title", "description", "tags"]
       }
     },
     "skills": {
       "oneOf": [
-        { "type": "array", "items": { "type": "string" } },
+        {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "disabled": {
+                    "type": "boolean"
+                  }
+                },
+                "required": ["name"]
+              }
+            ]
+          }
+        },
         {
           "type": "object",
-          "additionalProperties": { "type": "array", "items": { "type": "string" } }
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "disabled": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": ["name"]
+                }
+              ]
+            }
+          }
         }
       ]
     },
@@ -67,9 +186,18 @@
       "items": {
         "type": "object",
         "properties": {
-          "degree": { "type": "string" },
-          "school": { "type": "string" },
-          "period": { "type": "string" }
+          "degree": {
+            "type": "string"
+          },
+          "school": {
+            "type": "string"
+          },
+          "period": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
         },
         "required": ["degree", "school", "period"]
       }
@@ -79,14 +207,45 @@
       "items": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "organization": { "type": "string" },
-          "logo": { "type": "string" },
-          "credentialUrl": { "type": "string" }
+          "name": {
+            "type": "string"
+          },
+          "organization": {
+            "type": "string"
+          },
+          "logo": {
+            "type": "string"
+          },
+          "credentialUrl": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
         },
         "required": ["name", "organization"]
       }
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "website": {
+          "type": "string",
+          "format": "uri"
+        },
+        "socials": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
     }
   },
-  "required": ["name", "email"]
+  "required": ["name"]
 }

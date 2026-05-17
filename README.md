@@ -67,7 +67,7 @@ The content in `data/content.json` is validated against a JSON Schema (`data/sch
 
 ### Design Handoff
 
-The current visual system and implementation contract are documented in [`DESIGN-HANDOFF.md`](DESIGN-HANDOFF.md), with a machine-readable map in [`DESIGN-MANIFEST.json`](DESIGN-MANIFEST.json). Use these files as the source of truth for future design changes.
+The current visual system and implementation contract are documented in [`docs/DESIGN-HANDOFF.md`](docs/DESIGN-HANDOFF.md), with a machine-readable map in [`docs/DESIGN-MANIFEST.json`](docs/DESIGN-MANIFEST.json). Use these files as the source of truth for future design changes.
 
 ## 📝 Content Management
 
@@ -104,8 +104,10 @@ portfolio/
 ├── css/                # Stylesheets
 ├── data/               # Site content & JSON Schema
 ├── assets/             # Media and images
-├── DESIGN-HANDOFF.md   # Visual system and design implementation contract
-├── DESIGN-MANIFEST.json # Machine-readable design map
+├── docs/               # Documentation
+│   ├── DESIGN-HANDOFF.md   # Visual system and design implementation contract
+│   ├── DESIGN-MANIFEST.json # Machine-readable design map
+│   └── FUTURE-ENHANCEMENTS.md # Future ideas
 ├── AGENTS.md           # AI agent operating guide
 └── .github/            # GitHub Actions CI/CD
 ```

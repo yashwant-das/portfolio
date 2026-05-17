@@ -4,6 +4,7 @@ export interface Experience {
   period: string;
   logo?: string;
   highlights?: string[];
+  disabled?: boolean;
 }
 
 export interface Project {
@@ -12,12 +13,15 @@ export interface Project {
   tags: string[];
   live?: string;
   code?: string;
+  disabled?: boolean;
+  featured?: boolean;
 }
 
 export interface Education {
   degree: string;
   school: string;
   period: string;
+  disabled?: boolean;
 }
 
 export interface Certification {
@@ -25,27 +29,52 @@ export interface Certification {
   organization: string;
   logo?: string;
   credentialUrl?: string;
+  disabled?: boolean;
 }
 
 export interface HeroStat {
   value: string;
   label: string;
+  disabled?: boolean;
+}
+
+export interface Skill {
+  name: string;
+  disabled?: boolean;
+}
+
+export type SkillItem = string | Skill;
+
+export interface Contact {
+  email?: string;
+  website?: string;
+  socials?: Record<string, string>;
+}
+
+export interface VisibilityConfig {
+  home?: boolean;
+  about?: boolean;
+  experience?: boolean;
+  projects?: boolean;
+  skills?: boolean;
+  education?: boolean;
+  certifications?: boolean;
+  contact?: boolean;
 }
 
 export interface PortfolioData {
-  avatar?: string;
+  visibility?: VisibilityConfig;
   name?: string;
   subtitle?: string;
-  email?: string;
-  website?: string;
+  avatar?: string;
   resume?: string;
-  about?: string;
   heroSummary?: string;
   heroStats?: HeroStat[];
-  socials?: Record<string, string>;
+  about?: string;
   experience?: Experience[];
   projects?: Project[];
-  skills?: Record<string, string[]> | string[];
+  skills?: Record<string, SkillItem[]> | SkillItem[];
   education?: Education[];
   certifications?: Certification[];
+  contact?: Contact;
 }

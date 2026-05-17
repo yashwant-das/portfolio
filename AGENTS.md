@@ -20,8 +20,8 @@ The site is intentionally lightweight and data-driven. Most personal content sho
 
 Before changing layout, visual style, or component behavior, read:
 
-1. [`DESIGN-HANDOFF.md`](DESIGN-HANDOFF.md)
-2. [`DESIGN-MANIFEST.json`](DESIGN-MANIFEST.json)
+1. [`docs/DESIGN-HANDOFF.md`](docs/DESIGN-HANDOFF.md)
+2. [`docs/DESIGN-MANIFEST.json`](docs/DESIGN-MANIFEST.json)
 3. [`README.md`](README.md)
 
 ## Common Commands
@@ -56,7 +56,7 @@ Open `http://localhost:8000`.
 
 ## Design Rules
 
-- Preserve the Apple-inspired visual language documented in [`DESIGN-HANDOFF.md`](DESIGN-HANDOFF.md).
+- Preserve the Apple-inspired visual language documented in [`docs/DESIGN-HANDOFF.md`](docs/DESIGN-HANDOFF.md).
 - Use the existing CSS tokens before adding new colors, spacing values, radii, or shadows.
 - Keep sections full-width with constrained inner content; avoid floating page-level cards.
 - Do not add nested cards.

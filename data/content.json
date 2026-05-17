@@ -1,32 +1,38 @@
 {
   "$schema": "./schema.json",
-  "avatar": "assets/avatars/avatar.svg",
+  "visibility": {
+    "home": true,
+    "about": true,
+    "experience": true,
+    "projects": true,
+    "skills": true,
+    "education": true,
+    "certifications": true,
+    "contact": true
+  },
   "name": "John Doe",
   "subtitle": "Senior Full Stack Engineer",
-  "email": "john.doe@example.com",
-  "website": "https://github.com/johndoe",
+  "avatar": "assets/avatars/avatar.svg",
   "resume": "https://pdfobject.com/pdf/sample.pdf",
-  "about": "I'm a full stack engineer passionate about building scalable web applications and developer tools. With over 8 years of experience, I specialize in modern JavaScript frameworks, cloud infrastructure, and AI-powered solutions. I enjoy solving complex problems and mentoring the next generation of developers.",
   "heroSummary": "Building the future of web applications with modern technologies and best practices.",
   "heroStats": [
     {
       "value": "8+",
-      "label": "years building products"
+      "label": "years building products",
+      "disabled": false
     },
     {
       "value": "100k+",
-      "label": "users served"
+      "label": "users served",
+      "disabled": false
     },
     {
       "value": "5",
-      "label": "skill domains"
+      "label": "skill domains",
+      "disabled": false
     }
   ],
-  "socials": {
-    "LinkedIn": "https://linkedin.com/in/johndoe",
-    "GitHub": "https://github.com/johndoe",
-    "X": "https://twitter.com/johndoe"
-  },
+  "about": "I'm a full stack engineer passionate about building scalable web applications and developer tools. With over 8 years of experience, I specialize in modern JavaScript frameworks, cloud infrastructure, and AI-powered solutions. I enjoy solving complex problems and mentoring the next generation of developers.",
   "experience": [
     {
       "role": "Senior Full Stack Engineer",
@@ -38,7 +44,8 @@
         "Architected microservices infrastructure on AWS using Docker and Kubernetes, reducing deployment time by 60%.",
         "Implemented real-time data processing pipeline with Apache Kafka and Redis, handling 1M+ events per day.",
         "Mentored team of 5 junior engineers and established code review best practices."
-      ]
+      ],
+      "disabled": false
     },
     {
       "role": "Full Stack Developer",
@@ -50,7 +57,8 @@
         "Designed and implemented RESTful APIs and GraphQL endpoints serving mobile and web clients.",
         "Optimized database queries and implemented caching strategies, improving page load times by 50%.",
         "Collaborated with design team to create responsive, accessible user interfaces."
-      ]
+      ],
+      "disabled": false
     },
     {
       "role": "Software Engineer",
@@ -61,7 +69,8 @@
         "Developed and maintained React-based dashboard for internal analytics tools.",
         "Integrated third-party APIs and payment processing systems.",
         "Participated in agile development process and sprint planning."
-      ]
+      ],
+      "disabled": false
     }
   ],
   "projects": [
@@ -70,81 +79,213 @@
       "description": "A VS Code extension powered by OpenAI that provides intelligent code suggestions and explanations. Built with TypeScript, React, and WebSocket for real-time communication.",
       "tags": ["TypeScript", "React", "OpenAI API", "VS Code Extension", "WebSocket"],
       "live": "https://ai-code-assistant.dev",
-      "code": "https://github.com/johndoe/ai-code-assistant"
+      "code": "https://github.com/johndoe/ai-code-assistant",
+      "disabled": false
     },
     {
       "title": "Real-time Collaboration Platform",
       "description": "A collaborative document editor with real-time synchronization, built with Next.js, Socket.io, and PostgreSQL. Supports markdown, code highlighting, and live cursors.",
       "tags": ["Next.js", "Socket.io", "PostgreSQL", "TypeScript", "Tailwind CSS"],
       "live": "https://collab-platform.example.com",
-      "code": "https://github.com/johndoe/collab-platform"
+      "code": "https://github.com/johndoe/collab-platform",
+      "disabled": false,
+      "featured": true
     },
     {
       "title": "Cloud Infrastructure Dashboard",
       "description": "A comprehensive dashboard for monitoring and managing cloud resources across AWS, GCP, and Azure. Features real-time metrics, cost analysis, and automated scaling recommendations.",
       "tags": ["React", "Python", "AWS SDK", "D3.js", "Docker"],
       "live": "https://cloud-dashboard.example.com",
-      "code": "https://github.com/johndoe/cloud-dashboard"
+      "code": "https://github.com/johndoe/cloud-dashboard",
+      "disabled": false
     },
     {
       "title": "Developer Portfolio Generator",
       "description": "An open-source tool that generates beautiful portfolio websites from JSON configuration. Built with vanilla JavaScript and modern CSS.",
       "tags": ["JavaScript", "CSS3", "HTML5", "Open Source"],
       "live": "https://portfolio-generator.dev",
-      "code": "https://github.com/johndoe/portfolio-generator"
+      "code": "https://github.com/johndoe/portfolio-generator",
+      "disabled": false
     }
   ],
   "skills": {
     "Frontend": [
-      "React",
-      "Next.js",
-      "TypeScript",
-      "Vue.js",
-      "Tailwind CSS",
-      "Sass",
-      "Web Components"
+      {
+        "name": "React",
+        "disabled": false
+      },
+      {
+        "name": "Next.js",
+        "disabled": false
+      },
+      {
+        "name": "TypeScript",
+        "disabled": false
+      },
+      {
+        "name": "Vue.js",
+        "disabled": false
+      },
+      {
+        "name": "Tailwind CSS",
+        "disabled": false
+      },
+      {
+        "name": "Sass",
+        "disabled": false
+      },
+      {
+        "name": "Web Components",
+        "disabled": false
+      }
     ],
     "Backend": [
-      "Node.js",
-      "Python",
-      "Go",
-      "PostgreSQL",
-      "MongoDB",
-      "Redis",
-      "GraphQL",
-      "REST APIs"
+      {
+        "name": "Node.js",
+        "disabled": false
+      },
+      {
+        "name": "Python",
+        "disabled": false
+      },
+      {
+        "name": "Go",
+        "disabled": false
+      },
+      {
+        "name": "PostgreSQL",
+        "disabled": false
+      },
+      {
+        "name": "MongoDB",
+        "disabled": false
+      },
+      {
+        "name": "Redis",
+        "disabled": false
+      },
+      {
+        "name": "GraphQL",
+        "disabled": false
+      },
+      {
+        "name": "REST APIs",
+        "disabled": false
+      }
     ],
     "Cloud & DevOps": [
-      "AWS",
-      "Docker",
-      "Kubernetes",
-      "GitHub Actions",
-      "Terraform",
-      "CI/CD",
-      "Vercel",
-      "Cloudflare"
+      {
+        "name": "AWS",
+        "disabled": false
+      },
+      {
+        "name": "Docker",
+        "disabled": false
+      },
+      {
+        "name": "Kubernetes",
+        "disabled": false
+      },
+      {
+        "name": "GitHub Actions",
+        "disabled": false
+      },
+      {
+        "name": "Terraform",
+        "disabled": false
+      },
+      {
+        "name": "CI/CD",
+        "disabled": false
+      },
+      {
+        "name": "Vercel",
+        "disabled": false
+      },
+      {
+        "name": "Cloudflare",
+        "disabled": false
+      }
     ],
-    "AI & ML": ["OpenAI API", "LangChain", "Vector Databases", "Machine Learning", "TensorFlow"],
-    "Tools & Others": ["Git", "Figma", "Jira", "Agile", "Scrum", "Technical Writing"]
+    "AI & ML": [
+      {
+        "name": "OpenAI API",
+        "disabled": false
+      },
+      {
+        "name": "LangChain",
+        "disabled": false
+      },
+      {
+        "name": "Vector Databases",
+        "disabled": false
+      },
+      {
+        "name": "Machine Learning",
+        "disabled": false
+      },
+      {
+        "name": "TensorFlow",
+        "disabled": false
+      }
+    ],
+    "Tools & Others": [
+      {
+        "name": "Git",
+        "disabled": false
+      },
+      {
+        "name": "Figma",
+        "disabled": false
+      },
+      {
+        "name": "Jira",
+        "disabled": false
+      },
+      {
+        "name": "Agile",
+        "disabled": false
+      },
+      {
+        "name": "Scrum",
+        "disabled": false
+      },
+      {
+        "name": "Technical Writing",
+        "disabled": false
+      }
+    ]
   },
   "education": [
     {
       "degree": "Bachelor of Science in Computer Science",
       "school": "Stanford University",
-      "period": "2013 — 2017"
+      "period": "2013 — 2017",
+      "disabled": false
     }
   ],
   "certifications": [
     {
       "name": "Professional Scrum Master I (PSM I)",
       "organization": "Scrum.org",
-      "logo": "assets/logos/scrum-org.png",
-      "credentialUrl": "https://example.com/certificate"
+      "logo": "assets/logos/scrum-org.webp",
+      "credentialUrl": "https://example.com/certificate",
+      "disabled": false
     },
     {
       "name": "ISTQB CTFL v4.0",
       "organization": "ISTQB",
-      "logo": "assets/logos/istqb.png"
+      "logo": "assets/logos/istqb.webp",
+      "disabled": true
     }
-  ]
+  ],
+  "contact": {
+    "email": "john.doe@example.com",
+    "website": "https://github.com/johndoe",
+    "socials": {
+      "LinkedIn": "https://linkedin.com/in/johndoe",
+      "GitHub": "https://github.com/johndoe",
+      "X": "https://twitter.com/johndoe"
+    }
+  }
 }
