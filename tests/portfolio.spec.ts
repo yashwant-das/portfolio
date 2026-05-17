@@ -46,16 +46,17 @@ test.describe('Portfolio E2E Tests', () => {
     }
   });
 
-  test('should render the redesigned hero from portfolio data', async ({ page }) => {
+  test('should render the hero from portfolio data', async ({ page }) => {
     await expect(page.locator('.hero-eyebrow')).toContainText('Portfolio');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('John Doe');
-    await expect(page.locator('#hero-subtitle')).toHaveText('Senior Full Stack Engineer');
-    await expect(page.locator('.hero-summary')).toContainText(
-      'Building the future of web applications'
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Yashwant Das');
+    await expect(page.locator('#hero-subtitle')).toHaveText(
+      'QA Architect • AI-Assisted Test Systems'
     );
-    await expect(page.locator('.avatar img')).toHaveAttribute('src', 'assets/avatars/avatar.svg');
+    await expect(page.locator('.hero-summary')).toContainText('Quality Engineering leader');
+    await expect(page.locator('.avatar img')).toHaveAttribute('src', 'assets/avatars/avatar.webp');
     await expect(page.locator('.hero-meta')).toBeVisible();
-    await expect(page.locator('#resume-link')).toBeVisible();
+    // Resume link is hidden when resume field is empty
+    await expect(page.locator('#resume-link')).toBeHidden();
   });
 
   test('should toggle dark mode correctly', async ({ page }) => {
@@ -80,7 +81,7 @@ test.describe('Portfolio E2E Tests', () => {
     const certItems = certList.locator('.timeline-item');
     await expect(certItems.first()).toBeVisible();
 
-    await expect(page.getByText('Professional Scrum Master I (PSM I)')).toBeVisible();
+    await expect(page.getByText('Generative AI: Prompt Engineering')).toBeVisible();
   });
 
   test('should have functional navigation links', async ({ page }) => {
@@ -114,19 +115,19 @@ test.describe('Portfolio E2E Tests', () => {
     await expect(nav).not.toHaveClass(/open/);
   });
 
-  test('should copy email and expose social links', async ({ page, browserName }) => {
-    test.skip(browserName !== 'chromium', 'Clipboard permission setup is Chromium-specific here.');
+  test('should render social links in the contact section', async ({ page }) => {
+    await expect(page.locator('#social-list')).toBeVisible();
+    // Email, LinkedIn, GitHub, Medium = 4 social links
+    await expect(page.locator('#social-list a')).toHaveCount(4);
 
-    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
-
-    const email = 'john.doe@example.com';
-    await expect(page.locator('#contact-email')).toHaveAttribute('href', `mailto:${email}`);
-    await expect(page.locator('#social-list a')).toHaveCount(3);
-
-    await page.locator('#copy-email-btn').click();
-    await expect(page.locator('#copy-email-btn')).toHaveClass(/copied/);
-    await expect(page.locator('#copy-email-btn')).toHaveAttribute('aria-label', 'Email copied!');
-    await expect(page.evaluate(() => navigator.clipboard.readText())).resolves.toBe(email);
+    // Email link should use mailto:
+    await expect(page.locator('#social-list a[href^="mailto:"]')).toBeVisible();
+    // LinkedIn link
+    await expect(page.locator('#social-list a[href*="linkedin.com"]')).toBeVisible();
+    // GitHub link
+    await expect(page.locator('#social-list a[href*="github.com"]')).toBeVisible();
+    // Medium link
+    await expect(page.locator('#social-list a[href*="medium.com"]')).toBeVisible();
   });
 
   for (const viewport of RESPONSIVE_VIEWPORTS) {

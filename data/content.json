@@ -10,180 +10,180 @@
     "certifications": true,
     "contact": true
   },
-  "name": "John Doe",
-  "subtitle": "Senior Full Stack Engineer",
-  "avatar": "assets/avatars/avatar.svg",
-  "resume": "https://pdfobject.com/pdf/sample.pdf",
-  "heroSummary": "Building the future of web applications with modern technologies and best practices.",
+  "name": "Yashwant Das",
+  "subtitle": "QA Architect • AI-Assisted Test Systems",
+  "avatar": "assets/avatars/avatar.webp",
+  "resume": "",
+  "heroSummary": "Quality Engineering leader with 12+ years of experience building scalable automation systems across OTT streaming, e-commerce, fintech, and enterprise platforms. Currently focused on AI-assisted QA workflows, autonomous testing concepts, and maintainability-first automation architecture.",
   "heroStats": [
     {
-      "value": "8+",
-      "label": "years building products",
+      "value": "12+",
+      "label": "years in quality engineering",
       "disabled": false
     },
     {
-      "value": "100k+",
-      "label": "users served",
+      "value": "Fortune 500",
+      "label": "client experience",
       "disabled": false
     },
     {
-      "value": "5",
-      "label": "skill domains",
+      "value": "AI + OTT + Fintech",
+      "label": "specialized domains",
       "disabled": false
     }
   ],
-  "about": "I'm a full stack engineer passionate about building scalable web applications and developer tools. With over 8 years of experience, I specialize in modern JavaScript frameworks, cloud infrastructure, and AI-powered solutions. I enjoy solving complex problems and mentoring the next generation of developers.",
+  "about": "I specialize in Quality Engineering, automation architecture, and AI-assisted testing systems with experience across OTT streaming, e-commerce, fintech, and enterprise platforms. Over the past 12+ years, I’ve led automation initiatives for Fortune 500 clients, built scalable UI/API/mobile automation frameworks, and driven quality strategy across web, mobile, cloud, and media ecosystems.\n\nMy current focus is exploring LLM-assisted QA systems, autonomous test workflows, multimodal validation approaches, and maintainability-focused automation engineering.",
   "experience": [
     {
-      "role": "Senior Full Stack Engineer",
-      "company": "TechFlow Inc.",
-      "period": "03/2022 — Present · San Francisco, CA",
-      "logo": "assets/logos/techflow-inc.svg",
+      "role": "QA Manager",
+      "company": "Publicis Sapient",
+      "period": "03/2025 — 06/2025 · Bengaluru, India",
+      "logo": "assets/logos/publicis-sapient.webp",
       "highlights": [
-        "Led development of AI-powered analytics platform using React, TypeScript, and Python, serving 100K+ daily active users.",
-        "Architected microservices infrastructure on AWS using Docker and Kubernetes, reducing deployment time by 60%.",
-        "Implemented real-time data processing pipeline with Apache Kafka and Redis, handling 1M+ events per day.",
-        "Mentored team of 5 junior engineers and established code review best practices."
+        "Led Quality Engineering initiatives across web, mobile, and API platforms with hands-on Playwright automation and release validation.",
+        "Drove shift-left testing practices by integrating early automation and quality validation into sprint workflows.",
+        "Collaborated with engineering and DevOps teams to embed automated quality checks into CI/CD pipelines."
       ],
       "disabled": false
     },
     {
-      "role": "Full Stack Developer",
-      "company": "StartupHub",
-      "period": "06/2019 — 02/2022 · Remote",
-      "logo": "assets/logos/startuphub.svg",
+      "role": "Senior Specialist Quality Engineering",
+      "company": "LTIMindtree",
+      "period": "04/2021 — 06/2024 · Bengaluru, India",
+      "logo": "assets/logos/ltimindtree.webp",
       "highlights": [
-        "Built customer-facing web application using Next.js and Node.js, increasing user engagement by 40%.",
-        "Designed and implemented RESTful APIs and GraphQL endpoints serving mobile and web clients.",
-        "Optimized database queries and implemented caching strategies, improving page load times by 50%.",
-        "Collaborated with design team to create responsive, accessible user interfaces."
+        "Led automation architecture initiatives across web, mobile, API, and OTT platforms for Fortune 500 clients.",
+        "Built scalable automation tooling and Media QC workflows for OTT streaming validation and playback diagnostics.",
+        "Mentored QA teams and modernized automation approaches to improve resiliency, maintainability, and delivery efficiency."
       ],
       "disabled": false
     },
     {
-      "role": "Software Engineer",
-      "company": "Digital Solutions",
-      "period": "08/2017 — 05/2019 · New York, NY",
-      "logo": "assets/logos/digital-solutions.svg",
+      "role": "QA Lead",
+      "company": "Future Focus Infotech",
+      "period": "07/2019 — 04/2021 · Bengaluru, India",
+      "logo": "assets/logos/future-focus.webp",
       "highlights": [
-        "Developed and maintained React-based dashboard for internal analytics tools.",
-        "Integrated third-party APIs and payment processing systems.",
-        "Participated in agile development process and sprint planning."
+        "Led Quality Engineering for high-traffic mobile and backend platforms across Android and iOS ecosystems.",
+        "Designed cross-platform automation frameworks using Appium and Cucumber integrated into CI/CD workflows.",
+        "Managed distributed QA collaboration across multiple LATAM regions supporting large-scale retail platforms."
+      ],
+      "disabled": false
+    },
+    {
+      "role": "Senior QA Engineer",
+      "company": "Diagnal Technologies",
+      "period": "07/2017 — 07/2019 · Trivandrum, India",
+      "logo": "assets/logos/diagnal.webp",
+      "highlights": [
+        "Led OTT and VOD quality engineering across Smart TVs, Xbox, Fire TV, and mobile platforms.",
+        "Validated DRM compliance, streaming protocols, playback quality, and regional content availability.",
+        "Integrated automation, analytics, and monitoring workflows to improve streaming diagnostics and release confidence."
+      ],
+      "disabled": false
+    },
+    {
+      "role": "Associate Engineer",
+      "company": "Samsung India Electronics",
+      "period": "10/2010 — 07/2012 · Noida, India",
+      "logo": "assets/logos/samsung.webp",
+      "highlights": [
+        "Automated Android platform validation using CTS frameworks to ensure device stability and OS compliance.",
+        "Led DRM compliance and media playback validation for Samsung Media Services and Media Hub.",
+        "Developed automation workflows improving test coverage and defect detection for mobile platforms."
       ],
       "disabled": false
     }
   ],
   "projects": [
     {
-      "title": "AI Code Assistant",
-      "description": "A VS Code extension powered by OpenAI that provides intelligent code suggestions and explanations. Built with TypeScript, React, and WebSocket for real-time communication.",
-      "tags": ["TypeScript", "React", "OpenAI API", "VS Code Extension", "WebSocket"],
-      "live": "https://ai-code-assistant.dev",
-      "code": "https://github.com/johndoe/ai-code-assistant",
+      "title": "Autonomous Test Repair System",
+      "description": "LLM-assisted self-healing automation system for Playwright that detects failures, understands UI context from screenshots, and repairs flaky tests using deterministic heuristics and explainable reasoning workflows.",
+      "tags": [
+        "Playwright",
+        "LLMs",
+        "Python",
+        "AI-Assisted QA",
+        "Vision Automation",
+        "Automation Architecture"
+      ],
+      "live": "",
+      "code": "https://github.com/yashwant-das/autonomous-test-repair-system",
+      "featured": true,
       "disabled": false
     },
     {
-      "title": "Real-time Collaboration Platform",
-      "description": "A collaborative document editor with real-time synchronization, built with Next.js, Socket.io, and PostgreSQL. Supports markdown, code highlighting, and live cursors.",
-      "tags": ["Next.js", "Socket.io", "PostgreSQL", "TypeScript", "Tailwind CSS"],
-      "live": "https://collab-platform.example.com",
-      "code": "https://github.com/johndoe/collab-platform",
-      "disabled": false,
-      "featured": true
-    },
-    {
-      "title": "Cloud Infrastructure Dashboard",
-      "description": "A comprehensive dashboard for monitoring and managing cloud resources across AWS, GCP, and Azure. Features real-time metrics, cost analysis, and automated scaling recommendations.",
-      "tags": ["React", "Python", "AWS SDK", "D3.js", "Docker"],
-      "live": "https://cloud-dashboard.example.com",
-      "code": "https://github.com/johndoe/cloud-dashboard",
-      "disabled": false
-    },
-    {
-      "title": "Developer Portfolio Generator",
-      "description": "An open-source tool that generates beautiful portfolio websites from JSON configuration. Built with vanilla JavaScript and modern CSS.",
-      "tags": ["JavaScript", "CSS3", "HTML5", "Open Source"],
-      "live": "https://portfolio-generator.dev",
-      "code": "https://github.com/johndoe/portfolio-generator",
+      "title": "Smart Playwright Protocol",
+      "description": "Agentic Playwright automation framework enabling structured QA workflows, MCP-oriented orchestration, and collaborative human–AI automation systems.",
+      "tags": [
+        "Playwright",
+        "Agentic Workflows",
+        "MCP",
+        "TypeScript",
+        "AI Automation",
+        "QA Engineering"
+      ],
+      "live": "",
+      "code": "https://github.com/yashwant-das/smart-playwright-agent-protocol",
       "disabled": false
     }
   ],
   "skills": {
-    "Frontend": [
+    "AI-Assisted QA": [
       {
-        "name": "React",
+        "name": "LLM-Assisted Testing",
         "disabled": false
       },
       {
-        "name": "Next.js",
+        "name": "Prompt Engineering",
         "disabled": false
       },
       {
-        "name": "TypeScript",
+        "name": "Reasoning Pipelines",
         "disabled": false
       },
       {
-        "name": "Vue.js",
+        "name": "Vision-Based Validation",
         "disabled": false
       },
       {
-        "name": "Tailwind CSS",
-        "disabled": false
-      },
-      {
-        "name": "Sass",
-        "disabled": false
-      },
-      {
-        "name": "Web Components",
+        "name": "Autonomous Test Workflows",
         "disabled": false
       }
     ],
-    "Backend": [
+    "Test Automation": [
       {
-        "name": "Node.js",
+        "name": "Playwright",
         "disabled": false
       },
       {
-        "name": "Python",
+        "name": "Selenium",
         "disabled": false
       },
       {
-        "name": "Go",
+        "name": "Appium",
         "disabled": false
       },
       {
-        "name": "PostgreSQL",
+        "name": "Cypress",
         "disabled": false
       },
       {
-        "name": "MongoDB",
+        "name": "REST Assured",
         "disabled": false
       },
       {
-        "name": "Redis",
+        "name": "Postman",
         "disabled": false
       },
       {
-        "name": "GraphQL",
-        "disabled": false
-      },
-      {
-        "name": "REST APIs",
+        "name": "GraphQL Testing",
         "disabled": false
       }
     ],
-    "Cloud & DevOps": [
+    "CI/CD & DevOps": [
       {
-        "name": "AWS",
-        "disabled": false
-      },
-      {
-        "name": "Docker",
-        "disabled": false
-      },
-      {
-        "name": "Kubernetes",
+        "name": "Jenkins",
         "disabled": false
       },
       {
@@ -191,101 +191,133 @@
         "disabled": false
       },
       {
-        "name": "Terraform",
+        "name": "Docker",
         "disabled": false
       },
       {
-        "name": "CI/CD",
+        "name": "BrowserStack",
         "disabled": false
       },
       {
-        "name": "Vercel",
+        "name": "AWS Device Farm",
         "disabled": false
       },
       {
-        "name": "Cloudflare",
+        "name": "Azure DevOps",
         "disabled": false
       }
     ],
-    "AI & ML": [
+    "OTT & Media QA": [
       {
-        "name": "OpenAI API",
+        "name": "DRM Validation",
         "disabled": false
       },
       {
-        "name": "LangChain",
+        "name": "HLS / DASH",
         "disabled": false
       },
       {
-        "name": "Vector Databases",
+        "name": "FFmpeg",
         "disabled": false
       },
       {
-        "name": "Machine Learning",
+        "name": "AWS Elemental",
         "disabled": false
       },
       {
-        "name": "TensorFlow",
+        "name": "Playback Analytics",
+        "disabled": false
+      },
+      {
+        "name": "Media QC Automation",
         "disabled": false
       }
     ],
-    "Tools & Others": [
+    "Programming": [
       {
-        "name": "Git",
+        "name": "Java",
         "disabled": false
       },
       {
-        "name": "Figma",
+        "name": "Python",
         "disabled": false
       },
       {
-        "name": "Jira",
+        "name": "TypeScript",
         "disabled": false
       },
       {
-        "name": "Agile",
+        "name": "JavaScript",
         "disabled": false
       },
       {
-        "name": "Scrum",
+        "name": "SQL",
+        "disabled": false
+      }
+    ],
+    "Quality Engineering": [
+      {
+        "name": "Test Strategy",
         "disabled": false
       },
       {
-        "name": "Technical Writing",
+        "name": "Automation Architecture",
+        "disabled": false
+      },
+      {
+        "name": "Agile QA",
+        "disabled": false
+      },
+      {
+        "name": "Jira Automation",
+        "disabled": false
+      },
+      {
+        "name": "Cross-Platform Validation",
         "disabled": false
       }
     ]
   },
   "education": [
     {
-      "degree": "Bachelor of Science in Computer Science",
-      "school": "Stanford University",
-      "period": "2013 — 2017",
+      "degree": "Diploma in Electronics & Embedded Systems",
+      "school": "Nettur Technical Training Foundation (NTTF)",
+      "period": "2006 — 2009 · Bengaluru, India",
       "disabled": false
     }
   ],
   "certifications": [
     {
-      "name": "Professional Scrum Master I (PSM I)",
-      "organization": "Scrum.org",
-      "logo": "assets/logos/scrum-org.webp",
-      "credentialUrl": "https://example.com/certificate",
+      "name": "Generative AI: Prompt Engineering",
+      "organization": "IBM",
+      "logo": "assets/logos/ibm.svg",
       "disabled": false
     },
     {
-      "name": "ISTQB CTFL v4.0",
-      "organization": "ISTQB",
-      "logo": "assets/logos/istqb.webp",
-      "disabled": true
+      "name": "Introduction to Artificial Intelligence (AI)",
+      "organization": "IBM",
+      "logo": "assets/logos/ibm.svg",
+      "disabled": false
+    },
+    {
+      "name": "Python Essentials 1",
+      "organization": "Cisco Networking Academy",
+      "logo": "assets/logos/cisco.webp",
+      "disabled": false
+    },
+    {
+      "name": "Agile with Atlassian Jira",
+      "organization": "Atlassian",
+      "logo": "assets/logos/atlassian.webp",
+      "disabled": false
     }
   ],
   "contact": {
-    "email": "john.doe@example.com",
-    "website": "https://github.com/johndoe",
     "socials": {
-      "LinkedIn": "https://linkedin.com/in/johndoe",
-      "GitHub": "https://github.com/johndoe",
-      "X": "https://twitter.com/johndoe"
+      "Email": "mailto:yashworks@gmail.com",
+      "LinkedIn": "https://linkedin.com/in/yashwant-das",
+      "GitHub": "https://github.com/yashwant-das",
+      "Medium": "https://medium.com/@yashwant-das"
     }
   }
 }

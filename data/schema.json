@@ -229,14 +229,6 @@
     "contact": {
       "type": "object",
       "properties": {
-        "email": {
-          "type": "string",
-          "format": "email"
-        },
-        "website": {
-          "type": "string",
-          "format": "uri"
-        },
         "socials": {
           "type": "object",
           "additionalProperties": {

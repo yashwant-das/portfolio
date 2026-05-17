@@ -78,8 +78,9 @@ To update the site content, simply modify the JSON fields. The changes will be r
 
 ### Assets
 
-- **Avatars**: Store profile photos in `assets/avatars/`.
-- **Logos**: Store company/project logos in `assets/logos/`.
+- **Avatars**: Store profile photos in `assets/avatars/` as **WebP** (512×512 recommended).
+- **Logos**: Store company/certification logos in `assets/logos/` as **WebP** (256×256) or SVG.
+- Use `npx sharp-cli` to convert and resize originals before committing.
 
 ## 🚀 Deployment
 

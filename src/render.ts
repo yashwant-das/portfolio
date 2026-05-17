@@ -1,5 +1,5 @@
 import { PortfolioData } from './types.js';
-import { handleError, debugLog } from './utils.js';
+import { handleError } from './utils.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -13,6 +13,9 @@ const SOCIAL_ICON_PATHS: Record<string, string> = {
   x: '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>',
   twitter:
     '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>',
+  // Gmail / email
+  email:
+    '<path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.279 24 3.434 24 5.457Z"/>',
 };
 
 const ICON_CONFIG = {
@@ -59,15 +62,16 @@ export function applyContent(data: PortfolioData) {
   if (data.name) {
     const structuredDataEl = document.getElementById('structured-data');
     if (structuredDataEl) {
+      const socialUrls = data.contact?.socials
+        ? Object.values(data.contact.socials).filter((url) => url && !url.startsWith('mailto:'))
+        : [];
       const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'Person',
         name: data.name || '',
-        url: data.contact?.website || '',
+        url: socialUrls[0] || '',
         jobTitle: data.subtitle || '',
-        sameAs: data.contact?.socials
-          ? Object.values(data.contact.socials).filter((url) => url)
-          : [],
+        sameAs: socialUrls,
       };
       structuredDataEl.textContent = JSON.stringify(structuredData);
     }
@@ -490,19 +494,6 @@ export function applyContent(data: PortfolioData) {
     contactCard.removeAttribute('style');
   }
 
-  if (data.contact?.email) {
-    const emailBtn = document.getElementById('contact-email') as HTMLAnchorElement;
-    const emailText = document.getElementById('contact-email-text');
-    if (emailBtn) {
-      emailBtn.href = `mailto:${data.contact.email}`;
-      emailBtn.setAttribute('aria-label', `Send email to ${data.contact.email}`);
-    }
-    if (emailText) {
-      emailText.textContent = data.contact.email;
-    }
-    initCopyEmail(data.contact.email);
-  }
-
   const ul = document.getElementById('social-list');
   const socialSection = ul ? (ul.closest('.social-section') as HTMLElement) : null;
   const socialIntro = socialSection
@@ -581,10 +572,7 @@ function hideEmptySections(data: PortfolioData) {
       return !!(certificationsList && certificationsList.children.length > 0);
     },
     contact: () => {
-      return !!(
-        data.contact?.email ||
-        (data.contact?.socials && Object.keys(data.contact.socials).length > 0)
-      );
+      return !!(data.contact?.socials && Object.keys(data.contact.socials).length > 0);
     },
   };
 
@@ -608,48 +596,6 @@ function hideEmptySections(data: PortfolioData) {
       if (navLink && navLink.parentElement) {
         navLink.parentElement.style.display = '';
       }
-    }
-  });
-}
-
-function initCopyEmail(email: string) {
-  const copyBtn = document.getElementById('copy-email-btn');
-  if (!copyBtn || !email) return;
-
-  copyBtn.addEventListener('click', async () => {
-    try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(email);
-      } else {
-        const textArea = document.createElement('textarea');
-        textArea.value = email;
-        textArea.style.position = 'fixed';
-        textArea.style.opacity = '0';
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-      }
-
-      copyBtn.classList.add('copied');
-      copyBtn.setAttribute('aria-label', 'Email copied!');
-
-      setTimeout(() => {
-        copyBtn.classList.remove('copied');
-        copyBtn.setAttribute('aria-label', 'Copy email address');
-      }, 2000);
-
-      debugLog('Email copied to clipboard:', email);
-    } catch (err) {
-      handleError(err, 'Failed to copy email to clipboard');
-      alert(`Email: ${email}`);
-    }
-  });
-
-  copyBtn.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      copyBtn.click();
     }
   });
 }

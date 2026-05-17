@@ -1,7 +1,7 @@
 {
   "schema": "portfolio.design-manifest.v1",
   "title": "Portfolio Website Design System",
-  "updated": "2026-05-16",
+  "updated": "2026-05-17",
   "kind": "static-web",
   "entryFile": "index.html",
   "sourceFiles": {
@@ -10,12 +10,15 @@
     "typescript": ["src/main.ts", "src/render.ts", "src/theme.ts", "src/types.ts", "src/utils.ts"],
     "data": ["data/content.json", "data/schema.json"],
     "assets": [
-      "assets/avatars/avatar.svg",
-      "assets/logos/digital-solutions.svg",
-      "assets/logos/istqb.png",
-      "assets/logos/scrum-org.png",
-      "assets/logos/startuphub.svg",
-      "assets/logos/techflow-inc.svg"
+      "assets/avatars/avatar.webp",
+      "assets/logos/atlassian.webp",
+      "assets/logos/cisco.webp",
+      "assets/logos/diagnal.webp",
+      "assets/logos/future-focus.webp",
+      "assets/logos/ibm.svg",
+      "assets/logos/ltimindtree.webp",
+      "assets/logos/publicis-sapient.webp",
+      "assets/logos/samsung.webp"
     ]
   },
   "designReferences": {
@@ -97,8 +100,8 @@
     },
     {
       "id": "button-link",
-      "selectors": [".btn", ".project-card .links a", ".social a", ".btn-copy"],
-      "states": ["default", "hover", "focus-visible", "active", "copied", "dark"]
+      "selectors": [".btn", ".project-card .links a", ".social a"],
+      "states": ["default", "hover", "focus-visible", "active", "dark"]
     },
     {
       "id": "pills",
@@ -128,9 +131,9 @@
       "description": "Portfolio data is fetched from data/content.json, rendered into stable DOM targets, and empty sections are hidden."
     },
     {
-      "id": "copy-email",
+      "id": "social-links",
       "owner": "src/render.ts",
-      "description": "Copy button writes email to clipboard, displays copied state, and falls back to selection copying."
+      "description": "Social links are rendered from data/content.json contact.socials. The Email entry uses a mailto: href and is listed first. All external links open in a new tab with noopener noreferrer."
     }
   ],
   "responsiveViewports": [

@@ -46,8 +46,6 @@ export interface Skill {
 export type SkillItem = string | Skill;
 
 export interface Contact {
-  email?: string;
-  website?: string;
   socials?: Record<string, string>;
 }
 

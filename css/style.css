@@ -1168,141 +1168,15 @@ html[data-theme='dark'] .contact-card:hover {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-.contact-intro {
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--text-primary);
-  text-align: center;
-  margin: 0 0 var(--spacing-xl) 0;
-  font-weight: 500;
-}
-
-.contact-email-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-sm);
-  margin: 0 0 var(--spacing-xl) 0;
-  flex-wrap: wrap;
-}
-
-.contact-email-btn {
-  flex: 1;
-  min-width: 200px;
-  max-width: 400px;
-  font-size: 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-xs);
-}
-
-.contact-email-btn .email-icon {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  opacity: 0.95;
-}
-
-.btn-copy {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border-radius: 50%;
-  /* Circular button for icon-only design */
-  border: 1px solid var(--border-light);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  /* No gap needed since icons are absolutely positioned */
-  transition: all var(--transition-fast);
-  font-size: 15px;
-  font-weight: 500;
-  /* Square/circular button for icon-only design */
-}
-
-.btn-copy:hover {
-  background: var(--bg-tertiary);
-  border-color: var(--accent-blue);
-  transform: scale(1.05);
-  color: var(--accent-blue);
-}
-
-.btn-copy:active {
-  transform: scale(0.95);
-}
-
-.btn-copy:focus-visible {
-  outline: 2px solid var(--accent-blue);
-  outline-offset: 2px;
-}
-
-.btn-copy svg {
-  width: 18px;
-  height: 18px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transition:
-    opacity var(--transition-fast),
-    transform var(--transition-fast);
-}
-
-.copy-icon {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.check-icon {
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.8);
-  pointer-events: none;
-}
-
-.btn-copy.copied {
-  background: var(--accent-blue);
-  border-color: var(--accent-blue);
-  color: white;
-}
-
-.btn-copy.copied .copy-icon {
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.8);
-  pointer-events: none;
-}
-
-.btn-copy.copied .check-icon {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  pointer-events: auto;
-}
-
-.contact-card .contact-cta {
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--text-primary);
-  text-align: center;
-  margin: 0 0 var(--spacing-xl) 0;
-  font-weight: 500;
-  font-style: normal;
-}
-
 .social-section {
-  margin-top: var(--spacing-lg);
-  padding-top: var(--spacing-lg);
-  border-top: 0.5px solid var(--border-light);
+  /* No separator needed — social links are the only content */
 }
 
 .social-intro {
   font-size: 15px;
   line-height: 1.6;
   color: var(--text-secondary);
-  text-align: center;
+  text-align: left;
   margin: 0 0 var(--spacing-md) 0;
   font-weight: 500;
 }
@@ -1312,7 +1186,7 @@ html[data-theme='dark'] .contact-card:hover {
   padding: 0;
   margin: 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: var(--spacing-sm);
 }
@@ -1547,29 +1421,6 @@ html[data-theme='dark'] .contact-card:hover {
     padding: var(--spacing-lg);
   }
 
-  .contact-intro {
-    font-size: 16px;
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .contact-email-wrapper {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--spacing-sm);
-    flex-wrap: wrap;
-  }
-
-  .contact-email-wrapper .contact-email-btn {
-    width: auto;
-    max-width: 100%;
-  }
-
-  .btn-copy {
-    width: 44px;
-    height: 44px;
-    align-self: auto;
-  }
-
   .project-card .links {
     flex-wrap: wrap;
     gap: var(--spacing-xs);
@@ -1586,14 +1437,8 @@ html[data-theme='dark'] .contact-card:hover {
     height: 14px;
   }
 
-  .contact-card .contact-cta {
-    font-size: 16px;
-    margin-bottom: var(--spacing-lg);
-  }
-
   .social-section {
-    margin-top: var(--spacing-md);
-    padding-top: var(--spacing-md);
+    /* no overrides needed */
   }
 
   .social a {
@@ -2308,27 +2153,18 @@ html[data-theme='dark'] .skeleton-card {
   justify-items: start;
 }
 
-.contact-intro,
-.contact-card .contact-cta,
-.social-intro {
-  text-align: left;
-}
-
-.contact-email-wrapper,
 .social {
   justify-content: flex-start;
 }
 
 .social-section {
   width: 100%;
-  border-top: 1px solid var(--border-light);
 }
 
 .social a {
   background: var(--bg-primary);
 }
 
-.btn-copy,
 .scroll-to-top {
   border-radius: 50%;
 }
@@ -2460,17 +2296,6 @@ html[data-theme='dark'] .skeleton-card {
 
   .timeline-meta {
     flex-direction: row;
-  }
-
-  .contact-email-wrapper {
-    align-items: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .contact-email-wrapper .contact-email-btn {
-    width: auto;
-    max-width: 100%;
   }
 }
 

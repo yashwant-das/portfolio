@@ -77,7 +77,7 @@ The active implementation defines tokens in `css/style.css`, starting near the `
 - Projects: three columns desktop, two columns tablet, one column mobile.
 - Skills: category cards, three columns desktop, two columns tablet, one column mobile.
 - Education and certifications: compact credential cards.
-- Contact: left-aligned action card with email, copy button, and social links.
+- Contact: left-aligned card with social links (Email, LinkedIn, GitHub, Medium). Email is the first social entry using a `mailto:` href.
 
 ## Responsive Contract
 
@@ -102,7 +102,7 @@ Acceptance criteria:
 - Hero text and buttons do not overlap the avatar.
 - Cards do not nest inside other cards.
 - Long project tags wrap without resizing the card grid unexpectedly.
-- Contact email remains readable and copy action remains reachable.
+- Contact links open in a new tab (external URLs) or compose an email (`mailto:` links) with `noopener noreferrer`.
 
 ## Interaction Contract
 
@@ -110,7 +110,6 @@ Acceptance criteria:
 - Mobile nav opens and closes through `#nav-toggle`; selecting a link closes it.
 - Theme toggle updates `html[data-theme]`, persists manual preferences, and updates `theme-color`.
 - Resume link is hidden unless `data.content.json` provides a value.
-- Copy email button shows copied state and falls back gracefully if Clipboard API is unavailable.
 - Social and project links open in a new tab with `noopener noreferrer`.
 - Section entrance animation respects `prefers-reduced-motion`.
 
@@ -121,7 +120,7 @@ All profile content should come from `data/content.json` unless it is structural
 Data-driven fields:
 
 - Identity: `name`, `subtitle`, `heroSummary`, `heroStats`, `avatar`
-- Contact: `email`, `website`, `resume`, `socials`
+- Contact: `resume`, `socials` (including an optional `Email` mailto entry)
 - Body sections: `about`, `experience`, `projects`, `skills`, `education`, `certifications`
 
 Implementation notes:
@@ -134,7 +133,7 @@ Implementation notes:
 
 - Keep `Skip to content` available.
 - Preserve one `h1` in the hero and ordered heading hierarchy for sections.
-- Controls must have accessible names: theme toggle, nav toggle, copy email, social links.
+- Controls must have accessible names: theme toggle, nav toggle, social links.
 - Focus states must remain visible against light and dark themes.
 - Icon-only controls require labels or titles.
 - Do not rely on color alone for state when adding new interactive controls.
