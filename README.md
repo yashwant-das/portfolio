@@ -3,7 +3,7 @@
 [![Deployment](https://github.com/yashwant-das/portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/yashwant-das/portfolio/actions/workflows/deploy.yml)
 [![Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://yashwant-das.github.io/portfolio/)
 
-A modern, minimal portfolio website built with vanilla JavaScript and CSS, following Apple-inspired design principles.
+A modern, minimal portfolio website built with TypeScript and vanilla CSS, following Apple-inspired design principles.
 
 ## 🚀 Overview
 

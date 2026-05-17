@@ -1,6 +1,6 @@
 # Portfolio Design Handoff
 
-This document is the source of truth for the current portfolio visual system and implementation contract. It replaces the temporary `Apple-showcase/` reference folder, which can be deleted after these docs are committed.
+This document is the source of truth for the current portfolio visual system and implementation contract.
 
 ## Product Context
 
@@ -23,7 +23,7 @@ This document is the source of truth for the current portfolio visual system and
 
 ## Design Tokens
 
-The active implementation defines tokens in `css/style.css`. The latest redesign layer starts near the `Apple-showcase redesign layer` comment.
+The active implementation defines tokens in `css/style.css`, starting near the `Design Tokens` comment.
 
 | Token              | Light     | Dark      | Usage                                     |
 | ------------------ | --------- | --------- | ----------------------------------------- |

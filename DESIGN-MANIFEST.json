@@ -19,9 +19,7 @@
     ]
   },
   "designReferences": {
-    "handoff": "DESIGN-HANDOFF.md",
-    "temporarySourceFolder": "Apple-showcase/",
-    "temporarySourceFolderCanBeDeleted": true
+    "handoff": "DESIGN-HANDOFF.md"
   },
   "implementationSurfaces": [
     {

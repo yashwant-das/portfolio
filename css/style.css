@@ -393,6 +393,7 @@ html[data-theme='dark'] .moon-icon {
 
 .nav-toggle[aria-expanded='true'] .nav-toggle-bar:nth-child(2) {
   opacity: 0;
+  transform: scale(0);
 }
 
 .nav-toggle[aria-expanded='true'] .nav-toggle-bar:nth-child(3) {
@@ -1552,19 +1553,21 @@ html[data-theme='dark'] .contact-card:hover {
   }
 
   .contact-email-wrapper {
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
     gap: var(--spacing-sm);
+    flex-wrap: wrap;
   }
 
-  .contact-email-btn {
-    width: 100%;
+  .contact-email-wrapper .contact-email-btn {
+    width: auto;
     max-width: 100%;
   }
 
   .btn-copy {
     width: 44px;
     height: 44px;
-    align-self: center;
+    align-self: auto;
   }
 
   .project-card .links {
@@ -1793,7 +1796,7 @@ html[data-theme='dark'] .skeleton-card {
   }
 }
 
-/* Apple-showcase redesign layer */
+/* Design Tokens */
 :root {
   --bg-primary: #ffffff;
   --bg-secondary: #f5f5f7;
@@ -2460,10 +2463,12 @@ html[data-theme='dark'] .skeleton-card {
   }
 
   .contact-email-wrapper {
-    align-items: flex-start;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
-  .contact-email-btn {
+  .contact-email-wrapper .contact-email-btn {
     width: auto;
     max-width: 100%;
   }

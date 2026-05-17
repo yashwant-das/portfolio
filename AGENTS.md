@@ -6,12 +6,12 @@ Guidance for AI coding agents working in this repository.
 
 This is a static personal portfolio website built with:
 
-- HTML entry shell: `index.html`
-- Styling: `css/style.css`
-- TypeScript source: `src/`
-- Compiled browser JS: `dist/`
-- Content: `data/content.json`
-- Content schema: `data/schema.json`
+- HTML entry shell: [`index.html`](index.html)
+- Styling: [`css/style.css`](css/style.css)
+- TypeScript source: [`src/`](src/)
+- Compiled browser JS: [`dist/`](dist/)
+- Content: [`data/content.json`](data/content.json)
+- Content schema: [`data/schema.json`](data/schema.json)
 - Tests: Playwright in `tests/`
 
 The site is intentionally lightweight and data-driven. Most personal content should be configured in JSON and rendered by TypeScript, not hard-coded into the HTML shell.
@@ -20,11 +20,9 @@ The site is intentionally lightweight and data-driven. Most personal content sho
 
 Before changing layout, visual style, or component behavior, read:
 
-1. `DESIGN-HANDOFF.md`
-2. `DESIGN-MANIFEST.json`
-3. `README.md`
-
-`Apple-showcase/` was a temporary design reference. Do not depend on it for future implementation; it may be deleted.
+1. [`DESIGN-HANDOFF.md`](DESIGN-HANDOFF.md)
+2. [`DESIGN-MANIFEST.json`](DESIGN-MANIFEST.json)
+3. [`README.md`](README.md)
 
 ## Common Commands
 
@@ -48,17 +46,17 @@ Open `http://localhost:8000`.
 
 ## Architecture Notes
 
-- `index.html` owns semantic structure, stable element IDs, skeleton placeholders, and controls.
-- `src/render.ts` owns data rendering from `data/content.json`, dynamic sections, social links, project cards, resume visibility, contact behavior, and empty-section hiding.
-- `src/main.ts` owns navigation behavior, smooth scrolling, section observers, mobile nav, scroll-to-top, and page-level effects.
-- `src/theme.ts` owns light/dark theme initialization, persistence, system preference handling, and `theme-color`.
-- `css/style.css` owns tokens, layout, responsive behavior, component styling, loading states, and reduced-motion behavior.
-- `data/schema.json` must be updated when new content fields are introduced.
-- `src/types.ts` must be kept aligned with `data/schema.json`.
+- [`index.html`](index.html) owns semantic structure, stable element IDs, skeleton placeholders, and controls.
+- [`src/render.ts`](src/render.ts) owns data rendering from [`data/content.json`](data/content.json), dynamic sections, social links, project cards, resume visibility, contact behavior, and empty-section hiding.
+- [`src/main.ts`](src/main.ts) owns navigation behavior, smooth scrolling, section observers, mobile nav, scroll-to-top, and page-level effects.
+- [`src/theme.ts`](src/theme.ts) owns light/dark theme initialization, persistence, system preference handling, and `theme-color`.
+- [`css/style.css`](css/style.css) owns tokens, layout, responsive behavior, component styling, loading states, and reduced-motion behavior.
+- [`data/schema.json`](data/schema.json) must be updated when new content fields are introduced.
+- [`src/types.ts`](src/types.ts) must be kept aligned with [`data/schema.json`](data/schema.json).
 
 ## Design Rules
 
-- Preserve the Apple-inspired visual language documented in `DESIGN-HANDOFF.md`.
+- Preserve the Apple-inspired visual language documented in [`DESIGN-HANDOFF.md`](DESIGN-HANDOFF.md).
 - Use the existing CSS tokens before adding new colors, spacing values, radii, or shadows.
 - Keep sections full-width with constrained inner content; avoid floating page-level cards.
 - Do not add nested cards.
@@ -69,14 +67,14 @@ Open `http://localhost:8000`.
 
 ## Content Rules
 
-- Prefer `data/content.json` for profile-specific content.
-- Do not hard-code personal achievements, metrics, company names, or project facts in `index.html`; use `data/content.json` fields such as `heroStats`.
+- Prefer [`data/content.json`](data/content.json) for profile-specific content.
+- Do not hard-code personal achievements, metrics, company names, or project facts in [`index.html`](index.html); use [`data/content.json`](data/content.json) fields such as `heroStats`.
 - If adding a new data field:
-  1. Update `data/schema.json`.
-  2. Update `src/types.ts`.
-  3. Render it from `src/render.ts`.
+  1. Update [`data/schema.json`](data/schema.json).
+  2. Update [`src/types.ts`](src/types.ts).
+  3. Render it from [`src/render.ts`](src/render.ts).
   4. Hide or degrade gracefully when absent.
-- Keep `data/content.json` valid against the schema.
+- Keep [`data/content.json`](data/content.json) valid against the schema.
 
 ## Accessibility Rules
 
@@ -117,8 +115,8 @@ For design changes, also verify:
 
 ## Generated Files
 
-- Edit TypeScript in `src/`, then run `npm run build` to update `dist/`.
-- Do not manually edit `dist/` unless the task explicitly requires it and TypeScript source is not involved.
+- Edit TypeScript in [`src/`](src/), then run `npm run build` to update [`dist/`](dist/).
+- Do not manually edit [`dist/`](dist/) unless the task explicitly requires it and TypeScript source is not involved.
 - Avoid committing transient Playwright reports or screenshots unless the user explicitly asks for artifacts.
 
 ## Git Hygiene
@@ -126,7 +124,6 @@ For design changes, also verify:
 - Work on a branch for feature work.
 - Do not delete or revert unrelated user changes.
 - Keep changes scoped to the requested task.
-- If `Apple-showcase/` is still present and untracked, leave it alone unless the user explicitly asks to remove it.
 
 ## Review Expectations
 
