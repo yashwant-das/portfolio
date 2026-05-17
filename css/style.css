@@ -1168,10 +1168,6 @@ html[data-theme='dark'] .contact-card:hover {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-.social-section {
-  /* No separator needed — social links are the only content */
-}
-
 .social-intro {
   font-size: 15px;
   line-height: 1.6;
@@ -1437,10 +1433,6 @@ html[data-theme='dark'] .contact-card:hover {
     height: 14px;
   }
 
-  .social-section {
-    /* no overrides needed */
-  }
-
   .social a {
     min-height: 40px;
     padding: 10px 16px;
@@ -1632,7 +1624,7 @@ html[data-theme='dark'] .skeleton-card {
 
   .scroll-to-top {
     transition:
-      opacity 0.01ms !important,
+      opacity 0.01ms,
       visibility 0.01ms !important;
   }
 
