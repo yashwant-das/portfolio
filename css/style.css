@@ -1301,7 +1301,7 @@ html[data-theme='dark'] .contact-card:hover {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .container {
     padding: 0 var(--spacing-md);
   }
@@ -2192,7 +2192,7 @@ html[data-theme='dark'] .skeleton-card {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .container {
     padding: 0 20px;
   }
