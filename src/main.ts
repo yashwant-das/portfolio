@@ -89,14 +89,9 @@ async function fetchContent() {
 
 function scrollToSection(element: HTMLElement, options: { behavior?: ScrollBehavior } = {}) {
   const behavior = options.behavior || 'auto';
-  const header = document.querySelector('.site-header') as HTMLElement;
-  const headerHeight = header ? header.offsetHeight : 72;
-  const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-  const offsetPosition = elementPosition - headerHeight;
-
-  window.scrollTo({
-    top: offsetPosition,
-    behavior: behavior,
+  element.scrollIntoView({
+    behavior,
+    block: 'start',
   });
 }
 
