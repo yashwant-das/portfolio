@@ -55,7 +55,7 @@ test.describe('Portfolio E2E Tests', () => {
     await expect(page.locator('#hero-subtitle')).toHaveText(
       'QA Architect • AI-Assisted Test Systems'
     );
-    await expect(page.locator('.hero-summary')).toContainText('Quality Engineering leader');
+    await expect(page.locator('.hero-summary')).toContainText('QA Manager and Test Architect');
     await expect(page.locator('.avatar img')).toHaveAttribute('src', 'assets/avatars/avatar.webp');
     await expect(page.locator('.hero-meta')).toBeVisible();
     // Resume link is hidden when resume field is empty

@@ -14,7 +14,7 @@
   "subtitle": "QA Architect • AI-Assisted Test Systems",
   "avatar": "assets/avatars/avatar.webp",
   "resume": "",
-  "heroSummary": "Quality Engineering leader with 12+ years of experience building scalable automation systems across OTT streaming, e-commerce, fintech, and enterprise platforms. Currently focused on AI-assisted QA workflows, autonomous testing concepts, and maintainability-first automation architecture.",
+  "heroSummary": "QA Manager and Test Architect with 12+ years across OTT streaming, e-commerce, fintech, and telecommunications. I build automation frameworks from the ground up, define test strategy at the architectural level, and run quality engineering across web, mobile, API, and media platforms. Currently focused on AI-assisted QA — LLM-driven test generation, self-healing automation, and agentic workflows that keep humans in control.",
   "heroStats": [
     {
       "value": "12+",
@@ -32,7 +32,7 @@
       "disabled": false
     }
   ],
-  "about": "I specialize in Quality Engineering, automation architecture, and AI-assisted testing systems with experience across OTT streaming, e-commerce, fintech, and enterprise platforms. Over the past 12+ years, I’ve led automation initiatives for Fortune 500 clients, built scalable UI/API/mobile automation frameworks, and driven quality strategy across web, mobile, cloud, and media ecosystems.\n\nMy current focus is exploring LLM-assisted QA systems, autonomous test workflows, multimodal validation approaches, and maintainability-focused automation engineering.",
+  "about": "Quality engineering specialist focused on automation architecture, test strategy, and the intersection of AI with modern QA practices. I've built and maintained test systems for Fortune 500 organizations across web, mobile, API, and media pipelines — with hands-on depth in Playwright, Selenium, Appium, OTT/DRM validation, Media QC automation, and CI/CD integration. My current work explores how LLMs, vision models, and agentic tooling can reduce the cost of test creation and maintenance without sacrificing transparency or engineering control.",
   "experience": [
     {
       "role": "QA Manager",
@@ -40,9 +40,9 @@
       "period": "03/2025 — 06/2025 · Bengaluru, India",
       "logo": "assets/logos/publicis-sapient.webp",
       "highlights": [
-        "Led Quality Engineering initiatives across web, mobile, and API platforms with hands-on Playwright automation and release validation.",
-        "Drove shift-left testing practices by integrating early automation and quality validation into sprint workflows.",
-        "Collaborated with engineering and DevOps teams to embed automated quality checks into CI/CD pipelines."
+        "Worked in a dual capacity — hands-on Playwright automation contributor and QA Manager for Pilot Flying J across web, mobile, and API platforms.",
+        "Introduced shift-left practices by moving test design and automation earlier in the sprint, reducing late-cycle defect discovery.",
+        "Owned QA governance and release oversight, aligning test coverage with business requirements and deployment timelines."
       ],
       "disabled": false
     },
@@ -52,9 +52,9 @@
       "period": "04/2021 — 06/2024 · Bengaluru, India",
       "logo": "assets/logos/ltimindtree.webp",
       "highlights": [
-        "Led automation architecture initiatives across web, mobile, API, and OTT platforms for Fortune 500 clients.",
-        "Built scalable automation tooling and Media QC workflows for OTT streaming validation and playback diagnostics.",
-        "Mentored QA teams and modernized automation approaches to improve resiliency, maintainability, and delivery efficiency."
+        "Architected test automation across web, mobile, API, and OTT workflows for Paramount Pictures, The Travelers Companies, and Equifax.",
+        "Built Media QC and performance testing pipelines for OTT platforms — covering playback quality, API responsiveness, and streaming compliance.",
+        "Delivered proof-of-concepts to address framework limitations and modernize automation approaches; served as Transition Champion for project handoffs and team scaling."
       ],
       "disabled": false
     },
@@ -64,9 +64,9 @@
       "period": "07/2019 — 04/2021 · Bengaluru, India",
       "logo": "assets/logos/future-focus.webp",
       "highlights": [
-        "Led Quality Engineering for high-traffic mobile and backend platforms across Android and iOS ecosystems.",
-        "Designed cross-platform automation frameworks using Appium and Cucumber integrated into CI/CD workflows.",
-        "Managed distributed QA collaboration across multiple LATAM regions supporting large-scale retail platforms."
+        "Built cross-platform Appium + Cucumber automation frameworks for Falabella, one of Latin America's largest retailers, serving 35M+ customers.",
+        "Managed distributed QA teams across Chile, Peru, Colombia, and Argentina, handling localization testing and Spanish-language validation.",
+        "Integrated automated regression into CI/CD pipelines, cutting release cycle time across Android and iOS platforms."
       ],
       "disabled": false
     },
@@ -76,9 +76,9 @@
       "period": "07/2017 — 07/2019 · Trivandrum, India",
       "logo": "assets/logos/diagnal.webp",
       "highlights": [
-        "Led OTT and VOD quality engineering across Smart TVs, Xbox, Fire TV, and mobile platforms.",
-        "Validated DRM compliance, streaming protocols, playback quality, and regional content availability.",
-        "Integrated automation, analytics, and monitoring workflows to improve streaming diagnostics and release confidence."
+        "Owned OTT and VOD quality engineering for Optus Sport, ALTBalaji, Mediacorp, and FOX across Smart TVs, Xbox, Fire TV, and mobile — covering DRM compliance, streaming protocols (HLS, MPEG-DASH, Smooth Streaming), and geo-restriction validation.",
+        "Led app store certification for Microsoft Xbox and Amazon Fire TV, ensuring platform-specific technical compliance.",
+        "Integrated real-time streaming analytics via Conviva and log analysis to surface playback issues earlier in the release cycle."
       ],
       "disabled": false
     },
@@ -88,43 +88,44 @@
       "period": "10/2010 — 07/2012 · Noida, India",
       "logo": "assets/logos/samsung.webp",
       "highlights": [
-        "Automated Android platform validation using CTS frameworks to ensure device stability and OS compliance.",
-        "Led DRM compliance and media playback validation for Samsung Media Services and Media Hub.",
-        "Developed automation workflows improving test coverage and defect detection for mobile platforms."
+        "Automated Android platform validation using the CTS framework to verify OS compliance and device stability.",
+        "Led DRM compliance and media playback validation for Samsung Media Service and Media Hub (AT&T).",
+        "Built automated test frameworks for Samsung mobile devices, improving defect detection coverage across the release pipeline."
       ],
       "disabled": false
     }
   ],
   "projects": [
     {
-      "title": "Autonomous Test Repair System",
-      "description": "LLM-assisted self-healing automation system for Playwright that detects failures, understands UI context from screenshots, and repairs flaky tests using deterministic heuristics and explainable reasoning workflows.",
+      "title": "Smart Playwright Protocol",
+      "description": "SPP is a protocol-driven workflow for AI-assisted Playwright automation — not just a framework, but a defined contract for how AI agents and engineers collaborate on test tasks. It enforces a fixed lifecycle (Select → Understand → Explore → Plan → Implement → Verify) using Markdown task files, verification gates, and Page Object best practices. The CLI manages task state, hands off structured prompts to AI assistants, and keeps every automation step explicit and reviewable. Currently at v2.0 with MCP server integration.",
       "tags": [
         "Playwright",
-        "LLMs",
-        "Python",
-        "AI-Assisted QA",
-        "Vision Automation",
-        "Automation Architecture"
+        "TypeScript",
+        "MCP",
+        "Agentic Workflows",
+        "AI-Assisted Testing",
+        "QA Architecture"
       ],
       "live": "",
-      "code": "https://github.com/yashwant-das/autonomous-test-repair-system",
+      "code": "https://github.com/yashwant-das/test-playwright-protocol",
       "featured": true,
       "disabled": false
     },
     {
-      "title": "Smart Playwright Protocol",
-      "description": "Agentic Playwright automation framework enabling structured QA workflows, MCP-oriented orchestration, and collaborative human–AI automation systems.",
+      "title": "Testing LLM Automation Engine",
+      "description": "An LLM + vision AI framework for Playwright that covers three distinct problems: generating TypeScript tests from DOM context, generating tests from screenshots using vision-capable models, and automatically healing failing specs. The self-healer runs a Monitor → Investigate → Reason → Act → Report pipeline, combining deterministic heuristics for fast error classification with LLM reasoning for ambiguous failures. Every repair produces a structured HealingDecision artifact with confidence score, diagnosis, code patch, and verification result — keeping the process auditable rather than opaque.",
       "tags": [
         "Playwright",
-        "Agentic Workflows",
-        "MCP",
-        "TypeScript",
-        "AI Automation",
-        "QA Engineering"
+        "Python",
+        "LLM",
+        "Computer Vision",
+        "AI-Assisted Testing",
+        "Quality Engineering"
       ],
       "live": "",
-      "code": "https://github.com/yashwant-das/smart-playwright-agent-protocol",
+      "code": "https://github.com/yashwant-das/testing-llm-automation-engine",
+      "featured": false,
       "disabled": false
     }
   ],
@@ -143,11 +144,15 @@
         "disabled": false
       },
       {
-        "name": "Vision-Based Validation",
+        "name": "Agentic Workflows",
         "disabled": false
       },
       {
-        "name": "Autonomous Test Workflows",
+        "name": "MCP Integration",
+        "disabled": false
+      },
+      {
+        "name": "Vision-Based Validation",
         "disabled": false
       }
     ],
@@ -210,6 +215,14 @@
     "OTT & Media QA": [
       {
         "name": "DRM Validation",
+        "disabled": false
+      },
+      {
+        "name": "Widevine",
+        "disabled": false
+      },
+      {
+        "name": "FairPlay",
         "disabled": false
       },
       {
@@ -279,6 +292,12 @@
     ]
   },
   "education": [
+    {
+      "degree": "Bachelor of Computer Applications",
+      "school": "Manipal University Jaipur",
+      "period": "2026 — 2029 · Bengaluru, India",
+      "disabled": false
+    },
     {
       "degree": "Diploma in Electronics & Embedded Systems",
       "school": "Nettur Technical Training Foundation (NTTF)",
