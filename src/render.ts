@@ -144,6 +144,16 @@ export function applyContent(data: PortfolioData) {
           img.alt = `${exp.company} logo`;
           img.loading = 'lazy';
           meta.appendChild(img);
+        } else {
+          const placeholder = document.createElement('div');
+          placeholder.className = 'company-logo company-logo-placeholder';
+          placeholder.setAttribute('aria-hidden', 'true');
+          const words = exp.company.split(/\s+/).filter(Boolean);
+          const firstLetter = words[0]?.[0] ?? '';
+          const secondLetter = words.length >= 2 ? (words[1]?.[0] ?? '') : (words[0]?.[1] ?? '');
+          const initials = `${firstLetter}${secondLetter}` || 'QA';
+          placeholder.textContent = initials.toUpperCase();
+          meta.appendChild(placeholder);
         }
 
         const metaContent = document.createElement('div');
@@ -529,6 +539,79 @@ export function applyContent(data: PortfolioData) {
       } else {
         if (socialSection) socialSection.style.display = 'none';
         if (socialIntro) socialIntro.style.display = 'none';
+      }
+
+      const emailHref = data.contact?.socials?.Email;
+      const emailAddress =
+        typeof emailHref === 'string' && emailHref.startsWith('mailto:')
+          ? emailHref.replace('mailto:', '').split('?')[0]
+          : '';
+
+      const existingCopyActions = socialSection?.querySelector('.contact-actions');
+      if (existingCopyActions) existingCopyActions.remove();
+
+      if (emailAddress && socialSection) {
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'contact-actions';
+
+        const copyBtn = document.createElement('button');
+        copyBtn.id = 'copy-email-btn';
+        copyBtn.type = 'button';
+        copyBtn.className = 'btn-copy-email';
+        copyBtn.setAttribute('aria-label', `Copy email address ${emailAddress} to clipboard`);
+
+        const iconSvg = document.createElementNS(SVG_NS, 'svg');
+        iconSvg.setAttribute('viewBox', ICON_CONFIG.SVG_VIEWBOX);
+        iconSvg.setAttribute('width', '16');
+        iconSvg.setAttribute('height', '16');
+        iconSvg.setAttribute('fill', 'none');
+        iconSvg.setAttribute('stroke', 'currentColor');
+        iconSvg.setAttribute('stroke-width', '2');
+        iconSvg.setAttribute('stroke-linecap', 'round');
+        iconSvg.setAttribute('stroke-linejoin', 'round');
+        iconSvg.setAttribute('aria-hidden', 'true');
+        iconSvg.innerHTML =
+          '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+
+        const btnText = document.createElement('span');
+        btnText.className = 'copy-btn-text';
+        btnText.textContent = `Copy ${emailAddress}`;
+
+        copyBtn.append(iconSvg, btnText);
+
+        copyBtn.addEventListener('click', async () => {
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              await navigator.clipboard.writeText(emailAddress);
+            } else {
+              const input = document.createElement('input');
+              input.value = emailAddress;
+              document.body.appendChild(input);
+              input.select();
+              document.execCommand('copy');
+              document.body.removeChild(input);
+            }
+            btnText.textContent = 'Email Copied!';
+            copyBtn.classList.add('copied');
+            iconSvg.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+            setTimeout(() => {
+              btnText.textContent = `Copy ${emailAddress}`;
+              copyBtn.classList.remove('copied');
+              iconSvg.innerHTML =
+                '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+            }, 2000);
+          } catch {
+            btnText.textContent = 'Email Copied!';
+            copyBtn.classList.add('copied');
+            setTimeout(() => {
+              btnText.textContent = `Copy ${emailAddress}`;
+              copyBtn.classList.remove('copied');
+            }, 2000);
+          }
+        });
+
+        actionsDiv.appendChild(copyBtn);
+        socialSection.appendChild(actionsDiv);
       }
     }
   } else {

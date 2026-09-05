@@ -7,7 +7,7 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   prettier,
   {
-    ignores: ['dist/', 'node_modules/', 'playwright-report/', 'test-results/'],
+    ignores: ['dist/', 'node_modules/', 'playwright-report/', 'test-results/', '.agents/'],
   },
   {
     files: ['**/*.ts'],

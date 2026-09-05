@@ -11,10 +11,10 @@
     "contact": true
   },
   "name": "Yashwant Das",
-  "subtitle": "QA Architect • AI-Assisted Test Systems",
+  "subtitle": "QA Manager & Test Architect • AI-Assisted QA Systems",
   "avatar": "assets/avatars/avatar.webp",
   "resume": "",
-  "heroSummary": "QA Manager and Test Architect with 12+ years across OTT streaming, e-commerce, fintech, and telecommunications. I build automation frameworks from the ground up, define test strategy at the architectural level, and run quality engineering across web, mobile, API, and media platforms. Currently focused on AI-assisted QA — LLM-driven test generation, self-healing automation, and agentic workflows that keep humans in control.",
+  "heroSummary": "QA Manager and Test Architect with 12+ years of experience leading quality engineering across OTT streaming, fintech, e-commerce, and mobile platforms for Fortune 500 organizations. I architect test automation frameworks from the ground up, establish early shift-left quality practices, and run end-to-end testing across web, mobile, API, and cloud services. Currently pioneering AI-assisted testing — integrating LLM-driven test generation, deterministic self-healing pipelines, and agentic workflows that keep human engineers firmly in control.",
   "heroStats": [
     {
       "value": "12+",
@@ -23,7 +23,12 @@
     },
     {
       "value": "Fortune 500",
-      "label": "client experience",
+      "label": "enterprise clients",
+      "disabled": false
+    },
+    {
+      "value": "35M+",
+      "label": "consumer platform scale",
       "disabled": false
     },
     {
@@ -32,7 +37,7 @@
       "disabled": false
     }
   ],
-  "about": "Quality engineering specialist focused on automation architecture, test strategy, and the intersection of AI with modern QA practices. I've built and maintained test systems for Fortune 500 organizations across web, mobile, API, and media pipelines — with hands-on depth in Playwright, Selenium, Appium, OTT/DRM validation, Media QC automation, and CI/CD integration. My current work explores how LLMs, vision models, and agentic tooling can reduce the cost of test creation and maintenance without sacrificing transparency or engineering control.",
+  "about": "Quality engineering leader specializing in test automation architecture, shift-left testing strategy, and the practical application of AI in modern QA workflows. Over 12+ years, I have architected and scaled test systems for Fortune 500 enterprises including Paramount Pictures, Pilot Flying J, Falabella, The Travelers Companies, and Equifax. My technical depth spans hands-on test engineering with Playwright, Appium, Selenium, OTT DRM validation (Widevine, FairPlay), media QC pipelines, and CI/CD quality gates. Today, my work bridges deterministic engineering with AI — building agentic coding workflows, multimodal screenshot analysis, and explainable self-healing test automation.",
   "experience": [
     {
       "role": "QA Manager",
@@ -40,9 +45,11 @@
       "period": "03/2025 — 06/2025 · Bengaluru, India",
       "logo": "assets/logos/publicis-sapient.webp",
       "highlights": [
-        "Worked in a dual capacity — hands-on Playwright automation contributor and QA Manager for Pilot Flying J across web, mobile, and API platforms.",
-        "Introduced shift-left practices by moving test design and automation earlier in the sprint, reducing late-cycle defect discovery.",
-        "Owned QA governance and release oversight, aligning test coverage with business requirements and deployment timelines."
+        "Client: Pilot Flying J · Operated in a dual capacity as a hands-on Quality Engineering contributor and QA Manager across web, mobile, and API platforms, with direct contribution to Playwright-based automation and release validation.",
+        "Drove shift-left testing practices by introducing early-phase test design, automation adoption, and quality validation during development and sprint planning stages.",
+        "Owned test strategy, QA governance, and delivery oversight, ensuring alignment with business requirements, engineering workflows, and release timelines.",
+        "Collaborated with engineering and DevOps teams to embed automated quality checks into CI/CD pipelines, improving release confidence and deployment stability.",
+        "Mentored QA engineers, supported hiring and onboarding, and contributed to capability development and standardization of Quality Engineering practices."
       ],
       "disabled": false
     },
@@ -52,9 +59,11 @@
       "period": "04/2021 — 06/2024 · Bengaluru, India",
       "logo": "assets/logos/ltimindtree.webp",
       "highlights": [
-        "Architected test automation across web, mobile, API, and OTT workflows for Paramount Pictures, The Travelers Companies, and Equifax.",
-        "Built Media QC and performance testing pipelines for OTT platforms — covering playback quality, API responsiveness, and streaming compliance.",
-        "Delivered proof-of-concepts to address framework limitations and modernize automation approaches; served as Transition Champion for project handoffs and team scaling."
+        "Clients: Paramount Pictures, The Travelers Companies, Equifax · Led Quality Engineering and test automation initiatives for Fortune 500 clients, improving test reliability, execution efficiency, and release confidence across API, web, and cloud platforms.",
+        "Owned automation strategy and framework architecture across web, mobile, API, and OTT workflows, supporting scalable and maintainable test systems.",
+        "Led Media QC and performance testing initiatives for OTT platforms, optimizing API responsiveness, validating playback quality, and ensuring system scalability.",
+        "Designed and implemented visual and functional automation tooling to improve UI validation, diagnosability, and long-term test maintainability.",
+        "Served as a Transition Champion, leading project transitions, knowledge transfer initiatives, and recruitment efforts to build and scale high-performing Quality Engineering teams."
       ],
       "disabled": false
     },
@@ -64,9 +73,10 @@
       "period": "07/2019 — 04/2021 · Bengaluru, India",
       "logo": "assets/logos/future-focus.webp",
       "highlights": [
-        "Built cross-platform Appium + Cucumber automation frameworks for Falabella, one of Latin America's largest retailers, serving 35M+ customers.",
-        "Managed distributed QA teams across Chile, Peru, Colombia, and Argentina, handling localization testing and Spanish-language validation.",
-        "Integrated automated regression into CI/CD pipelines, cutting release cycle time across Android and iOS platforms."
+        "Client: Falabella (35M+ customers across Latin America) · Led Quality Engineering for high-traffic mobile, API, and backend platforms across Android and iOS, ensuring stability, performance, and release confidence at scale.",
+        "Designed and implemented cross-platform test automation frameworks using Cucumber and Appium, significantly improving test coverage and reducing regression cycles.",
+        "Integrated automated testing into CI/CD pipelines, streamlining release workflows and improving delivery efficiency.",
+        "Managed distributed QA teams across Chile, Peru, Colombia, and Argentina, addressing localization challenges through Spanish-language testing and structured cross-team collaboration."
       ],
       "disabled": false
     },
@@ -76,9 +86,42 @@
       "period": "07/2017 — 07/2019 · Trivandrum, India",
       "logo": "assets/logos/diagnal.webp",
       "highlights": [
-        "Owned OTT and VOD quality engineering for Optus Sport, ALTBalaji, Mediacorp, and FOX across Smart TVs, Xbox, Fire TV, and mobile — covering DRM compliance, streaming protocols (HLS, MPEG-DASH, Smooth Streaming), and geo-restriction validation.",
-        "Led app store certification for Microsoft Xbox and Amazon Fire TV, ensuring platform-specific technical compliance.",
-        "Integrated real-time streaming analytics via Conviva and log analysis to surface playback issues earlier in the release cycle."
+        "Clients: Optus Sport, ALTBalaji, Mediacorp, FOX · Led Quality Engineering for OTT and VOD platforms across Smart TVs, Xbox, Fire TV, and mobile devices, ensuring high-quality playback, DRM compliance, and seamless user experience.",
+        "Designed and implemented automation frameworks using Appium and Selenium, integrating CI/CD-driven regression workflows to reduce test cycles and improve execution efficiency.",
+        "Integrated real-time analytics and monitoring using Conviva and log analysis tools to assess streaming performance and improve issue detection and diagnostics.",
+        "Led app store certification testing for Microsoft Xbox and Amazon Fire TV, ensuring compliance with platform-specific technical and content requirements.",
+        "Validated regional content availability, geo-restrictions, and multiple streaming protocols (MPEG-DASH, HLS, Smooth Streaming) across global OTT deployments."
+      ],
+      "disabled": false
+    },
+    {
+      "role": "Senior Test Engineer",
+      "company": "Gionee, Syntech Technology",
+      "period": "03/2015 — 08/2016 · Delhi, India",
+      "highlights": [
+        "Led the development and maintenance of Android instrumented automation for mobile applications, with a strong focus on media and image quality validation.",
+        "Conducted mobile performance testing, leveraging automation to efficiently identify, analyze, and resolve stability and performance issues.",
+        "Established and managed a digital image and audio quality test lab in India, standardizing validation for camera, display, and audio subsystems."
+      ],
+      "disabled": false
+    },
+    {
+      "role": "Test Engineer",
+      "company": "Lava International Ltd",
+      "period": "01/2013 — 08/2014 · Noida, India",
+      "highlights": [
+        "Developed and implemented test automation frameworks using Appium, Android UI Automator, and instrumentation tests to support comprehensive Android application testing across smartphones and tablets.",
+        "Defined and executed automated testing strategies for new device launches, covering Android smartphones, tablets, feature phones, and third-party applications to ensure OS compatibility and integration."
+      ],
+      "disabled": false
+    },
+    {
+      "role": "Test Engineer",
+      "company": "Marquistech",
+      "period": "07/2012 — 12/2012 · Gurgaon, India",
+      "highlights": [
+        "Client: Nokia Corporation · Implemented automated testing for post-launch evaluation of Nokia Lumia series, ensuring device stability, software reliability, and user satisfaction.",
+        "Collaborated with cross-functional teams to integrate automated testing solutions, driving continuous quality improvement in product development."
       ],
       "disabled": false
     },
@@ -88,9 +131,19 @@
       "period": "10/2010 — 07/2012 · Noida, India",
       "logo": "assets/logos/samsung.webp",
       "highlights": [
-        "Automated Android platform validation using the CTS framework to verify OS compliance and device stability.",
-        "Led DRM compliance and media playback validation for Samsung Media Service and Media Hub (AT&T).",
-        "Built automated test frameworks for Samsung mobile devices, improving defect detection coverage across the release pipeline."
+        "Automated Android platform testing using the Compatibility Test Suite (CTS) to ensure OS compliance, security standards, and device stability.",
+        "Developed automated testing frameworks for Samsung mobile devices and applications, improving test coverage and defect detection.",
+        "Led DRM compliance and application functionality validation for Samsung Media Service and Media Hub (AT&T), optimizing content protection and media playback performance."
+      ],
+      "disabled": false
+    },
+    {
+      "role": "Game Tester",
+      "company": "Bhilwara Infotechnology",
+      "period": "04/2010 — 07/2010 · Bengaluru, India",
+      "highlights": [
+        "Client: Electronic Data Systems · Performed functional, compliance, and stability testing of video games across Xbox 360, PlayStation 3, and PSP platforms.",
+        "Contributed to testing high-profile titles including Demon's Souls, Toy Story, Enslaved: Odyssey to the West, and Solatorobo: Red the Hunter."
       ],
       "disabled": false
     }
@@ -98,11 +151,11 @@
   "projects": [
     {
       "title": "Smart Playwright Protocol",
-      "description": "SPP is a protocol-driven workflow for AI-assisted Playwright automation — not just a framework, but a defined contract for how AI agents and engineers collaborate on test tasks. It enforces a fixed lifecycle (Select → Understand → Explore → Plan → Implement → Verify) using Markdown task files, verification gates, and Page Object best practices. The CLI manages task state, hands off structured prompts to AI assistants, and keeps every automation step explicit and reviewable. Currently at v2.0 with MCP server integration.",
+      "description": "SPP is a protocol-driven workflow for AI-assisted Playwright automation — defining an auditable contract for how AI agents and engineers collaborate on test tasks. It enforces a strict 6-phase engineering lifecycle (Select → Understand → Explore → Plan → Implement → Verify) using Markdown task contracts, deterministic verification gates, and Page Object best practices. Features a dedicated CLI and Model Context Protocol (MCP) server integration to manage task state and coordinate autonomous agents under explicit engineering control.",
       "tags": [
         "Playwright",
         "TypeScript",
-        "MCP",
+        "MCP Server",
         "Agentic Workflows",
         "AI-Assisted Testing",
         "QA Architecture"
@@ -114,188 +167,113 @@
     },
     {
       "title": "Testing LLM Automation Engine",
-      "description": "An LLM + vision AI framework for Playwright that covers three distinct problems: generating TypeScript tests from DOM context, generating tests from screenshots using vision-capable models, and automatically healing failing specs. The self-healer runs a Monitor → Investigate → Reason → Act → Report pipeline, combining deterministic heuristics for fast error classification with LLM reasoning for ambiguous failures. Every repair produces a structured HealingDecision artifact with confidence score, diagnosis, code patch, and verification result — keeping the process auditable rather than opaque.",
+      "description": "An LLM + vision AI automation framework for Playwright that addresses three core challenges: generating TypeScript tests from DOM context, generating tests from screenshots using multimodal vision models, and automatically healing broken specs. The self-healer runs an auditable Monitor → Investigate → Reason → Act → Report pipeline, combining deterministic heuristics for fast error classification with LLM reasoning. Every repair emits a structured HealingDecision artifact with confidence scoring, diagnostic evidence, code patches, and verification results.",
       "tags": [
         "Playwright",
         "Python",
-        "LLM",
         "Computer Vision",
-        "AI-Assisted Testing",
-        "Quality Engineering"
+        "LLM Reasoning",
+        "Self-Healing Tests",
+        "Multimodal QA"
       ],
       "live": "",
       "code": "https://github.com/yashwant-das/testing-llm-automation-engine",
-      "featured": false,
+      "featured": true,
       "disabled": false
     }
   ],
   "skills": {
-    "AI-Assisted QA": [
-      {
-        "name": "LLM-Assisted Testing",
-        "disabled": false
-      },
-      {
-        "name": "Prompt Engineering",
-        "disabled": false
-      },
-      {
-        "name": "Reasoning Pipelines",
-        "disabled": false
-      },
-      {
-        "name": "Agentic Workflows",
-        "disabled": false
-      },
-      {
-        "name": "MCP Integration",
-        "disabled": false
-      },
-      {
-        "name": "Vision-Based Validation",
-        "disabled": false
-      }
+    "AI & LLM Engineering for QA": [
+      { "name": "LLM-Assisted Test Generation", "disabled": false },
+      { "name": "Self-Healing Test Automation", "disabled": false },
+      { "name": "Deterministic Heuristics + LLM", "disabled": false },
+      { "name": "Confidence Scoring & Diagnostics", "disabled": false },
+      { "name": "Explainability & Audit Artifacts", "disabled": false },
+      { "name": "Reasoning Pipelines", "disabled": false },
+      { "name": "Prompt Engineering", "disabled": false }
     ],
-    "Test Automation": [
-      {
-        "name": "Playwright",
-        "disabled": false
-      },
-      {
-        "name": "Selenium",
-        "disabled": false
-      },
-      {
-        "name": "Appium",
-        "disabled": false
-      },
-      {
-        "name": "Cypress",
-        "disabled": false
-      },
-      {
-        "name": "REST Assured",
-        "disabled": false
-      },
-      {
-        "name": "Postman",
-        "disabled": false
-      },
-      {
-        "name": "GraphQL Testing",
-        "disabled": false
-      }
+    "Vision & Multimodal Automation": [
+      { "name": "Multimodal Test Exploration", "disabled": false },
+      { "name": "UI Understanding from Screenshots", "disabled": false },
+      { "name": "Visual Fallback & Regression Strategies", "disabled": false }
     ],
-    "CI/CD & DevOps": [
-      {
-        "name": "Jenkins",
-        "disabled": false
-      },
-      {
-        "name": "GitHub Actions",
-        "disabled": false
-      },
-      {
-        "name": "Docker",
-        "disabled": false
-      },
-      {
-        "name": "BrowserStack",
-        "disabled": false
-      },
-      {
-        "name": "AWS Device Farm",
-        "disabled": false
-      },
-      {
-        "name": "Azure DevOps",
-        "disabled": false
-      }
+    "Agentic Coding CLI Tools": [
+      { "name": "GitHub Copilot CLI", "disabled": false },
+      { "name": "Claude Code", "disabled": false },
+      { "name": "Codex CLI", "disabled": false },
+      { "name": "Gemini CLI", "disabled": false },
+      { "name": "OpenCode & Pi Coding Agent", "disabled": false },
+      { "name": "Model Context Protocol (MCP)", "disabled": false }
     ],
-    "OTT & Media QA": [
-      {
-        "name": "DRM Validation",
-        "disabled": false
-      },
-      {
-        "name": "Widevine",
-        "disabled": false
-      },
-      {
-        "name": "FairPlay",
-        "disabled": false
-      },
-      {
-        "name": "HLS / DASH",
-        "disabled": false
-      },
-      {
-        "name": "FFmpeg",
-        "disabled": false
-      },
-      {
-        "name": "AWS Elemental",
-        "disabled": false
-      },
-      {
-        "name": "Playback Analytics",
-        "disabled": false
-      },
-      {
-        "name": "Media QC Automation",
-        "disabled": false
-      }
+    "Test Automation (UI & API)": [
+      { "name": "Playwright", "disabled": false },
+      { "name": "Selenium", "disabled": false },
+      { "name": "Appium", "disabled": false },
+      { "name": "Cypress", "disabled": false },
+      { "name": "REST Assured", "disabled": false },
+      { "name": "Postman", "disabled": false },
+      { "name": "GraphQL Testing", "disabled": false },
+      { "name": "WireMock", "disabled": false }
     ],
-    "Programming": [
-      {
-        "name": "Java",
-        "disabled": false
-      },
-      {
-        "name": "Python",
-        "disabled": false
-      },
-      {
-        "name": "TypeScript",
-        "disabled": false
-      },
-      {
-        "name": "JavaScript",
-        "disabled": false
-      },
-      {
-        "name": "SQL",
-        "disabled": false
-      }
+    "Test Frameworks & BDD": [
+      { "name": "Cucumber (BDD)", "disabled": false },
+      { "name": "TestNG", "disabled": false },
+      { "name": "JUnit", "disabled": false },
+      { "name": "PyTest", "disabled": false },
+      { "name": "Jest", "disabled": false }
     ],
-    "Quality Engineering": [
-      {
-        "name": "Test Strategy",
-        "disabled": false
-      },
-      {
-        "name": "Automation Architecture",
-        "disabled": false
-      },
-      {
-        "name": "Agile QA",
-        "disabled": false
-      },
-      {
-        "name": "Jira Automation",
-        "disabled": false
-      },
-      {
-        "name": "Cross-Platform Validation",
-        "disabled": false
-      }
+    "Media & Streaming QE": [
+      { "name": "OTT / VOD Playback Quality", "disabled": false },
+      { "name": "DRM Validation (Widevine, FairPlay)", "disabled": false },
+      { "name": "HLS / MPEG-DASH Streaming", "disabled": false },
+      { "name": "Media QC Automation (FFmpeg)", "disabled": false },
+      { "name": "AWS Elemental", "disabled": false },
+      { "name": "Conviva QoS Analytics", "disabled": false }
+    ],
+    "Performance & Non-Functional Testing": [
+      { "name": "JMeter", "disabled": false },
+      { "name": "Locust", "disabled": false },
+      { "name": "Artillery", "disabled": false },
+      { "name": "Load & Stress Testing", "disabled": false },
+      { "name": "OWASP Security Practices", "disabled": false }
+    ],
+    "CI/CD, Cloud & DevOps": [
+      { "name": "Jenkins", "disabled": false },
+      { "name": "GitHub Actions", "disabled": false },
+      { "name": "Docker", "disabled": false },
+      { "name": "BrowserStack", "disabled": false },
+      { "name": "AWS Device Farm", "disabled": false },
+      { "name": "Azure DevOps", "disabled": false }
+    ],
+    "Platforms & Devices": [
+      { "name": "Android & iOS", "disabled": false },
+      { "name": "Smart TVs & Fire TV", "disabled": false },
+      { "name": "Apple TV & Roku", "disabled": false },
+      { "name": "Xbox & PlayStation", "disabled": false },
+      { "name": "macOS & Linux", "disabled": false }
+    ],
+    "Programming & Data": [
+      { "name": "TypeScript", "disabled": false },
+      { "name": "JavaScript", "disabled": false },
+      { "name": "Python", "disabled": false },
+      { "name": "Java", "disabled": false },
+      { "name": "SQL (PostgreSQL, MySQL)", "disabled": false },
+      { "name": "NoSQL (MongoDB)", "disabled": false }
+    ],
+    "Quality Engineering Leadership": [
+      { "name": "Test Strategy & Planning", "disabled": false },
+      { "name": "Automation Architecture", "disabled": false },
+      { "name": "Shift-Left QA Practices", "disabled": false },
+      { "name": "Jira Workflow Automation", "disabled": false },
+      { "name": "Agile, Scrum & Kanban", "disabled": false },
+      { "name": "Cross-Team Quality Governance", "disabled": false }
     ]
   },
   "education": [
     {
       "degree": "Bachelor of Computer Applications",
       "school": "Manipal University Jaipur",
-      "period": "2026 — 2029 · Bengaluru, India",
+      "period": "2026 — 2029 · Bengaluru, India (Currently Pursuing)",
       "disabled": false
     },
     {

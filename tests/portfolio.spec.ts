@@ -53,7 +53,7 @@ test.describe('Portfolio E2E Tests', () => {
     await expect(page.locator('.hero-eyebrow')).toContainText('Portfolio');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Yashwant Das');
     await expect(page.locator('#hero-subtitle')).toHaveText(
-      'QA Architect • AI-Assisted Test Systems'
+      'QA Manager & Test Architect • AI-Assisted QA Systems'
     );
     await expect(page.locator('.hero-summary')).toContainText('QA Manager and Test Architect');
     await expect(page.locator('.avatar img')).toHaveAttribute('src', 'assets/avatars/avatar.webp');
@@ -131,6 +131,10 @@ test.describe('Portfolio E2E Tests', () => {
     await expect(page.locator('#social-list a[href*="github.com"]')).toBeVisible();
     // Medium link
     await expect(page.locator('#social-list a[href*="medium.com"]')).toBeVisible();
+
+    // Copy email button
+    await expect(page.locator('#copy-email-btn')).toBeVisible();
+    await expect(page.locator('#copy-email-btn')).toContainText('Copy yashworks@gmail.com');
   });
 
   for (const viewport of RESPONSIVE_VIEWPORTS) {
