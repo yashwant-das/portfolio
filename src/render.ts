@@ -176,7 +176,17 @@ export function applyContent(data: PortfolioData) {
           ul.className = 'highlights';
           exp.highlights.forEach((h) => {
             const liH = document.createElement('li');
-            liH.textContent = h;
+            const clientMatch = h.match(/^(Clients?:\s*[^·]+)\s*·\s*(.*)$/i);
+            if (clientMatch && clientMatch[1] && clientMatch[2]) {
+              const badge = document.createElement('span');
+              badge.className = 'client-badge';
+              badge.textContent = clientMatch[1];
+              liH.appendChild(badge);
+              const textNode = document.createTextNode(` · ${clientMatch[2]}`);
+              liH.appendChild(textNode);
+            } else {
+              liH.textContent = h;
+            }
             ul.appendChild(liH);
           });
           li.appendChild(ul);
@@ -210,22 +220,51 @@ export function applyContent(data: PortfolioData) {
 
         if (p.featured) {
           const badge = document.createElement('span');
-          badge.textContent = '★ Featured';
-          badge.style.display = 'inline-block';
-          badge.style.marginLeft = 'var(--spacing-sm)';
-          badge.style.fontSize = '0.75rem';
-          badge.style.fontWeight = '600';
-          badge.style.color = 'var(--primary-color)';
-          badge.style.background = 'var(--surface-color)';
-          badge.style.padding = '0.125rem 0.375rem';
-          badge.style.borderRadius = 'var(--radius-pill)';
-          badge.style.border = '1px solid var(--border-color)';
-          badge.style.verticalAlign = 'middle';
+          badge.textContent = '★ SPEC VERIFIED';
+          badge.className = 'badge-spec-verified';
           h3.appendChild(badge);
         }
 
         const desc = document.createElement('p');
         desc.textContent = p.description || '';
+
+        // Protocol Lifecycle Pipeline
+        let pipelineContainer: HTMLElement | null = null;
+        if (p.title?.includes('Smart Playwright Protocol')) {
+          pipelineContainer = document.createElement('div');
+          pipelineContainer.className = 'protocol-pipeline';
+          const stages = ['SELECT', 'UNDERSTAND', 'EXPLORE', 'PLAN', 'IMPLEMENT', 'VERIFY'];
+          stages.forEach((stage, idx) => {
+            const stepSpan = document.createElement('span');
+            stepSpan.className = 'pipeline-step';
+            stepSpan.textContent = stage;
+            pipelineContainer!.appendChild(stepSpan);
+            if (idx < stages.length - 1) {
+              const arrow = document.createElement('span');
+              arrow.className = 'pipeline-arrow';
+              arrow.textContent = '➔';
+              arrow.setAttribute('aria-hidden', 'true');
+              pipelineContainer!.appendChild(arrow);
+            }
+          });
+        } else if (p.title?.includes('Testing LLM Automation Engine')) {
+          pipelineContainer = document.createElement('div');
+          pipelineContainer.className = 'protocol-pipeline';
+          const loopSteps = ['MONITOR', 'INVESTIGATE', 'REASON', 'ACT', 'REPORT'];
+          loopSteps.forEach((step, idx) => {
+            const stepSpan = document.createElement('span');
+            stepSpan.className = 'pipeline-step pipeline-step-loop';
+            stepSpan.textContent = step;
+            pipelineContainer!.appendChild(stepSpan);
+            if (idx < loopSteps.length - 1) {
+              const arrow = document.createElement('span');
+              arrow.className = 'pipeline-arrow';
+              arrow.textContent = '⇄';
+              arrow.setAttribute('aria-hidden', 'true');
+              pipelineContainer!.appendChild(arrow);
+            }
+          });
+        }
         const tags = document.createElement('ul');
         tags.className = 'tags';
 
@@ -291,7 +330,11 @@ export function applyContent(data: PortfolioData) {
           a.appendChild(text);
           linkNodes.push(a);
         }
-        card.append(h3, desc, tags);
+        card.append(h3, desc);
+        if (pipelineContainer) {
+          card.appendChild(pipelineContainer);
+        }
+        card.appendChild(tags);
         if (linkNodes.length) {
           const links = document.createElement('div');
           links.className = 'links';
