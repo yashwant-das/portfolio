@@ -176,7 +176,17 @@ export function applyContent(data: PortfolioData) {
           ul.className = 'highlights';
           exp.highlights.forEach((h) => {
             const liH = document.createElement('li');
-            liH.textContent = h;
+            const clientMatch = h.match(/^(Clients?:\s*[^·]+)\s*·\s*(.*)$/i);
+            if (clientMatch && clientMatch[1] && clientMatch[2]) {
+              const badge = document.createElement('span');
+              badge.className = 'client-badge';
+              badge.textContent = clientMatch[1];
+              liH.appendChild(badge);
+              const textNode = document.createTextNode(` · ${clientMatch[2]}`);
+              liH.appendChild(textNode);
+            } else {
+              liH.textContent = h;
+            }
             ul.appendChild(liH);
           });
           li.appendChild(ul);
@@ -291,7 +301,49 @@ export function applyContent(data: PortfolioData) {
           a.appendChild(text);
           linkNodes.push(a);
         }
-        card.append(h3, desc, tags);
+        card.append(h3, desc);
+
+        if (p.title && p.title.includes('Playwright Protocol')) {
+          const pipeline = document.createElement('div');
+          pipeline.className = 'protocol-pipeline';
+          pipeline.setAttribute('aria-label', '6-Phase Protocol Lifecycle');
+          const phases = ['SELECT', 'UNDERSTAND', 'EXPLORE', 'PLAN', 'IMPLEMENT', 'VERIFY'];
+          phases.forEach((phase, idx) => {
+            const step = document.createElement('span');
+            step.className = 'pipeline-step';
+            step.textContent = phase;
+            pipeline.appendChild(step);
+            if (idx < phases.length - 1) {
+              const arrow = document.createElement('span');
+              arrow.className = 'pipeline-arrow';
+              arrow.setAttribute('aria-hidden', 'true');
+              arrow.textContent = '→';
+              pipeline.appendChild(arrow);
+            }
+          });
+          card.appendChild(pipeline);
+        } else if (p.title && p.title.includes('LLM Automation Engine')) {
+          const pipeline = document.createElement('div');
+          pipeline.className = 'protocol-pipeline';
+          pipeline.setAttribute('aria-label', '5-Step Self-Healing Loop');
+          const phases = ['MONITOR', 'INVESTIGATE', 'REASON', 'ACT', 'REPORT'];
+          phases.forEach((phase, idx) => {
+            const step = document.createElement('span');
+            step.className = 'pipeline-step pipeline-step-loop';
+            step.textContent = phase;
+            pipeline.appendChild(step);
+            if (idx < phases.length - 1) {
+              const arrow = document.createElement('span');
+              arrow.className = 'pipeline-arrow';
+              arrow.setAttribute('aria-hidden', 'true');
+              arrow.textContent = '⇄';
+              pipeline.appendChild(arrow);
+            }
+          });
+          card.appendChild(pipeline);
+        }
+
+        card.appendChild(tags);
         if (linkNodes.length) {
           const links = document.createElement('div');
           links.className = 'links';
